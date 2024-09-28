@@ -1,0 +1,5 @@
+main: mu.gersom.MuMc
+version: 1.0.0
+name: MuMc
+author: Gersom
+api-version: 1.17
