@@ -1,3 +1,4 @@
+
 package mu.gersom.commands;
 
 import org.bukkit.command.Command;
@@ -7,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
+import mu.gersom.utils.Vars;
 
 public class MainCommand implements CommandExecutor {
     public void sendTextHelp(CommandSender sender) {
@@ -21,14 +23,14 @@ public class MainCommand implements CommandExecutor {
 
     public void notFoundCommand(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&c" + General.prefix + "&c¡Comando no encontrado!"
+            "&c" + Vars.prefix + "&c¡Comando no encontrado!"
         ));
 
         sendTextHelp(sender);
     }
 
     public void about(CommandSender sender, Player player) {
-        sender.sendMessage(General.generateTextFrame(General.name));
+        sender.sendMessage(General.generateTextFrame(Vars.name));
 
         sender.sendMessage("");
         sender.sendMessage(General.setColor("_ ¡Bienvenido &b" + player.getName() + "&f!"));
@@ -46,7 +48,7 @@ public class MainCommand implements CommandExecutor {
 
     public void subCommands(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase("help")) {
-            sender.sendMessage(General.generateTextFrame(General.name));
+            sender.sendMessage(General.generateTextFrame(Vars.name));
 
             sender.sendMessage("");
             sender.sendMessage(General.setColor("_ Listado de comandos:"));
@@ -58,13 +60,13 @@ public class MainCommand implements CommandExecutor {
         }
 
         else if (args[0].equalsIgnoreCase("author")) {
-            sender.sendMessage(General.setColor("&e" + General.prefix + "Autor del plugin:"));
-            sender.sendMessage(General.setColor(General.prefix + General.author));
+            sender.sendMessage(General.setColor("&e" + Vars.prefix + "Autor del plugin:"));
+            sender.sendMessage(General.setColor(Vars.prefix + Vars.author));
         }
 
         else if (args[0].equalsIgnoreCase("version")) {
-            sender.sendMessage(General.setColor("&e" + General.prefix + "Versión del plugin:"));
-            sender.sendMessage(General.setColor(General.prefix + " Version " + General.version));
+            sender.sendMessage(General.setColor("&e" + Vars.prefix + "Versión del plugin:"));
+            sender.sendMessage(General.setColor(Vars.prefix + " Version " + Vars.version));
         }
 
         else {
@@ -77,7 +79,7 @@ public class MainCommand implements CommandExecutor {
         // Si se ejecuta el comando desde la consola
         if (!(sender instanceof Player)) {
             Console.sendMessage(General.setColor(
-                "&c" + General.prefix + "¡Solo puedes usar este comando desde el juego!"
+                "&c" + Vars.prefix + "¡Solo puedes usar este comando desde el juego!"
             ));
             return true;
         }

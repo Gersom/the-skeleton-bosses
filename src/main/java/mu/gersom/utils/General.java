@@ -1,21 +1,8 @@
 package mu.gersom.utils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.PluginDescriptionFile;
 
 public class General {
-    public static String version;
-    public static String name;
-    public static String prefix;
-    public static String author;
-
-    public static void initialize(PluginDescriptionFile plugin) {
-        name = plugin.getName();
-        version = plugin.getVersion();
-        author = String.join(", ", plugin.getAuthors());
-        prefix = "[" + name + "] ";
-    }
-
     // Función para setear el color de un texto
     public static String setColor(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
@@ -28,7 +15,7 @@ public class General {
 
     // Función para generar marco de texto de cabecera
     public static String generateHeadFrame() {
-        return generateTextFrame(name + " v" + version);
+        return generateTextFrame(Vars.name + " v" + Vars.version);
     }
 
     // Función para generar línea separadora

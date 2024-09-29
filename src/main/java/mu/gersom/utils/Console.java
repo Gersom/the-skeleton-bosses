@@ -14,7 +14,7 @@ public class Console {
     }
 
     public static void printFooter() {
-        sendMessage("&b" + General.prefix + "&lThank you for using my plugin <3");
-        sendMessage("&b" + General.prefix + "&lDeveloper: &eGersom");
+        sendMessage("&b" + Vars.prefix + "&lThank you for using my plugin <3");
+        sendMessage("&b" + Vars.prefix + "&lDeveloper: &eGersom");
     }
 }

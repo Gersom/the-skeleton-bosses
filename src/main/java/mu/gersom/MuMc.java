@@ -7,12 +7,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mu.gersom.commands.MainCommand;
 import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
+import mu.gersom.utils.Vars;
 
 public class MuMc extends JavaPlugin {
 
     public MuMc() {
         // Inicializar Utils en el constructor
-        General.initialize(getDescription());
+        Vars.initialize(getDescription());
     }
 
     public void registerCommands() {
@@ -25,7 +26,7 @@ public class MuMc extends JavaPlugin {
 
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
-        Console.sendMessage("&a" + General.prefix + "&a&l> plugin has been enabled!");
+        Console.sendMessage("&a" + Vars.prefix + "&a&l> plugin has been enabled!");
         Console.printBlankLine();
         Console.printFooter();
         Console.printBlankLine();
@@ -36,7 +37,7 @@ public class MuMc extends JavaPlugin {
     public void onDisable() {
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
-        Console.sendMessage("&c" + General.prefix + "&c&l> plugin has been disabled!");
+        Console.sendMessage("&c" + Vars.prefix + "&c&l> plugin has been disabled!");
         Console.printBlankLine();
         Console.printFooter();
         Console.printBlankLine();
