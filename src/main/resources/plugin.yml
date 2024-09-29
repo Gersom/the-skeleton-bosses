@@ -3,3 +3,8 @@ version: 1.0.0
 name: MuMc
 author: Gersom
 api-version: 1.17
+
+commands:
+  mumc:
+    description: MuMc command
+    aliases: [mumc-plugin]
