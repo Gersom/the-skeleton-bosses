@@ -6,24 +6,28 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import mu.gersom.MuMc;
 import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
 import mu.gersom.utils.Vars;
 
 public class MainCommand implements CommandExecutor {
+    private MuMc plugin = null;
+
+    public MainCommand(MuMc plugin) {
+        this.plugin = plugin;
+    }
+
     public void sendTextHelp(CommandSender sender) {
         sender.sendMessage("");
-        sender.sendMessage(General.setColor(
-            "&a_ Para ver el listado de comandos,"
-        ));
-        sender.sendMessage(General.setColor(
-            "&a  escribe &e/mumc help"
-        ));
+        for (String line : plugin.getConfigs().getHelpText()) {
+            sender.sendMessage(General.setColor(line));
+        }
     }
 
     public void notFoundCommand(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&c" + Vars.prefix + "&c¡Comando no encontrado!"
+            "&c" + Vars.prefix + plugin.getConfigs().getCommandNotFound()
         ));
 
         sendTextHelp(sender);
@@ -33,12 +37,12 @@ public class MainCommand implements CommandExecutor {
         sender.sendMessage(General.generateTextFrame(Vars.name));
 
         sender.sendMessage("");
-        sender.sendMessage(General.setColor("_ ¡Bienvenido &b" + player.getName() + "&f!"));
         sender.sendMessage(General.setColor(
-            "&7  Este plugin te permite recrear"));
-        sender.sendMessage(General.setColor(
-            "&7  las dinamicas del clasico juego &6&lMu"
+            plugin.getConfigs().getWelcomeMessage().replace("{player}", player.getName())
         ));
+        for (String line : plugin.getConfigs().getDescriptionMessages()) {
+            sender.sendMessage(General.setColor(line));
+        }
 
         sendTextHelp(sender);
 
@@ -52,11 +56,17 @@ public class MainCommand implements CommandExecutor {
 
             sender.sendMessage("");
             sender.sendMessage(General.setColor("_ Listado de comandos:"));
+            sender.sendMessage(General.setColor("  &e/mumc reload"));
             sender.sendMessage(General.setColor("  &e/mumc author"));
             sender.sendMessage(General.setColor("  &e/mumc version"));
 
             sender.sendMessage("");
             sender.sendMessage(General.generateSeparator());
+        }
+
+        else if (args[0].equalsIgnoreCase("reload")) {
+            plugin.getConfigs().reloadConfig();
+            sender.sendMessage(General.setColor("&a" + Vars.prefix + "¡Configuración recargada!"));
         }
 
         else if (args[0].equalsIgnoreCase("author")) {
@@ -66,7 +76,7 @@ public class MainCommand implements CommandExecutor {
 
         else if (args[0].equalsIgnoreCase("version")) {
             sender.sendMessage(General.setColor("&e" + Vars.prefix + "Versión del plugin:"));
-            sender.sendMessage(General.setColor(Vars.prefix + " Version " + Vars.version));
+            sender.sendMessage(General.setColor(Vars.prefix + "Version " + Vars.version));
         }
 
         else {
@@ -79,7 +89,7 @@ public class MainCommand implements CommandExecutor {
         // Si se ejecuta el comando desde la consola
         if (!(sender instanceof Player)) {
             Console.sendMessage(General.setColor(
-                "&c" + Vars.prefix + "¡Solo puedes usar este comando desde el juego!"
+                "&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()
             ));
             return true;
         }
