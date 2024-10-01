@@ -1,6 +1,7 @@
 package mu.gersom.config;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import mu.gersom.MuMc;
@@ -9,6 +10,7 @@ import mu.gersom.utils.Console;
 public class LanguageManager {
     private final MuMc plugin;
     private CustomConfig langConfig;
+    private static final List<String> SUPPORTED_LANGUAGES = Arrays.asList("en", "es", "other");
 
     public LanguageManager(MuMc plugin) {
         this.plugin = plugin;
@@ -17,8 +19,7 @@ public class LanguageManager {
     }
 
     private void createLanguageFiles() {
-        String[] languages = {"en", "es"};
-        for (String lang : languages) {
+        for (String lang : SUPPORTED_LANGUAGES) {
             File langFile = new File(plugin.getDataFolder() + File.separator + "lang", lang + ".yml");
             if (!langFile.exists()) {
                 plugin.saveResource("lang" + File.separator + lang + ".yml", false);
@@ -29,6 +30,11 @@ public class LanguageManager {
 
     private void loadLanguageConfig() {
         String language = plugin.getConfigs().getLanguage();
+        if (!SUPPORTED_LANGUAGES.contains(language)) {
+            Console.sendMessage("&cWarning: Unsupported language '" + language + "'. Defaulting to 'en'.");
+            language = "en";
+        }
+        
         Console.sendMessage("&aLoading language: " + language);
         langConfig = new CustomConfig(language + ".yml", "lang", plugin);
         langConfig.registerConfig();
@@ -39,11 +45,13 @@ public class LanguageManager {
     }
 
     public String getMessage(String path, String defaultValue) {
-        return langConfig.getString(path, defaultValue);
+        String message = langConfig.getString(path, defaultValue);
+        return message.isEmpty() ? defaultValue : message;
     }
 
     public List<String> getMessageList(String path) {
-        return langConfig.getStringList(path);
+        List<String> messages = langConfig.getStringList(path);
+        return messages.isEmpty() ? Arrays.asList(path + " not found") : messages;
     }
 
     // Add methods for each message you need to retrieve
@@ -55,8 +63,8 @@ public class LanguageManager {
         return getMessage("messages.plugin.disabled", "Plugin has been disabled!");
     }
 
-    public List<String> getHelpText() {
-        return getMessageList("messages.commands.help_text");
+    public String getHelpText() {
+        return getMessage("messages.commands.help_text", "To see the list of commands, type");
     }
 
     public String getCommandNotFound() {
@@ -68,10 +76,18 @@ public class LanguageManager {
     }
 
     public String getWelcomeMessage() {
-        return getMessage("messages.about.welcome", "Welcome {player}!");
+        return getMessage("messages.about.welcome", "Welcome!");
     }
 
     public List<String> getDescriptionMessages() {
         return getMessageList("messages.about.description");
+    }
+
+    public String getListCommands() {
+        return getMessage("messages.commands.list", "List of commands:");
+    }
+
+    public String getReloadText() {
+        return getMessage("messages.commands.reload", "Reload the configs");
     }
 }

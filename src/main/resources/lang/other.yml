@@ -1,0 +1,16 @@
+# Language file for other languages
+messages:
+  plugin:
+    enabled: ""
+    disabled: ""
+  about:
+    welcome: ""
+    description: 
+      - ""
+      - " &e&lMu Online"
+  commands:
+    player_only: ""
+    list: ""
+    help_text: ""
+    reload: ""
+    not_found: ""

@@ -30,7 +30,7 @@ public class MuMc extends JavaPlugin {
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
         Console.sendMessage(
-            "&a" + Vars.prefix + " " + configs.getMsgPluginEnabled()
+            "&a" + Vars.prefix + "&a&l> " + configs.getMsgPluginEnabled()
         );
         Console.printBlankLine();
         Console.printFooter();
@@ -44,7 +44,7 @@ public class MuMc extends JavaPlugin {
             Console.sendMessage(General.generateHeadFrame());
             Console.printBlankLine();
             Console.sendMessage(
-                "&c" + Vars.prefix + " " + configs.getMsgPluginDisabled()
+                "&c" + Vars.prefix + "&c&l> " + configs.getMsgPluginDisabled()
             );
             Console.printBlankLine();
             Console.printFooter();

@@ -20,9 +20,8 @@ public class MainCommand implements CommandExecutor {
 
     public void sendTextHelp(CommandSender sender) {
         sender.sendMessage("");
-        for (String line : plugin.getConfigs().getHelpText()) {
-            sender.sendMessage(General.setColor(line));
-        }
+        sender.sendMessage(General.setColor("* " + plugin.getConfigs().getHelpText()));
+        sender.sendMessage(General.setColor("  &6/mumc help"));
     }
 
     public void notFoundCommand(CommandSender sender) {
@@ -37,11 +36,12 @@ public class MainCommand implements CommandExecutor {
         sender.sendMessage(General.generateTextFrame(Vars.name));
 
         sender.sendMessage("");
+        // .replace("{player}", player.getName())
         sender.sendMessage(General.setColor(
-            plugin.getConfigs().getWelcomeMessage().replace("{player}", player.getName())
+            "* " + plugin.getConfigs().getWelcomeMessage() + " &b&l" + player.getName()
         ));
         for (String line : plugin.getConfigs().getDescriptionMessages()) {
-            sender.sendMessage(General.setColor(line));
+            sender.sendMessage(General.setColor("&7  " + line));
         }
 
         sendTextHelp(sender);
@@ -55,10 +55,10 @@ public class MainCommand implements CommandExecutor {
             sender.sendMessage(General.generateTextFrame(Vars.name));
 
             sender.sendMessage("");
-            sender.sendMessage(General.setColor("_ Listado de comandos:"));
-            sender.sendMessage(General.setColor("  &e/mumc reload"));
-            sender.sendMessage(General.setColor("  &e/mumc author"));
-            sender.sendMessage(General.setColor("  &e/mumc version"));
+            sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getListCommands() + ":"));
+            sender.sendMessage(General.setColor("  &6/mumc reload"));
+            sender.sendMessage(General.setColor("  &6/mumc author"));
+            sender.sendMessage(General.setColor("  &6/mumc version"));
 
             sender.sendMessage("");
             sender.sendMessage(General.generateSeparator());
@@ -66,17 +66,19 @@ public class MainCommand implements CommandExecutor {
 
         else if (args[0].equalsIgnoreCase("reload")) {
             plugin.getConfigs().reloadConfig();
-            sender.sendMessage(General.setColor("&a" + Vars.prefix + "¡Configuración recargada!"));
+            sender.sendMessage(General.setColor("&a" + Vars.prefix + plugin.getConfigs().getReloadText()));
         }
 
         else if (args[0].equalsIgnoreCase("author")) {
-            sender.sendMessage(General.setColor("&e" + Vars.prefix + "Autor del plugin:"));
-            sender.sendMessage(General.setColor(Vars.prefix + Vars.author));
+            sender.sendMessage(General.setColor(
+                "&b" + Vars.prefix + "Author: " + Vars.author
+            ));
         }
 
         else if (args[0].equalsIgnoreCase("version")) {
-            sender.sendMessage(General.setColor("&e" + Vars.prefix + "Versión del plugin:"));
-            sender.sendMessage(General.setColor(Vars.prefix + "Version " + Vars.version));
+            sender.sendMessage(General.setColor(
+                "&b" + Vars.prefix + "Versión: " + Vars.version
+            ));
         }
 
         else {

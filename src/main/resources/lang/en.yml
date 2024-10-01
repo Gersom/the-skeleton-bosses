@@ -1,16 +1,16 @@
-# Mensajes del plugin
+# Messages of the plugin
 messages:
   plugin:
-    enabled: "&a&l> plugin has been enabled!"
-    disabled: "&c&l> plugin has been disabled!"
+    enabled: "plugin has been enabled!"
+    disabled: "plugin has been disabled!"
   about:
-    welcome: "* Welcome &b&l{player}&f!"
+    welcome: "Welcome"
     description: 
-      - "&7  This plugin allows you to recreate"
-      - "&7  the dynamics of the classic game &e&lMu Online"
+      - "This plugin allows you to recreate"
+      - "the dynamics of the classic game &e&lMu Online"
   commands:
+    list: "List of commands"
     player_only: "You can only use this command from within the game!"
-    help_text:
-      - "* To see the list of commands,"
-      - "  type &6/mumc help"
+    help_text: "To see the list of commands, type"
+    reload: "Configuration reloaded!"
     not_found: "Command not found!"

@@ -28,6 +28,12 @@ public class MainConfigManager {
         return configFile.getString("language", "en");
     }
 
+    public void setLanguage(String language) {
+        configFile.getConfig().set("language", language);
+        configFile.saveConfig();
+        languageManager.reloadLanguageConfig();
+    }
+
     // Delegate message methods to LanguageManager
     public String getMsgPluginEnabled() {
         return languageManager.getMsgPluginEnabled();
@@ -37,7 +43,7 @@ public class MainConfigManager {
         return languageManager.getMsgPluginDisabled();
     }
 
-    public java.util.List<String> getHelpText() {
+    public String getHelpText() {
         return languageManager.getHelpText();
     }
 
@@ -57,5 +63,11 @@ public class MainConfigManager {
         return languageManager.getDescriptionMessages();
     }
 
-    // Add more methods as needed for other configuration values 
+    public String getListCommands() {
+        return languageManager.getListCommands();
+    }
+
+    public String getReloadText() {
+        return languageManager.getReloadText();
+    }
 }
