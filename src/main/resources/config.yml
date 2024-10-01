@@ -1,26 +1,8 @@
 # Configuración general del plugin
-general:
-  prefix: "[MuMc]"
-
-# Lenguaje del plugin
-language: "es"
-
-# Mensajes del plugin
-messages:
-  plugin:
-    enabled: "&a&l> !El plugin ha sido habilitado!"
-    disabled: "&c&l> !El plugin ha sido deshabilitado!"
-  commands:
-    help_text:
-      - "_ Para ver el listado de comandos,"
-      - "  escribe &e/mumc help"
-    not_found: "¡Comando no encontrado!"
-    player_only: "¡Solo puedes usar este comando desde el juego!"
-  about:
-    welcome: "_ ¡Bienvenidooo &b{player}&f!"
-    description: 
-      - "&7  Este plugin te permite recrear"
-      - "&7  las dinamicas del clasico juego &6&lMu Online"
+# prefix: "[MuMc]"
 
 # Versión de la configuración
-config-version: 1
+# config-version: 1
+
+# Lenguaje del plugin [en, es]
+language: "en"

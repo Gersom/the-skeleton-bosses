@@ -14,17 +14,17 @@ public class MuMc extends JavaPlugin {
 
     private MainConfigManager configs;
 
-    public MuMc() {
-        Vars.initialize(getDescription());
-    }
-
-    public void registerCommands() {
-        Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
-    }
-
     @Override
     public void onEnable() {
-        configs = new MainConfigManager(this);
+        // Inicializar Vars primero
+        Vars.initialize(getDescription());
+        
+        // Crear la instancia de MainConfigManager
+        this.configs = new MainConfigManager(this);
+        
+        // Inicializar configs
+        this.configs.initialize();
+        
         registerCommands();
 
         Console.sendMessage(General.generateHeadFrame());
@@ -40,15 +40,21 @@ public class MuMc extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Console.sendMessage(General.generateHeadFrame());
-        Console.printBlankLine();
-        Console.sendMessage(
-            "&c" + Vars.prefix + " " + configs.getMsgPluginDisabled()
-        );
-        Console.printBlankLine();
-        Console.printFooter();
-        Console.printBlankLine();
-        Console.sendMessage(General.generateSeparator());
+        if (configs != null) {
+            Console.sendMessage(General.generateHeadFrame());
+            Console.printBlankLine();
+            Console.sendMessage(
+                "&c" + Vars.prefix + " " + configs.getMsgPluginDisabled()
+            );
+            Console.printBlankLine();
+            Console.printFooter();
+            Console.printBlankLine();
+            Console.sendMessage(General.generateSeparator());
+        }
+    }
+
+    public void registerCommands() {
+        Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
     }
 
     public MainConfigManager getConfigs() {

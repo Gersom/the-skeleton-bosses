@@ -6,46 +6,55 @@ import mu.gersom.MuMc;
 
 public class MainConfigManager {
     private final CustomConfig configFile;
+    private LanguageManager languageManager;
+    private final MuMc plugin;
 
     public MainConfigManager(MuMc plugin) {
-        configFile = new CustomConfig("config.yml", null, plugin);
-        configFile.registerConfig();
+        this.plugin = plugin;
+        this.configFile = new CustomConfig("config.yml", null, plugin);
+        this.configFile.registerConfig();
+    }
+
+    public void initialize() {
+        this.languageManager = new LanguageManager(plugin);
     }
 
     public void reloadConfig() {
         configFile.reloadConfig();
+        languageManager.reloadLanguageConfig();
     }
 
     public String getLanguage() {
         return configFile.getString("language", "en");
     }
 
+    // Delegate message methods to LanguageManager
     public String getMsgPluginEnabled() {
-        return configFile.getString("messages.plugin.enabled", "Plugin has been enabled!");
+        return languageManager.getMsgPluginEnabled();
     }
 
     public String getMsgPluginDisabled() {
-        return configFile.getString("messages.plugin.disabled", "Plugin has been disabled!");
+        return languageManager.getMsgPluginDisabled();
     }
 
-    public List<String> getHelpText() {
-        return configFile.getStringList("messages.commands.help_text");
+    public java.util.List<String> getHelpText() {
+        return languageManager.getHelpText();
     }
 
     public String getCommandNotFound() {
-        return configFile.getString("messages.commands.not_found", "Command not found!");
+        return languageManager.getCommandNotFound();
     }
 
     public String getPlayerOnlyCommand() {
-        return configFile.getString("messages.commands.player_only", "This command can only be used in-game!");
+        return languageManager.getPlayerOnlyCommand();
     }
 
     public String getWelcomeMessage() {
-        return configFile.getString("messages.about.welcome", "Welcome {player}!");
+        return languageManager.getWelcomeMessage();
     }
 
     public List<String> getDescriptionMessages() {
-        return configFile.getStringList("messages.about.description");
+        return languageManager.getDescriptionMessages();
     }
 
     // Add more methods as needed for other configuration values 
