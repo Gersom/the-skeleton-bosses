@@ -90,4 +90,8 @@ public class LanguageManager {
     public String getReloadText() {
         return getMessage("messages.commands.reload", "Reload the configs");
     }
+
+    public String getNotPermission() {
+        return getMessage("messages.commands.no_permission", "You don't have permission to use this command!");
+    }
 }

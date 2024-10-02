@@ -70,4 +70,8 @@ public class MainConfigManager {
     public String getReloadText() {
         return languageManager.getReloadText();
     }
+
+    public String getNotPermission() {
+        return languageManager.getNotPermission();
+    }
 }

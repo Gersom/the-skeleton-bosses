@@ -14,3 +14,4 @@ messages:
     help_text: "Para ver el listado de comandos, escribe"
     reload: "¡Configuración recargada!"
     not_found: "¡Comando no encontrado!"
+    no_permission: "¡No tienes permiso para usar este comando!"

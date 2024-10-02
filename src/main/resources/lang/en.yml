@@ -14,3 +14,4 @@ messages:
     help_text: "To see the list of commands, type"
     reload: "Configuration reloaded!"
     not_found: "Command not found!"
+    no_permission: "You don't have permission to use this command!"
