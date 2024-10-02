@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mu.gersom.commands.MainCommand;
 import mu.gersom.config.MainConfigManager;
+import mu.gersom.listeners.MainListeners;
 import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
 import mu.gersom.utils.Vars;
@@ -26,6 +27,7 @@ public class MuMc extends JavaPlugin {
         this.configs.initialize();
         
         registerCommands();
+        registerEvents();
 
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
@@ -55,6 +57,10 @@ public class MuMc extends JavaPlugin {
 
     public void registerCommands() {
         Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
+    }
+
+    public void registerEvents() {
+        getServer().getPluginManager().registerEvents(new MainListeners(this), this);
     }
 
     public MainConfigManager getConfigs() {
