@@ -1,8 +1,10 @@
 package mu.gersom.commands;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import mu.gersom.MuMc;
+import mu.gersom.utils.CustomSkeletonSpawner;
 import mu.gersom.utils.General;
 import mu.gersom.utils.Vars;
 
@@ -25,6 +27,8 @@ public class SubCommands {
             showAuthor(sender);
         } else if (args[0].equalsIgnoreCase("version")) {
             showVersion(sender);
+        } else if (args[0].equalsIgnoreCase("spawn")) {
+            spawnMobCustom(sender);
         } else {
             showNotFoundCommandText(sender);
         }
@@ -83,5 +87,15 @@ public class SubCommands {
         showHelpText(sender);
         sender.sendMessage("");
         sender.sendMessage(General.generateSeparator());
+    }
+
+    private void spawnMobCustom(CommandSender sender) {
+        // if (!(sender instanceof Player)) {
+        //     sender.sendMessage(General.setColor("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()));
+        //     return;
+        // }
+        
+        Player player = (Player) sender;
+        new CustomSkeletonSpawner(plugin).spawnCustomSkeleton(player);
     }
 }
