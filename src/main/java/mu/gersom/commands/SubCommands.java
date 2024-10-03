@@ -4,7 +4,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mu.gersom.MuMc;
-import mu.gersom.utils.CustomSkeletonSpawner;
 import mu.gersom.utils.General;
 import mu.gersom.utils.Vars;
 
@@ -28,7 +27,7 @@ public class SubCommands {
         } else if (args[0].equalsIgnoreCase("version")) {
             showVersion(sender);
         } else if (args[0].equalsIgnoreCase("spawn")) {
-            spawnMobCustom(sender);
+            spawnMobCustom(sender, args);
         } else {
             showNotFoundCommandText(sender);
         }
@@ -45,6 +44,7 @@ public class SubCommands {
         sender.sendMessage(General.generateTextFrame(Vars.name));
         sender.sendMessage("");
         sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getListCommands() + ":"));
+        sender.sendMessage(General.setColor("  &6/mumc spawn [emperor, king]"));
         sender.sendMessage(General.setColor("  &6/mumc reload"));
         sender.sendMessage(General.setColor("  &6/mumc author"));
         sender.sendMessage(General.setColor("  &6/mumc version"));
@@ -89,13 +89,40 @@ public class SubCommands {
         sender.sendMessage(General.generateSeparator());
     }
 
-    private void spawnMobCustom(CommandSender sender) {
-        // if (!(sender instanceof Player)) {
-        //     sender.sendMessage(General.setColor("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()));
-        //     return;
-        // }
-        
+    private void spawnMobCustom(CommandSender sender, String[] arg) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(General.setColor("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()));
+            return;
+        }
+
         Player player = (Player) sender;
-        new CustomSkeletonSpawner(plugin).spawnCustomSkeleton(player);
+
+        if (arg.length > 1) {
+            if (arg[1].equalsIgnoreCase("emperor")) {
+                plugin.getMainMobs().generateEmperor(plugin, player.getWorld(), player.getLocation());
+        
+                player.sendMessage(General.setColor(
+                    "&a " + Vars.prefix + "¡&6&lEsqueleto Emperador &aha sido creado!"
+                ));
+            }
+            
+            else if (arg[1].equalsIgnoreCase("king")) {
+                plugin.getMainMobs().generateKing(plugin, player.getWorld(), player.getLocation());
+
+                player.sendMessage(General.setColor(
+                    "&a " + Vars.prefix + "¡&6&lRey Esqueleto &aha sido creado!"
+                ));
+            }
+
+            else {
+                showNotFoundCommandText(sender);
+            }
+        }
+        
+        else {
+            showNotFoundCommandText(sender);
+        }
+
+        
     }
 }

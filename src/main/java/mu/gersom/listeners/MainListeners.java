@@ -5,9 +5,11 @@
 
 package mu.gersom.listeners;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,6 +29,7 @@ public class MainListeners implements Listener {
         this.plugin = plugin;
     }
 
+    // Evento de entrada en el juego
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -43,4 +46,26 @@ public class MainListeners implements Listener {
         }.runTaskLater(plugin, 60L);
         // (20L = 20 ticks = 1 seg)
     }
+
+    // Evento de muerte de un mob
+    @EventHandler
+    public void onMobDeath(EntityDeathEvent event) {
+        if (event.getEntityType() == EntityType.SKELETON) {
+            // Si el mob existe en el set de mobs
+            if (plugin.getMainMobs().getSkeletonEmperor() != null) {
+                if (plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(event.getEntity().getUniqueId())) {
+                    plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
+                }
+            }
+        }
+
+        if (event.getEntityType() == EntityType.WITHER_SKELETON) {
+            if (plugin.getMainMobs().getSkeletonKing() != null) {
+                if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(event.getEntity().getUniqueId())) {
+                    plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
+                }
+            }
+        }
+    }
+    
 }

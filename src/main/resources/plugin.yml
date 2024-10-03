@@ -8,3 +8,30 @@ commands:
   mumc:
     description: MuMc command
     aliases: [mumc-plugin]
+    usage: /<command> [subcommand]
+    permission-message: §4You don't have permission to use this command
+    permission-message-2: §4You don't have permission to use this command
+    subcommands:
+      help:
+        description: Shows help message
+        usage: /<command> help
+      list:
+        description: Shows list of commands
+        usage: /<command> list
+      reload:
+        description: Reloads config.yml
+        usage: /<command> reload
+      author:
+        description: Shows author of plugin
+        usage: /<command> author
+      version:
+        description: Shows version of plugin
+        usage: /<command> version
+      spawn:
+        description: Spawns a custom mob
+        usage: /<command> spawn [emperor, king]
+
+permissions:
+  mumc.use:
+    description: Allows player to use MuMc
+    default: op

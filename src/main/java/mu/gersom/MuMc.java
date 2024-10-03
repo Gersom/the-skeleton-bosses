@@ -2,10 +2,13 @@ package mu.gersom;
 
 import java.util.Objects;
 
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mu.gersom.commands.MainCommand;
+import mu.gersom.commands.MainTabCompleter;
 import mu.gersom.config.MainConfigManager;
+import mu.gersom.generators.MainGenerator;
 import mu.gersom.listeners.MainListeners;
 import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
@@ -14,6 +17,7 @@ import mu.gersom.utils.Vars;
 public class MuMc extends JavaPlugin {
 
     private MainConfigManager configs;
+    private MainGenerator mainMobs;
 
     @Override
     public void onEnable() {
@@ -26,6 +30,9 @@ public class MuMc extends JavaPlugin {
         // Inicializar configs
         this.configs.initialize();
         
+        // Inicializar MainGenerator
+        this.mainMobs = new MainGenerator();
+
         registerCommands();
         registerEvents();
 
@@ -56,7 +63,13 @@ public class MuMc extends JavaPlugin {
     }
 
     public void registerCommands() {
-        Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
+        // Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
+
+        MainCommand mainCommand = new MainCommand(this);
+        MainTabCompleter tabCompleter = new MainTabCompleter();
+        PluginCommand command = Objects.requireNonNull(this.getCommand("mumc"));
+        command.setExecutor(mainCommand);
+        command.setTabCompleter(tabCompleter);
     }
 
     public void registerEvents() {
@@ -65,5 +78,9 @@ public class MuMc extends JavaPlugin {
 
     public MainConfigManager getConfigs() {
         return configs;
+    }
+
+    public MainGenerator getMainMobs() {
+        return mainMobs;
     }
 }
