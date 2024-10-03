@@ -8,13 +8,18 @@ package mu.gersom.generators;
 import java.util.Random;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,13 +39,15 @@ public class SkeletonEmperor {
     private UUID skeletonEmperorID = null;
     private final MuMc plugin;
     private final Random random = new Random();
+    private BossBar bossBar;
+    private Skeleton skeleton;
 
     public SkeletonEmperor(MuMc plugin) {
         this.plugin = plugin;
     }
 
     public void generateSkeletonEmperor(World world, Location location) {
-        Skeleton skeleton = (Skeleton) world.spawnEntity(location, EntityType.SKELETON);
+        this.skeleton = (Skeleton) world.spawnEntity(location, EntityType.SKELETON);
         
         // Add the skeleton's UUID to our set of custom skeletons
         skeletonEmperorID = skeleton.getUniqueId();
@@ -98,6 +105,15 @@ public class SkeletonEmperor {
         // Add fire resistance effect
         skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
 
+        // Crear y configurar la BossBar
+        bossBar = Bukkit.createBossBar(
+            General.setColor("&d&lSkeleton Emperor"),
+            BarColor.YELLOW,
+            BarStyle.SEGMENTED_12
+        );
+        bossBar.setProgress(1.0);
+        bossBar.setVisible(true);
+
         // Add dragon breath particles
         new BukkitRunnable() {
             @Override
@@ -110,7 +126,18 @@ public class SkeletonEmperor {
             }
         }.runTaskTimer(plugin, 0L, 10L);
         
-        // sender.sendMessage(General.setColor("&a " + Vars.prefix + "&a&l¡Esqueleto personalizado ha sido creado!"));
+        // Iniciar tarea para actualizar la barra de vida y los jugadores
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeleton == null || skeleton.isDead()) {
+                    bossBar.removeAll();
+                    this.cancel();
+                    return;
+                }
+                updateBossBar();
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     public void onSkeletonEmperorDeath(EntityDeathEvent event) {
@@ -146,9 +173,41 @@ public class SkeletonEmperor {
             helmet.setItemMeta(helmetMeta);
             event.getDrops().add(helmet);
         }
+
+        // Eliminar la BossBar
+        if (bossBar != null) {
+            bossBar.removeAll();
+            bossBar = null;
+        }
+        skeleton = null;
         
         // Remove the skeleton's UUID from our set
         skeletonEmperorID = null;
+    }
+
+    private void updateBossBar() {
+        if (skeleton == null || bossBar == null) return;
+
+        int health = (int) skeleton.getHealth();
+        int maxHealth = (int) skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        bossBar.setTitle(General.setColor(
+            "&6&lSkeleton Emperor " + "(" + health + "/" + maxHealth + ")"
+        ));
+        bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
+
+        Location loc = skeleton.getLocation();
+        for (Player player : loc.getWorld().getPlayers()) {
+            if (player.getLocation().distance(loc) <= 50 && player.getWorld() == loc.getWorld()) {
+                bossBar.addPlayer(player);
+            } else {
+                bossBar.removePlayer(player);
+            }
+        }
+    }
+
+    // Método para obtener la ubicación actual del Skeleton King
+    public Location getLocation() {
+        return skeleton != null ? skeleton.getLocation() : null;
     }
 
     public UUID getSkeletonEmperorID() {

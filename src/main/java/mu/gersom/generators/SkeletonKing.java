@@ -3,28 +3,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
- package mu.gersom.generators;
+package mu.gersom.generators;
 
- import java.util.Random;
- import java.util.UUID;
- 
- import org.bukkit.Location;
- import org.bukkit.Material;
- import org.bukkit.Particle;
- import org.bukkit.World;
- import org.bukkit.attribute.Attribute;
- import org.bukkit.enchantments.Enchantment;
- import org.bukkit.entity.EntityType;
- import org.bukkit.entity.WitherSkeleton;
- import org.bukkit.event.entity.EntityDeathEvent;
- import org.bukkit.inventory.ItemStack;
- import org.bukkit.inventory.meta.ItemMeta;
- import org.bukkit.potion.PotionEffect;
- import org.bukkit.potion.PotionEffectType;
- import org.bukkit.scheduler.BukkitRunnable;
- 
- import mu.gersom.MuMc;
- import mu.gersom.utils.General;
+import java.util.Random;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.WitherSkeleton;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import mu.gersom.MuMc;
+import mu.gersom.utils.General;
  
  /**
   *
@@ -34,13 +39,15 @@ public class SkeletonKing {
     private UUID skeletonKingID = null;
     private final MuMc plugin;
     private final Random random = new Random();
+    private BossBar bossBar;
+    private WitherSkeleton skeletonKing;
 
     public SkeletonKing(MuMc plugin) {
         this.plugin = plugin;
     }
 
     public void generateSkeletonKing(World world, Location location) {
-        WitherSkeleton skeletonKing = (WitherSkeleton) world.spawnEntity(location, EntityType.WITHER_SKELETON);
+        this.skeletonKing = (WitherSkeleton) world.spawnEntity(location, EntityType.WITHER_SKELETON);
 
         // Add the skeleton's UUID to our set of custom skeletons
         skeletonKingID = skeletonKing.getUniqueId();
@@ -94,6 +101,15 @@ public class SkeletonKing {
         // Add fire resistance effect
         skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
 
+        // Crear y configurar la BossBar
+        bossBar = Bukkit.createBossBar(
+            General.setColor("&d&lSkeleton King"),
+            BarColor.PURPLE,
+            BarStyle.SEGMENTED_12
+        );
+        bossBar.setProgress(1.0);
+        bossBar.setVisible(true);
+
         // Add dragon breath particles
         new BukkitRunnable() {
             @Override
@@ -105,8 +121,20 @@ public class SkeletonKing {
                 skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
             }
         }.runTaskTimer(plugin, 0L, 10L);
+
+        // Iniciar tarea para actualizar la barra de vida y los jugadores
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeletonKing == null || skeletonKing.isDead()) {
+                    bossBar.removeAll();
+                    this.cancel();
+                    return;
+                }
+                updateBossBar();
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
         
-        // sender.sendMessage(General.setColor("&a " + Vars.prefix + "&a&l¡Esqueleto personalizado ha sido creado!"));
     }
 
     public void onSkeletonKingDeath(EntityDeathEvent event) {
@@ -118,7 +146,7 @@ public class SkeletonKing {
             // 20% chance to drop NETHERITE_SWORD with SHARPNESS
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
-            swordMeta.setDisplayName(General.setColor("&6Skeleton King Sword"));
+            swordMeta.setDisplayName(General.setColor("&dSkeleton King Sword"));
             swordMeta.addEnchant(Enchantment.SHARPNESS, 5, true);
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
@@ -126,7 +154,7 @@ public class SkeletonKing {
             // 30% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
-            swordMeta.setDisplayName(General.setColor("&6Skeleton King Sword"));
+            swordMeta.setDisplayName(General.setColor("&dSkeleton King Sword"));
             swordMeta.addEnchant(Enchantment.SWEEPING_EDGE, 3, true);
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
@@ -134,16 +162,48 @@ public class SkeletonKing {
             // 50% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = helmet.getItemMeta();
-            helmetMeta.setDisplayName(General.setColor("&6Skeleton King Helmet"));
+            helmetMeta.setDisplayName(General.setColor("&dSkeleton King Helmet"));
             helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
             helmetMeta.addEnchant(Enchantment.FIRE_PROTECTION, 3, true);
             helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true);
             helmet.setItemMeta(helmetMeta);
             event.getDrops().add(helmet);
         }
+
+        // Eliminar la BossBar
+        if (bossBar != null) {
+            bossBar.removeAll();
+            bossBar = null;
+        }
+        skeletonKing = null;
         
         // Remove the skeleton's UUID from our set
         skeletonKingID = null;
+    }
+
+    private void updateBossBar() {
+        if (skeletonKing == null || bossBar == null) return;
+
+        int health = (int) skeletonKing.getHealth();
+        int maxHealth = (int) skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        bossBar.setTitle(General.setColor(
+            "&d&lSkeleton King " + "(" + health + "/" + maxHealth + ")"
+        ));
+        bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
+
+        Location loc = skeletonKing.getLocation();
+        for (Player player : loc.getWorld().getPlayers()) {
+            if (player.getLocation().distance(loc) <= 50 && player.getWorld() == loc.getWorld()) {
+                bossBar.addPlayer(player);
+            } else {
+                bossBar.removePlayer(player);
+            }
+        }
+    }
+
+    // Método para obtener la ubicación actual del Skeleton King
+    public Location getLocation() {
+        return skeletonKing != null ? skeletonKing.getLocation() : null;
     }
 
     public UUID getSkeletonKingID() {
