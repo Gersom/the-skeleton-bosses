@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import mu.gersom.MuMc;
 import mu.gersom.utils.General;
@@ -41,6 +42,8 @@ public class SkeletonEmperor {
     private final Random random = new Random();
     private BossBar bossBar;
     private Skeleton skeleton;
+    private BukkitTask updateTaskBossBar;
+    private BukkitTask updateTaskParticles;
 
     public SkeletonEmperor(MuMc plugin) {
         this.plugin = plugin;
@@ -55,7 +58,7 @@ public class SkeletonEmperor {
         // Make the skeleton persistent
         skeleton.setRemoveWhenFarAway(false);
 
-        skeleton.setCustomName(General.setColor("&d&lSkeleton Emperor&f"));
+        skeleton.setCustomName(General.setColor("&6&lSkeleton Emperor&f"));
         skeleton.setCustomNameVisible(true);
 
         // Change scale Mob
@@ -107,32 +110,31 @@ public class SkeletonEmperor {
 
         // Crear y configurar la BossBar
         bossBar = Bukkit.createBossBar(
-            General.setColor("&d&lSkeleton Emperor"),
+            General.setColor("&6&lSkeleton Emperor"),
             BarColor.YELLOW,
-            BarStyle.SEGMENTED_12
+            BarStyle.SOLID
         );
         bossBar.setProgress(1.0);
         bossBar.setVisible(true);
 
         // Add dragon breath particles
-        new BukkitRunnable() {
+        this.updateTaskParticles = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeleton.isDead()) {
-                    this.cancel();
+                if (skeleton == null || !skeleton.isValid() || skeleton.isDead()) {
+                    cleanUp();
                     return;
                 }
-                skeleton.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, skeleton.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
+                skeleton.getWorld().spawnParticle(Particle.FLAME, skeleton.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
             }
         }.runTaskTimer(plugin, 0L, 10L);
         
         // Iniciar tarea para actualizar la barra de vida y los jugadores
-        new BukkitRunnable() {
+        this.updateTaskBossBar = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeleton == null || skeleton.isDead()) {
-                    bossBar.removeAll();
-                    this.cancel();
+                if (skeleton == null || !skeleton.isValid() || skeleton.isDead()) {
+                    cleanUp();
                     return;
                 }
                 updateBossBar();
@@ -188,10 +190,10 @@ public class SkeletonEmperor {
     private void updateBossBar() {
         if (skeleton == null || bossBar == null) return;
 
-        int health = (int) skeleton.getHealth();
-        int maxHealth = (int) skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double health = skeleton.getHealth();
+        double maxHealth = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         bossBar.setTitle(General.setColor(
-            "&6&lSkeleton Emperor " + "(" + health + "/" + maxHealth + ")"
+            "&6&lSkeleton Emperor " + "(" + (int) health + "/" + (int) maxHealth + ")❤"
         ));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
 
@@ -203,6 +205,24 @@ public class SkeletonEmperor {
                 bossBar.removePlayer(player);
             }
         }
+    }
+
+    private void cleanUp() {
+        if (updateTaskBossBar != null) {
+            updateTaskBossBar.cancel();
+            updateTaskBossBar = null;
+        }
+        if (updateTaskParticles != null) {
+            updateTaskParticles.cancel();
+            updateTaskParticles = null;
+        }
+        if (bossBar != null) {
+            bossBar.removeAll();
+            bossBar = null;
+        }
+        skeleton = null;
+        // Remove the skeleton's UUID from our set
+        skeleton = null;
     }
 
     // Método para obtener la ubicación actual del Skeleton King

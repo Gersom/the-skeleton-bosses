@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import mu.gersom.MuMc;
 import mu.gersom.utils.General;
@@ -41,6 +42,8 @@ public class SkeletonKing {
     private final Random random = new Random();
     private BossBar bossBar;
     private WitherSkeleton skeletonKing;
+    private BukkitTask updateTaskBossBar;
+    private BukkitTask updateTaskParticles;
 
     public SkeletonKing(MuMc plugin) {
         this.plugin = plugin;
@@ -105,17 +108,17 @@ public class SkeletonKing {
         bossBar = Bukkit.createBossBar(
             General.setColor("&d&lSkeleton King"),
             BarColor.PURPLE,
-            BarStyle.SEGMENTED_12
+            BarStyle.SOLID
         );
         bossBar.setProgress(1.0);
         bossBar.setVisible(true);
 
         // Add dragon breath particles
-        new BukkitRunnable() {
+        this.updateTaskParticles = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeletonKing.isDead()) {
-                    this.cancel();
+                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
+                    cleanUp();
                     return;
                 }
                 skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
@@ -123,12 +126,11 @@ public class SkeletonKing {
         }.runTaskTimer(plugin, 0L, 10L);
 
         // Iniciar tarea para actualizar la barra de vida y los jugadores
-        new BukkitRunnable() {
+        this.updateTaskBossBar = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeletonKing == null || skeletonKing.isDead()) {
-                    bossBar.removeAll();
-                    this.cancel();
+                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
+                    cleanUp();
                     return;
                 }
                 updateBossBar();
@@ -170,24 +172,16 @@ public class SkeletonKing {
             event.getDrops().add(helmet);
         }
 
-        // Eliminar la BossBar
-        if (bossBar != null) {
-            bossBar.removeAll();
-            bossBar = null;
-        }
-        skeletonKing = null;
-        
-        // Remove the skeleton's UUID from our set
-        skeletonKingID = null;
+        cleanUp();
     }
 
     private void updateBossBar() {
         if (skeletonKing == null || bossBar == null) return;
 
-        int health = (int) skeletonKing.getHealth();
-        int maxHealth = (int) skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double health = skeletonKing.getHealth();
+        double maxHealth = skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         bossBar.setTitle(General.setColor(
-            "&d&lSkeleton King " + "(" + health + "/" + maxHealth + ")"
+            "&d&lSkeleton King " + "(" + (int) health + "/" + (int) maxHealth + ")❤"
         ));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
 
@@ -199,6 +193,24 @@ public class SkeletonKing {
                 bossBar.removePlayer(player);
             }
         }
+    }
+
+    private void cleanUp() {
+        if (updateTaskBossBar != null) {
+            updateTaskBossBar.cancel();
+            updateTaskBossBar = null;
+        }
+        if (updateTaskParticles != null) {
+            updateTaskParticles.cancel();
+            updateTaskParticles = null;
+        }
+        if (bossBar != null) {
+            bossBar.removeAll();
+            bossBar = null;
+        }
+        skeletonKing = null;
+        // Remove the skeleton's UUID from our set
+        skeletonKingID = null;
     }
 
     // Método para obtener la ubicación actual del Skeleton King

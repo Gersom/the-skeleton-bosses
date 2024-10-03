@@ -26,7 +26,7 @@ public class MainTabCompleter implements TabCompleter {
                 // Subcommands
                 if (args[0].equalsIgnoreCase("spawn")) {
                     completions.add("skeleton");
-                    completions.add("king");
+                    completions.add("emperor");
                     // Add more mob types here as you implement them
                 }
             }
