@@ -1,4 +1,3 @@
-
 <p align="center">
     <a href="https://github.com/Gersom/mu-mc">
         <img src="https://img.shields.io/github/stars/Gersom/mu-mc?style=for-the-badge&logo=github&color=brightgreen" alt="stars">
@@ -31,12 +30,17 @@ MUMC/
 │       │   └── mu/
 │       │       └── gersom/
 │       │           ├── commands/
-│       │           │   └── MainCommand.java
+│       │           │   ├── MainCommand.java
+│       │           │   ├── MainTabCompleter.java
 │       │           |   └── SubCommands.java
 │       │           ├── config/
 │       │           │   ├── CustomConfig.java
 │       │           │   ├── LanguageManager.java
 │       │           │   └── MainConfigManager.java
+│       │           ├── generators/
+│       │           │   ├── MainGenerator.java
+│       │           │   ├── SkeletonEmperor.java
+│       │           │   └── SkeletonKing.java
 │       │           ├── listeners/
 │       │           │   └── MainListeners.java
 │       │           ├── utils/
