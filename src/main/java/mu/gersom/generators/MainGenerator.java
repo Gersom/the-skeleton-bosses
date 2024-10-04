@@ -6,10 +6,12 @@
 package mu.gersom.generators;
 
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import mu.gersom.MuMc;
@@ -28,30 +30,67 @@ public class MainGenerator {
 
     public MainGenerator(MuMc plugin) {
         this.plugin = plugin;
+        loadExistingBosses();
+    }
+
+    private void loadExistingBosses() {
+        UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("emperor");
+        UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("king");
+        
+        if (emperorUUID != null) {
+            Entity entity = findEntityByUUID(emperorUUID);
+            if (entity != null) {
+                skeletonEmperor = new SkeletonEmperor(plugin);
+                skeletonEmperor.setSkeletonEmperorID(emperorUUID);
+                skeletonEmperor.recreateBossBar(entity);
+            } else {
+                plugin.getBossPersistenceManager().removeBossData("emperor");
+            }
+        }
+        
+        if (kingUUID != null) {
+            Entity entity = findEntityByUUID(kingUUID);
+            if (entity != null) {
+                skeletonKing = new SkeletonKing(plugin);
+                skeletonKing.setSkeletonKingID(kingUUID);
+                skeletonKing.recreateBossBar(entity);
+            } else {
+                plugin.getBossPersistenceManager().removeBossData("king");
+            }
+        }
+    }
+    
+    private Entity findEntityByUUID(UUID uuid) {
+        for (World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                if (entity.getUniqueId().equals(uuid)) {
+                    return entity;
+                }
+            }
+        }
+        return null;
     }
     
     public void generateEmperor(World world, Location location) {
-        skeletonEmperor = new SkeletonEmperor(plugin);
-        skeletonEmperor.generateSkeletonEmperor(world, location);
-        Bukkit.broadcastMessage(General.setColor(
-            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-        ));
+        if (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null) {
+            skeletonEmperor = new SkeletonEmperor(plugin);
+            skeletonEmperor.generateSkeletonEmperor(world, location);
+            plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
+            Bukkit.broadcastMessage(General.setColor(
+                "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+            ));
+        }
     }
 
     public void generateKing(World world, Location location) {
-        skeletonKing = new SkeletonKing(plugin);
-        skeletonKing.generateSkeletonKing(world, location);
-        Bukkit.broadcastMessage(General.setColor(
-            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-        ));
-    }
-
-    public SkeletonEmperor getSkeletonEmperor() {
-        return skeletonEmperor;
-    }
-
-    public SkeletonKing getSkeletonKing() {
-        return skeletonKing;
+        if (skeletonKing == null || skeletonKing.getSkeletonKingID() == null) {
+            skeletonKing = new SkeletonKing(plugin);
+            skeletonKing.generateSkeletonKing(world, location);
+            plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
+            Bukkit.broadcastMessage(General.setColor(
+                "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+            ));
+        }
     }
 
     public void startAutoSpawnBoss(World world, Location center, int radius, long interval) {
@@ -86,5 +125,13 @@ public class MainGenerator {
         int z = (int) (center.getZ() + distance * Math.sin(angle));
         int y = world.getHighestBlockYAt(x, z);
         return new Location(world, x, y, z);
+    }
+
+    public SkeletonEmperor getSkeletonEmperor() {
+        return skeletonEmperor;
+    }
+
+    public SkeletonKing getSkeletonKing() {
+        return skeletonKing;
     }
 }

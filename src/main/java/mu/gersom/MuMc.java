@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mu.gersom.commands.MainCommand;
 import mu.gersom.commands.MainTabCompleter;
+import mu.gersom.config.BossPersistenceManager;
 import mu.gersom.config.MainConfigManager;
 import mu.gersom.generators.MainGenerator;
 import mu.gersom.listeners.MainListeners;
@@ -19,6 +20,7 @@ public class MuMc extends JavaPlugin {
 
     private MainConfigManager configs;
     private MainGenerator mainMobs;
+    private BossPersistenceManager bossPersistenceManager;
 
     @Override
     public void onEnable() {
@@ -30,6 +32,9 @@ public class MuMc extends JavaPlugin {
         
         // Inicializar configs
         this.configs.initialize();
+
+        // Inicializar BossPersistenceManager
+        this.bossPersistenceManager = new BossPersistenceManager(this);
         
         // Inicializar MainGenerator
         this.mainMobs = new MainGenerator(this);
@@ -66,8 +71,6 @@ public class MuMc extends JavaPlugin {
     }
 
     public void registerCommands() {
-        // Objects.requireNonNull(this.getCommand("mumc")).setExecutor(new MainCommand(this));
-
         MainCommand mainCommand = new MainCommand(this);
         MainTabCompleter tabCompleter = new MainTabCompleter();
         PluginCommand command = Objects.requireNonNull(this.getCommand("mumc"));
@@ -101,5 +104,9 @@ public class MuMc extends JavaPlugin {
 
     public MainGenerator getMainMobs() {
         return mainMobs;
+    }
+
+    public BossPersistenceManager getBossPersistenceManager() {
+        return bossPersistenceManager;
     }
 }

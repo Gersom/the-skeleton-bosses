@@ -18,6 +18,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.WitherSkeleton;
@@ -42,8 +43,8 @@ public class SkeletonKing {
     private final Random random = new Random();
     private BossBar bossBar;
     private WitherSkeleton skeletonKing;
-    private BukkitTask updateTaskBossBar;
-    private BukkitTask updateTaskParticles;
+    private BukkitTask taskBossBar;
+    private BukkitTask taskParticles;
 
     public SkeletonKing(MuMc plugin) {
         this.plugin = plugin;
@@ -105,38 +106,13 @@ public class SkeletonKing {
         skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
 
         // Crear y configurar la BossBar
-        bossBar = Bukkit.createBossBar(
-            General.setColor("&d&l" + plugin.getConfigs().getBossSkeletonKing()),
-            BarColor.PURPLE,
-            BarStyle.SOLID
-        );
-        bossBar.setProgress(1.0);
-        bossBar.setVisible(true);
+        createBossBar();
 
         // Add dragon breath particles
-        this.updateTaskParticles = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
-                    cleanUp();
-                    return;
-                }
-                skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
-            }
-        }.runTaskTimer(plugin, 0L, 10L);
+        createTaskPaticles();
 
         // Iniciar tarea para actualizar la barra de vida y los jugadores
-        this.updateTaskBossBar = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
-                    cleanUp();
-                    return;
-                }
-                updateBossBar();
-            }
-        }.runTaskTimer(plugin, 0L, 20L);
-        
+        createTaskBossBar();
     }
 
     public void onSkeletonKingDeath(EntityDeathEvent event) {
@@ -178,7 +154,85 @@ public class SkeletonKing {
             event.getDrops().add(helmet);
         }
 
+        plugin.getBossPersistenceManager().removeBossData("king");
         cleanUp();
+    }
+
+    public void recreateBossBar(Entity entity) {
+        if (entity instanceof WitherSkeleton witherSkeleton) {
+            this.skeletonKing = witherSkeleton;
+            
+            // Recrear la BossBar
+            createBossBar();
+
+            // Reiniciar las tareas de actualización
+            startUpdateTasks();
+        }
+    }
+
+    // Método para obtener la ubicación actual del Skeleton King
+    public Location getLocation() {
+        return skeletonKing != null ? skeletonKing.getLocation() : null;
+    }
+
+    public UUID getSkeletonKingID() {
+        return skeletonKingID;
+    }
+
+    public void setSkeletonKingID(UUID uuid) {
+        this.skeletonKingID = uuid;
+    }
+
+    // Private methods
+    private void createBossBar() {
+        bossBar = Bukkit.createBossBar(
+            General.setColor("&d&l" + plugin.getConfigs().getBossSkeletonKing()),
+            BarColor.PURPLE,
+            BarStyle.SOLID
+        );
+        bossBar.setProgress(1.0);
+        bossBar.setVisible(true);
+    }
+
+    private void createTaskBossBar() {
+        this.taskBossBar = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
+                    cleanUp();
+                    return;
+                }
+                updateBossBar();
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
+    }
+
+    private void createTaskPaticles() {
+        this.taskParticles = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
+                    cleanUp();
+                    return;
+                }
+                skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
+            }
+        }.runTaskTimer(plugin, 0L, 10L);
+    }
+
+    private void startUpdateTasks() {
+        // Cancelar tareas existentes si las hay
+        if (taskBossBar != null) {
+            taskBossBar.cancel();
+        }
+        if (taskParticles != null) {
+            taskParticles.cancel();
+        }
+
+        // Reiniciar las tareas
+        createTaskPaticles();
+
+        createTaskBossBar();
     }
 
     private void updateBossBar() {
@@ -202,13 +256,13 @@ public class SkeletonKing {
     }
 
     private void cleanUp() {
-        if (updateTaskBossBar != null) {
-            updateTaskBossBar.cancel();
-            updateTaskBossBar = null;
+        if (taskBossBar != null) {
+            taskBossBar.cancel();
+            taskBossBar = null;
         }
-        if (updateTaskParticles != null) {
-            updateTaskParticles.cancel();
-            updateTaskParticles = null;
+        if (taskParticles != null) {
+            taskParticles.cancel();
+            taskParticles = null;
         }
         if (bossBar != null) {
             bossBar.removeAll();
@@ -217,15 +271,6 @@ public class SkeletonKing {
         skeletonKing = null;
         // Remove the skeleton's UUID from our set
         skeletonKingID = null;
-    }
-
-    // Método para obtener la ubicación actual del Skeleton King
-    public Location getLocation() {
-        return skeletonKing != null ? skeletonKing.getLocation() : null;
-    }
-
-    public UUID getSkeletonKingID() {
-        return skeletonKingID;
     }
 }
  
