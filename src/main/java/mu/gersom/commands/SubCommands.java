@@ -55,6 +55,7 @@ public class SubCommands {
 
     private void reloadConfig(CommandSender sender) {
         plugin.getConfigs().reloadConfig();
+        plugin.autoSpawnBosses();
         sender.sendMessage(General.setColor("&a" + Vars.prefix + plugin.getConfigs().getReloadText()));
     }
 

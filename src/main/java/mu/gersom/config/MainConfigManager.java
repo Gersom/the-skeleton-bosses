@@ -35,6 +35,9 @@ public class MainConfigManager {
     }
 
     // Spawn data
+    public Boolean getSpawnEnabled() {
+        return configFile.getBoolean("spawn.enabled", false);
+    }
     public String getSpawnWorld() {
         return configFile.getString("spawn.world", "world");
     }

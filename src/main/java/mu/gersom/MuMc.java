@@ -47,18 +47,7 @@ public class MuMc extends JavaPlugin {
         Console.printBlankLine();
         Console.sendMessage(General.generateSeparator());
 
-        // --- Spawn bosses ---
-        this.mainMobs.startAutoSpawnBoss(
-            getServer().getWorld(getConfigs().getSpawnWorld()), 
-            new Location(
-                getServer().getWorld(getConfigs().getSpawnWorld()), 
-                getConfigs().getSpawnLocationX(), 
-                getConfigs().getSpawnLocationY(), 
-                getConfigs().getSpawnLocationZ()
-            ), 
-            getConfigs().getSpawnRadius(), 
-            20 * 60 * getConfigs().getSpawnInterval()
-        );
+        autoSpawnBosses();
     }
 
     @Override
@@ -84,6 +73,22 @@ public class MuMc extends JavaPlugin {
         PluginCommand command = Objects.requireNonNull(this.getCommand("mumc"));
         command.setExecutor(mainCommand);
         command.setTabCompleter(tabCompleter);
+    }
+
+    public void autoSpawnBosses() {
+        if (getConfigs().getSpawnEnabled()) {
+            this.mainMobs.startAutoSpawnBoss(
+                getServer().getWorld(getConfigs().getSpawnWorld()), 
+                new Location(
+                    getServer().getWorld(getConfigs().getSpawnWorld()), 
+                    getConfigs().getSpawnLocationX(), 
+                    getConfigs().getSpawnLocationY(), 
+                    getConfigs().getSpawnLocationZ()
+                ), 
+                getConfigs().getSpawnRadius(), 
+                20 * 60 * getConfigs().getSpawnInterval()
+            );
+        }
     }
 
     public void registerEvents() {

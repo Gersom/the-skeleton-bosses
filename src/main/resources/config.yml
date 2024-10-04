@@ -1,22 +1,23 @@
-# Configuración general del plugin
+# General plugin configuration
 # prefix: "[MuMc]"
 
-# Versión de la configuración
+# Configuration version
 # config-version: 1
 
-# Lenguaje del plugin [en, es, other]
+# Plugin language [en, es, other]
 language: "en"
 
 spawn:
-  # Nombre del mundo donde se generarán los mobs
+  enabled: false
+  # Name of the world where mobs will spawn
   world: "world"
-  # Intervalo de tiempo para el spawn de mobs
-  interval: 20
-  # Radio de generación de mobs
+  # Time interval for mob spawning (1d = 1440 minutes)
+  interval: 1440
+  # Mob spawning radius
   radius: 10
-  # Chance de spawn de mobs
+  # Mob spawn chance
   chance: 100
-  # Posición de referencia para el spawn de mobs
+  # Reference position for mob spawning
   location:
     # X
     x: -80
@@ -24,7 +25,7 @@ spawn:
     y: 83
     # Z
     z: 277
-  # Porcentaje de spawn de Reyes
+  # Percentage of King spawns
   king_percentage: 30
-  # Porcentaje de spawn de Emperadores
+  # Percentage of Emperor spawns
   # emperor_percentage = (100%) - (king_percentage)

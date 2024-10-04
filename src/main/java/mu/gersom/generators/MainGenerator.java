@@ -34,7 +34,7 @@ public class MainGenerator {
         skeletonEmperor = new SkeletonEmperor(plugin);
         skeletonEmperor.generateSkeletonEmperor(world, location);
         Bukkit.broadcastMessage(General.setColor(
-            "&6" + Vars.prefix + "&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
         ));
     }
 
@@ -42,7 +42,7 @@ public class MainGenerator {
         skeletonKing = new SkeletonKing(plugin);
         skeletonKing.generateSkeletonKing(world, location);
         Bukkit.broadcastMessage(General.setColor(
-            "&d" + Vars.prefix + "&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
         ));
     }
 
