@@ -55,9 +55,10 @@ MUMC/
 │           │   └── other.yml
 │           ├── config.yml
 │           └── plugin.yml
-├── target/
+├── target/ (gitignore)
 ├── .gitignore
-└── pom.xml
+├── pom.xml
+└── readme.md
 ```
 
 ## Comandos
