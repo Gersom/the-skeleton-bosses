@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mu.gersom.MuMc;
+import mu.gersom.utils.Console;
 import mu.gersom.utils.General;
 import mu.gersom.utils.Vars;
 
@@ -91,7 +92,7 @@ public class SubCommands {
 
     private void spawnMobCustom(CommandSender sender, String[] arg) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(General.setColor("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()));
+            Console.sendMessage("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand());
             return;
         }
 
@@ -99,7 +100,7 @@ public class SubCommands {
 
         if (arg.length > 1) {
             if (arg[1].equalsIgnoreCase("emperor")) {
-                plugin.getMainMobs().generateEmperor(plugin, player.getWorld(), player.getLocation());
+                plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
         
                 player.sendMessage(General.setColor(
                     "&a " + Vars.prefix + "¡&6&lEsqueleto Emperador &aha sido creado!"
@@ -107,7 +108,7 @@ public class SubCommands {
             }
             
             else if (arg[1].equalsIgnoreCase("king")) {
-                plugin.getMainMobs().generateKing(plugin, player.getWorld(), player.getLocation());
+                plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
 
                 player.sendMessage(General.setColor(
                     "&a " + Vars.prefix + "¡&6&lRey Esqueleto &aha sido creado!"

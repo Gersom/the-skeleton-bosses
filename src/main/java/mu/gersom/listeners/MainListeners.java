@@ -5,6 +5,7 @@
 
 package mu.gersom.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,17 +53,23 @@ public class MainListeners implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         if (event.getEntityType() == EntityType.SKELETON) {
             // Si el mob existe en el set de mobs
-            if (plugin.getMainMobs().getSkeletonEmperor() != null) {
+            if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
                 if (plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(event.getEntity().getUniqueId())) {
                     plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
+                    Bukkit.broadcastMessage(General.setColor(
+                        "&c" + Vars.prefix + "&6&l" + "&f&c"
+                    ));
                 }
             }
         }
 
         if (event.getEntityType() == EntityType.WITHER_SKELETON) {
-            if (plugin.getMainMobs().getSkeletonKing() != null) {
+            if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
                 if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(event.getEntity().getUniqueId())) {
                     plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
+                    Bukkit.broadcastMessage(General.setColor(
+                        "&c" + Vars.prefix + "&d&l" + "&f&c"
+                    ));
                 }
             }
         }

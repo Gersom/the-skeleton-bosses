@@ -176,15 +176,7 @@ public class SkeletonEmperor {
             event.getDrops().add(helmet);
         }
 
-        // Eliminar la BossBar
-        if (bossBar != null) {
-            bossBar.removeAll();
-            bossBar = null;
-        }
-        skeleton = null;
-        
-        // Remove the skeleton's UUID from our set
-        skeletonEmperorID = null;
+        cleanUp();
     }
 
     private void updateBossBar() {
@@ -222,7 +214,7 @@ public class SkeletonEmperor {
         }
         skeleton = null;
         // Remove the skeleton's UUID from our set
-        skeleton = null;
+        skeletonEmperorID = null;
     }
 
     // Método para obtener la ubicación actual del Skeleton King

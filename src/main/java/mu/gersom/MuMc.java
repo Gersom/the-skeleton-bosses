@@ -2,6 +2,7 @@ package mu.gersom;
 
 import java.util.Objects;
 
+import org.bukkit.Location;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,7 +32,7 @@ public class MuMc extends JavaPlugin {
         this.configs.initialize();
         
         // Inicializar MainGenerator
-        this.mainMobs = new MainGenerator();
+        this.mainMobs = new MainGenerator(this);
 
         registerCommands();
         registerEvents();
@@ -45,6 +46,13 @@ public class MuMc extends JavaPlugin {
         Console.printFooter();
         Console.printBlankLine();
         Console.sendMessage(General.generateSeparator());
+
+        this.mainMobs.startAutoSpawnBoss(
+            getServer().getWorld("world"), 
+            new Location(getServer().getWorld("world"), -80, 80, 277), 
+            10, 
+            20 * 60 * 1
+        );
     }
 
     @Override
