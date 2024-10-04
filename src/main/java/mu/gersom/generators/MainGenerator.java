@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import mu.gersom.MuMc;
 import mu.gersom.utils.General;
@@ -27,6 +28,7 @@ public class MainGenerator {
     private SkeletonKing skeletonKing;
     private final MuMc plugin;
     private final Random random = new Random();
+    private BukkitTask taskAutoSpawn;
 
     public MainGenerator(MuMc plugin) {
         this.plugin = plugin;
@@ -94,7 +96,7 @@ public class MainGenerator {
     }
 
     public void startAutoSpawnBoss(World world, Location center, int radius, long interval) {
-        new BukkitRunnable() {
+        this.taskAutoSpawn = new BukkitRunnable() {
             @Override
             public void run() {
                 if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
@@ -133,5 +135,9 @@ public class MainGenerator {
 
     public SkeletonKing getSkeletonKing() {
         return skeletonKing;
+    }
+
+    public BukkitTask getTaskAutoSpawn() {
+        return taskAutoSpawn;
     }
 }

@@ -18,14 +18,14 @@ public class MainTabCompleter implements TabCompleter {
             if (args.length == 1) {
                 // Main commands
                 completions.add("help");
+                completions.add("spawn");
                 completions.add("reload");
                 completions.add("author");
                 completions.add("version");
-                completions.add("spawn");
             } else if (args.length == 2) {
                 // Subcommands
                 if (args[0].equalsIgnoreCase("spawn")) {
-                    completions.add("skeleton");
+                    completions.add("king");
                     completions.add("emperor");
                     // Add more mob types here as you implement them
                 }

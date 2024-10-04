@@ -56,6 +56,9 @@ public class SubCommands {
     private void reloadConfig(CommandSender sender) {
         plugin.getConfigs().reloadConfig();
         plugin.autoSpawnBosses();
+        if (!(plugin.getConfigs().getSpawnEnabled())) {
+            plugin.getMainMobs().getTaskAutoSpawn().cancel();
+        }
         sender.sendMessage(General.setColor("&a" + Vars.prefix + plugin.getConfigs().getReloadText()));
     }
 
@@ -102,18 +105,10 @@ public class SubCommands {
         if (arg.length > 1) {
             if (arg[1].equalsIgnoreCase("emperor")) {
                 plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
-        
-                player.sendMessage(General.setColor(
-                    "&a " + Vars.prefix + "¡&6&lEsqueleto Emperador &aha sido creado!"
-                ));
             }
             
             else if (arg[1].equalsIgnoreCase("king")) {
                 plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
-
-                player.sendMessage(General.setColor(
-                    "&a " + Vars.prefix + "¡&6&lRey Esqueleto &aha sido creado!"
-                ));
             }
 
             else {

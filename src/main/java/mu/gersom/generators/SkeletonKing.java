@@ -120,8 +120,8 @@ public class SkeletonKing {
             
         double dropChance = random.nextDouble();
         
-        if (dropChance < 0.20) {
-            // 20% chance to drop NETHERITE_SWORD with SHARPNESS
+        if (dropChance < 0.33) {
+            // 33% chance to drop NETHERITE_SWORD with SHARPNESS
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
             swordMeta.setDisplayName(General.setColor(
@@ -130,8 +130,8 @@ public class SkeletonKing {
             swordMeta.addEnchant(Enchantment.SHARPNESS, 5, true);
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
-        } else if (dropChance < 0.50) {
-            // 30% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
+        } else if (dropChance < 0.66) {
+            // 33% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
             swordMeta.setDisplayName(General.setColor(
@@ -141,7 +141,7 @@ public class SkeletonKing {
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
         } else {
-            // 50% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
+            // 33% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = helmet.getItemMeta();
             helmetMeta.setDisplayName(General.setColor(

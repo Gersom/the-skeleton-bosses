@@ -124,8 +124,8 @@ public class SkeletonEmperor {
             
         double dropChance = random.nextDouble();
         
-        if (dropChance < 0.20) {
-            // 20% chance to drop bow with MULTISHOT and FLAME
+        if (dropChance < 0.33) {
+            // 33% chance to drop bow with MULTISHOT and FLAME
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = bow.getItemMeta();
             bowMeta.setDisplayName(General.setColor(
@@ -135,8 +135,8 @@ public class SkeletonEmperor {
             bowMeta.addEnchant(Enchantment.FLAME, 1, true);
             bow.setItemMeta(bowMeta);
             event.getDrops().add(bow);
-        } else if (dropChance < 0.50) {
-            // 30% chance to drop bow with INFINITY and UNBREAKING 3
+        } else if (dropChance < 0.66) {
+            // 33% chance to drop bow with INFINITY and UNBREAKING 3
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = bow.getItemMeta();
             bowMeta.setDisplayName(General.setColor(
@@ -147,7 +147,7 @@ public class SkeletonEmperor {
             bow.setItemMeta(bowMeta);
             event.getDrops().add(bow);
         } else {
-            // 50% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
+            // 33% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = helmet.getItemMeta();
             helmetMeta.setDisplayName(General.setColor(
