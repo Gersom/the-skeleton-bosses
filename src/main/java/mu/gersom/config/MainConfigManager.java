@@ -24,54 +24,107 @@ public class MainConfigManager {
         languageManager.reloadLanguageConfig();
     }
 
-    public String getLanguage() {
-        return configFile.getString("language", "en");
-    }
-
     public void setLanguage(String language) {
         configFile.getConfig().set("language", language);
         configFile.saveConfig();
         languageManager.reloadLanguageConfig();
     }
 
+    public String getLanguage() {
+        return configFile.getString("language", "en");
+    }
+
+    // Spawn data
+    public String getSpawnWorld() {
+        return configFile.getString("spawn.world", "world");
+    }
+    public int getSpawnInterval() {
+        return configFile.getInt("spawn.interval", 20);
+    }
+    public int getSpawnRadius() {
+        return configFile.getInt("spawn.radius", 10);
+    }
+    public double getSpawnChance() {
+        return configFile.getInt("spawn.chance", 100) / 100;
+    }
+    public int getSpawnLocationX() {
+        return configFile.getInt("spawn.location.x", 0);
+    }
+    public int getSpawnLocationY() {
+        return configFile.getInt("spawn.location.y", 150);
+    }
+    public int getSpawnLocationZ() {
+        return configFile.getInt("spawn.location.z", 0);
+    }
+    public double getSpawnKingPercentage() {
+        return configFile.getInt("spawn.king_percentage", 30) / 100;
+    }
+    public double getSpawnEmperorPercentage() {
+        return (100 - getSpawnKingPercentage()) / 100;
+    }
+
     // Delegate message methods to LanguageManager
+    // Plugin messages
     public String getMsgPluginEnabled() {
         return languageManager.getMsgPluginEnabled();
     }
-
     public String getMsgPluginDisabled() {
         return languageManager.getMsgPluginDisabled();
     }
 
-    public String getHelpText() {
-        return languageManager.getHelpText();
-    }
-
-    public String getCommandNotFound() {
-        return languageManager.getCommandNotFound();
-    }
-
-    public String getPlayerOnlyCommand() {
-        return languageManager.getPlayerOnlyCommand();
-    }
-
+    // About messages
     public String getWelcomeMessage() {
         return languageManager.getWelcomeMessage();
     }
-
     public List<String> getDescriptionMessages() {
         return languageManager.getDescriptionMessages();
     }
 
+    // Commands messages
     public String getListCommands() {
         return languageManager.getListCommands();
     }
-
+    public String getPlayerOnlyCommand() {
+        return languageManager.getPlayerOnlyCommand();
+    }
+    public String getHelpText() {
+        return languageManager.getHelpText();
+    }
     public String getReloadText() {
         return languageManager.getReloadText();
     }
-
+    public String getCommandNotFound() {
+        return languageManager.getCommandNotFound();
+    }
     public String getNotPermission() {
         return languageManager.getNotPermission();
     }
+    
+    // Name of the bosses
+    public String getBossSkeletonEmperor() {
+        return languageManager.getBossSkeletonEmperor();
+    }
+    public String getBossSkeletonKing() {
+        return languageManager.getBossSkeletonKing();
+    }
+
+    // Messages of the bosses
+    public String getBossMessageSpawn() {
+        return languageManager.getBossMessageSpawn();
+    }
+    public String getBossMessageDeath() {
+        return languageManager.getBossMessageDeath();
+    }
+
+    // Name of the objects left behind when he dies
+    public String getBossItemBow() {
+        return languageManager.getBossItemBow();
+    }
+    public String getBossItemSword() {
+        return languageManager.getBossItemSword();
+    }
+    public String getBossItemHelmet() {
+        return languageManager.getBossItemHelmet();
+    }
+    
 }

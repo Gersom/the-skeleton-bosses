@@ -57,7 +57,7 @@ public class MainListeners implements Listener {
                 if (plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(event.getEntity().getUniqueId())) {
                     plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
                     Bukkit.broadcastMessage(General.setColor(
-                        "&c" + Vars.prefix + "&6&l" + "&f&c"
+                        "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
                     ));
                 }
             }
@@ -68,7 +68,7 @@ public class MainListeners implements Listener {
                 if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(event.getEntity().getUniqueId())) {
                     plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
                     Bukkit.broadcastMessage(General.setColor(
-                        "&c" + Vars.prefix + "&d&l" + "&f&c"
+                        "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
                     ));
                 }
             }

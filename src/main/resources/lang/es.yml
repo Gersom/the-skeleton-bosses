@@ -15,3 +15,20 @@ messages:
     reload: "¡Configuración recargada!"
     not_found: "¡Comando no encontrado!"
     no_permission: "¡No tienes permiso para usar este comando!"
+
+# Información sobre los bosses
+bosses:
+  # Nombre de los bosses
+  skeleton_emperor: "Esqueleto Emperador"
+  skeleton_king: "Rey Esqueleto"
+
+  # Mensajes del boss
+  messages:
+    spawn: "ha aparecido!"
+    death: "ha muerto!"
+
+  # Nombre de los objetos que deja cuando se muere
+  items:
+    bow: "Arco"
+    sword: "Espada"
+    helmet: "Casco"

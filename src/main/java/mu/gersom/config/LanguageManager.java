@@ -55,43 +55,66 @@ public class LanguageManager {
     }
 
     // Add methods for each message you need to retrieve
+    // Plugin messages
     public String getMsgPluginEnabled() {
         return getMessage("messages.plugin.enabled", "Plugin has been enabled!");
     }
-
     public String getMsgPluginDisabled() {
         return getMessage("messages.plugin.disabled", "Plugin has been disabled!");
     }
 
-    public String getHelpText() {
-        return getMessage("messages.commands.help_text", "To see the list of commands, type");
-    }
-
-    public String getCommandNotFound() {
-        return getMessage("messages.commands.not_found", "Command not found!");
-    }
-
-    public String getPlayerOnlyCommand() {
-        return getMessage("messages.commands.player_only", "This command can only be used in-game!");
-    }
-
+    // About messages
     public String getWelcomeMessage() {
         return getMessage("messages.about.welcome", "Welcome!");
     }
-
     public List<String> getDescriptionMessages() {
         return getMessageList("messages.about.description");
     }
 
+    // Commands messages
     public String getListCommands() {
         return getMessage("messages.commands.list", "List of commands:");
     }
-
+    public String getPlayerOnlyCommand() {
+        return getMessage("messages.commands.player_only", "This command can only be used in-game!");
+    }
+    public String getHelpText() {
+        return getMessage("messages.commands.help_text", "To see the list of commands, type");
+    }
     public String getReloadText() {
         return getMessage("messages.commands.reload", "Reload the configs");
     }
-
+    public String getCommandNotFound() {
+        return getMessage("messages.commands.not_found", "Command not found!");
+    }
     public String getNotPermission() {
         return getMessage("messages.commands.no_permission", "You don't have permission to use this command!");
+    }
+
+    // Name of the bosses
+    public String getBossSkeletonEmperor() {
+        return getMessage("bosses.skeleton_emperor", "Skeleton Emperor");
+    }
+    public String getBossSkeletonKing() {
+        return getMessage("bosses.skeleton_king", "Skeleton King");
+    }
+
+    // Messages of the bosses
+    public String getBossMessageSpawn() {
+        return getMessage("bosses.messages.spawn", "has spawned!");
+    }
+    public String getBossMessageDeath() {
+        return getMessage("bosses.messages.death", "has died!");
+    }
+
+    // Name of the objects left behind when he dies
+    public String getBossItemBow() {
+        return getMessage("bosses.items.bow", "Bow");
+    }
+    public String getBossItemSword() {
+        return getMessage("bosses.items.sword", "Sword");
+    }
+    public String getBossItemHelmet() {
+        return getMessage("bosses.items.helmet", "Helmet");
     }
 }

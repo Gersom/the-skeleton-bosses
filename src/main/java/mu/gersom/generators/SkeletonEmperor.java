@@ -58,7 +58,7 @@ public class SkeletonEmperor {
         // Make the skeleton persistent
         skeleton.setRemoveWhenFarAway(false);
 
-        skeleton.setCustomName(General.setColor("&6&lSkeleton Emperor&f"));
+        skeleton.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + "&r&f"));
         skeleton.setCustomNameVisible(true);
 
         // Change scale Mob
@@ -110,7 +110,7 @@ public class SkeletonEmperor {
 
         // Crear y configurar la BossBar
         bossBar = Bukkit.createBossBar(
-            General.setColor("&6&lSkeleton Emperor"),
+            General.setColor("&6&l" + plugin.getConfigs().getBossSkeletonEmperor()),
             BarColor.YELLOW,
             BarStyle.SOLID
         );
@@ -151,7 +151,9 @@ public class SkeletonEmperor {
             // 20% chance to drop bow with MULTISHOT and FLAME
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = bow.getItemMeta();
-            bowMeta.setDisplayName(General.setColor("&6Skeleton Emperor Bow"));
+            bowMeta.setDisplayName(General.setColor(
+                "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+            ));
             bowMeta.addEnchant(Enchantment.MULTISHOT, 1, true);
             bowMeta.addEnchant(Enchantment.FLAME, 1, true);
             bow.setItemMeta(bowMeta);
@@ -160,7 +162,9 @@ public class SkeletonEmperor {
             // 30% chance to drop bow with INFINITY and UNBREAKING 3
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = bow.getItemMeta();
-            bowMeta.setDisplayName(General.setColor("&6Skeleton Emperor Bow"));
+            bowMeta.setDisplayName(General.setColor(
+                "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+            ));
             bowMeta.addEnchant(Enchantment.INFINITY, 1, true);
             bowMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
             bow.setItemMeta(bowMeta);
@@ -169,7 +173,9 @@ public class SkeletonEmperor {
             // 50% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = helmet.getItemMeta();
-            helmetMeta.setDisplayName(General.setColor("&6Skeleton Emperor Helmet"));
+            helmetMeta.setDisplayName(General.setColor(
+                "&6&l" + plugin.getConfigs().getBossItemHelmet() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+            ));
             helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
             helmetMeta.addEnchant(Enchantment.FIRE_PROTECTION, 3, true);
             helmet.setItemMeta(helmetMeta);
@@ -185,7 +191,7 @@ public class SkeletonEmperor {
         double health = skeleton.getHealth();
         double maxHealth = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         bossBar.setTitle(General.setColor(
-            "&6&lSkeleton Emperor " + "(" + (int) health + "/" + (int) maxHealth + ")❤"
+            "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " (" + (int) health + "/" + (int) maxHealth + ")❤"
         ));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
 

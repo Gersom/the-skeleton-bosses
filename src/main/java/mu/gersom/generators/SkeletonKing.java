@@ -58,7 +58,7 @@ public class SkeletonKing {
         // Make the skeleton persistent
         skeletonKing.setRemoveWhenFarAway(false);
 
-        skeletonKing.setCustomName(General.setColor("&d&lSkeleton King&f"));
+        skeletonKing.setCustomName(General.setColor("&d&l" + plugin.getConfigs().getBossSkeletonKing() + "&r&f"));
         skeletonKing.setCustomNameVisible(true);
 
         // Change scale Mob
@@ -106,7 +106,7 @@ public class SkeletonKing {
 
         // Crear y configurar la BossBar
         bossBar = Bukkit.createBossBar(
-            General.setColor("&d&lSkeleton King"),
+            General.setColor("&d&l" + plugin.getConfigs().getBossSkeletonKing()),
             BarColor.PURPLE,
             BarStyle.SOLID
         );
@@ -148,7 +148,9 @@ public class SkeletonKing {
             // 20% chance to drop NETHERITE_SWORD with SHARPNESS
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
-            swordMeta.setDisplayName(General.setColor("&dSkeleton King Sword"));
+            swordMeta.setDisplayName(General.setColor(
+                "&d&l" + plugin.getConfigs().getBossItemSword() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")" 
+            ));
             swordMeta.addEnchant(Enchantment.SHARPNESS, 5, true);
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
@@ -156,7 +158,9 @@ public class SkeletonKing {
             // 30% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
             ItemMeta swordMeta = sword.getItemMeta();
-            swordMeta.setDisplayName(General.setColor("&dSkeleton King Sword"));
+            swordMeta.setDisplayName(General.setColor(
+                "&d&l" + plugin.getConfigs().getBossItemSword() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")"
+            ));
             swordMeta.addEnchant(Enchantment.SWEEPING_EDGE, 3, true);
             sword.setItemMeta(swordMeta);
             event.getDrops().add(sword);
@@ -164,7 +168,9 @@ public class SkeletonKing {
             // 50% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = helmet.getItemMeta();
-            helmetMeta.setDisplayName(General.setColor("&dSkeleton King Helmet"));
+            helmetMeta.setDisplayName(General.setColor(
+                "&d&l" + plugin.getConfigs().getBossItemHelmet() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")"
+            ));
             helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
             helmetMeta.addEnchant(Enchantment.FIRE_PROTECTION, 3, true);
             helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true);
@@ -181,7 +187,7 @@ public class SkeletonKing {
         double health = skeletonKing.getHealth();
         double maxHealth = skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         bossBar.setTitle(General.setColor(
-            "&d&lSkeleton King " + "(" + (int) health + "/" + (int) maxHealth + ")❤"
+            "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " (" + (int) health + "/" + (int) maxHealth + ")❤"
         ));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
 

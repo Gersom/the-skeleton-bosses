@@ -34,7 +34,7 @@ public class MainGenerator {
         skeletonEmperor = new SkeletonEmperor(plugin);
         skeletonEmperor.generateSkeletonEmperor(world, location);
         Bukkit.broadcastMessage(General.setColor(
-            "&6" + Vars.prefix + "&l" + "&f&a"
+            "&6" + Vars.prefix + "&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
         ));
     }
 
@@ -42,7 +42,7 @@ public class MainGenerator {
         skeletonKing = new SkeletonKing(plugin);
         skeletonKing.generateSkeletonKing(world, location);
         Bukkit.broadcastMessage(General.setColor(
-            "&d" + Vars.prefix + "&l" + "&f&a"
+            "&d" + Vars.prefix + "&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
         ));
     }
 
@@ -61,10 +61,18 @@ public class MainGenerator {
                 if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
                     (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null)) {
                     Location spawnLocation = getRandomLocation(world, center, radius);
-                    if (random.nextDouble() < 0.45) { // 45% chance for King
-                        generateKing(world, spawnLocation);
-                    } else { // 45% chance for Emperor
-                        generateEmperor(world, spawnLocation);
+
+                    Double chance = random.nextDouble();
+                    if (chance < plugin.getConfigs().getSpawnChance()) {
+                        // chance for King
+                        if (chance < plugin.getConfigs().getSpawnKingPercentage()) {
+                            generateKing(world, spawnLocation);
+                        } 
+                        
+                        // chance for Emperor
+                        else if (chance < (plugin.getConfigs().getSpawnKingPercentage() + plugin.getConfigs().getSpawnEmperorPercentage())) {
+                            generateEmperor(world, spawnLocation);
+                        }
                     }
                 }
             }

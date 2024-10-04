@@ -4,5 +4,27 @@
 # Versión de la configuración
 # config-version: 1
 
-# Lenguaje del plugin [en, es]
+# Lenguaje del plugin [en, es, other]
 language: "en"
+
+spawn:
+  # Nombre del mundo donde se generarán los mobs
+  world: "world"
+  # Intervalo de tiempo para el spawn de mobs
+  interval: 20
+  # Radio de generación de mobs
+  radius: 10
+  # Chance de spawn de mobs
+  chance: 100
+  # Posición de referencia para el spawn de mobs
+  location:
+    # X
+    x: -80
+    # Y
+    y: 83
+    # Z
+    z: 277
+  # Porcentaje de spawn de Reyes
+  king_percentage: 30
+  # Porcentaje de spawn de Emperadores
+  # emperor_percentage = (100%) - (king_percentage)

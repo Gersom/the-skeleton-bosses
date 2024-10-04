@@ -15,3 +15,20 @@ messages:
     reload: ""
     not_found: ""
     no_permission: ""
+
+# Information about the bosses
+bosses:
+  # Name of the bosses
+  skeleton_emperor: ""
+  skeleton_king: ""
+
+  # Messages of the bosses
+  messages:
+    spawn: "!"
+    death: "!"
+
+  # Name of the objects left behind when he dies
+  items:
+    bow: ""
+    sword: ""
+    helmet: ""

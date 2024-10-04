@@ -47,11 +47,17 @@ public class MuMc extends JavaPlugin {
         Console.printBlankLine();
         Console.sendMessage(General.generateSeparator());
 
+        // --- Spawn bosses ---
         this.mainMobs.startAutoSpawnBoss(
-            getServer().getWorld("world"), 
-            new Location(getServer().getWorld("world"), -80, 80, 277), 
-            10, 
-            20 * 60 * 1
+            getServer().getWorld(getConfigs().getSpawnWorld()), 
+            new Location(
+                getServer().getWorld(getConfigs().getSpawnWorld()), 
+                getConfigs().getSpawnLocationX(), 
+                getConfigs().getSpawnLocationY(), 
+                getConfigs().getSpawnLocationZ()
+            ), 
+            getConfigs().getSpawnRadius(), 
+            20 * 60 * getConfigs().getSpawnInterval()
         );
     }
 
