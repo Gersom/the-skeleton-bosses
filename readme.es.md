@@ -12,22 +12,22 @@
 
 # MuMc
 
-## Welcome to MuMc!
+## ¡Bienvenido a MuMc!
 
-This plugin allows you to recreate the dynamics of the classic game **Mu Online** in Minecraft.
+Este plugin te permite recrear las dinámicas del clásico juego **Mu Online** en Minecraft.
 
-## Features
+## Características
 
-- Generation of custom bosses:
+- Generación de bosses personalizados:
   - Skeleton Emperor
   - Skeleton King
-- Automatic boss spawn system
-- Special item drops when defeating bosses
-- Health bar for bosses
-- Command system to interact with the plugin
-- Multi-language support (English and Spanish)
+- Sistema de spawn automático de bosses
+- Drops de items especiales al derrotar bosses
+- Barra de vida para los bosses
+- Sistema de comandos para interactuar con el plugin
+- Soporte multilenguaje (Inglés y Español)
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 MUMC/
@@ -67,50 +67,50 @@ MUMC/
 └── README.md
 ```
 
-## Commands
+## Comandos
 
 ### /mumc spawn [emperor|king]
 
-Spawns a specific boss at the player's location.
+Genera un boss específico en la ubicación del jugador.
 
 ### /mumc reload
 
-Reloads the plugin configuration.
+Recarga la configuración del plugin.
 
 ### /mumc author
 
-Shows information about the plugin author.
+Muestra información sobre el autor del plugin.
 
 ### /mumc version
 
-Displays the current version of the plugin.
+Muestra la versión actual del plugin.
 
 ### /mumc help
 
-Shows the list of available commands.
+Muestra la lista de comandos disponibles.
 
-## Configuration
+## Configuración
 
-The `config.yml` file allows you to customize various aspects of the plugin:
+El archivo `config.yml` permite personalizar varios aspectos del plugin:
 
-- Plugin language
-- Automatic boss spawn configuration
-- Experience granted by bosses
-- Commands executed when defeating bosses
+- Idioma del plugin
+- Configuración de spawn automático de bosses
+- Experiencia otorgada por los bosses
+- Comandos ejecutados al derrotar bosses
 
-## Supported Languages
+## Idiomas soportados
 
-- English (en)
-- Spanish (es)
-- Others (template for adding new languages)
+- Inglés (en)
+- Español (es)
+- Otros (plantilla para agregar nuevos idiomas)
 
-## Author
+## Autor
 
 **Gersom**
 
 - GitHub: [@Gersom](https://github.com/Gersom)
 - LinkedIn: [Gersom Alaja](https://www.linkedin.com/in/gersomalaja/)
 
-## License
+## Licencia
 
-This plugin is licensed under the MIT License.
+Este plugin está licenciado bajo la licencia MIT.
