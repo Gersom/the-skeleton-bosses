@@ -112,7 +112,15 @@ public class MainConfigManager {
         return languageManager.getBossSkeletonKing();
     }
 
-    // Messages of the bosses
+    // Experience of the bosses
+    public int getBossesKingExp() {
+        return configFile.getInt("bosses.king_experience", 350);
+    }
+    public int getBossesEmperorExp() {
+        return configFile.getInt("bosses.emperor_experience", 250);
+    }
+
+    // Command of the bosses
     public Boolean getBossesCommandEnabled() {
         return configFile.getBoolean("bosses.commands_after_death", false);
     }
@@ -122,7 +130,8 @@ public class MainConfigManager {
     public String getBossesEmperorCommand() {
         return configFile.getString("bosses.emperor_command", "me killed the emperor");
     }
-
+    
+    // Messages of the bosses
     public String getBossMessageSpawn() {
         return languageManager.getBossMessageSpawn();
     }

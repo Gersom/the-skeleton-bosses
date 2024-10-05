@@ -67,7 +67,7 @@ public class MainListeners implements Listener {
 
                     if (killer != null) {
                         event.getDrops().clear(); // Clear default drops
-                        event.setDroppedExp(170);
+                        event.setDroppedExp(plugin.getConfigs().getBossesEmperorExp());
 
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
@@ -98,7 +98,7 @@ public class MainListeners implements Listener {
                     plugin.getBossPersistenceManager().removeBossData("king");
                     if (killer != null) {
                         event.getDrops().clear(); // Clear default drops
-                        event.setDroppedExp(255);
+                        event.setDroppedExp(plugin.getConfigs().getBossesKingExp());
 
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
