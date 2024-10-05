@@ -59,11 +59,12 @@ public class MainConfigManager {
     public int getSpawnLocationZ() {
         return configFile.getInt("spawn.location.z", 0);
     }
-    public double getSpawnKingPercentage() {
-        return configFile.getInt("spawn.king_percentage", 30) / 100;
+    public double  getSpawnKingPercentage() {
+        double kpercentage = configFile.getInt("spawn.king_percentage", 50);
+        return kpercentage / 100;
     }
-    public double getSpawnEmperorPercentage() {
-        return (100 - getSpawnKingPercentage()) / 100;
+    public double  getSpawnEmperorPercentage() {
+        return 1 - getSpawnKingPercentage();
     }
 
     // Delegate message methods to LanguageManager
@@ -112,11 +113,24 @@ public class MainConfigManager {
     }
 
     // Messages of the bosses
+    public Boolean getBossesCommandEnabled() {
+        return configFile.getBoolean("bosses.commands_after_death", false);
+    }
+    public String getBossesKingCommand() {
+        return configFile.getString("bosses.king_command", "me killed the king");
+    }
+    public String getBossesEmperorCommand() {
+        return configFile.getString("bosses.emperor_command", "me killed the emperor");
+    }
+
     public String getBossMessageSpawn() {
         return languageManager.getBossMessageSpawn();
     }
     public String getBossMessageDeath() {
         return languageManager.getBossMessageDeath();
+    }
+    public String getBossMessageKilled() {
+        return languageManager.getBossMessageKilled();
     }
 
     // Name of the objects left behind when he dies

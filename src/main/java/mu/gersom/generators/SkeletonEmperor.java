@@ -120,8 +120,6 @@ public class SkeletonEmperor {
     }
 
     public void onSkeletonEmperorDeath(EntityDeathEvent event) {
-        event.getDrops().clear(); // Clear default drops
-            
         double dropChance = random.nextDouble();
         
         if (dropChance < 0.33) {
@@ -159,7 +157,6 @@ public class SkeletonEmperor {
             event.getDrops().add(helmet);
         }
 
-        plugin.getBossPersistenceManager().removeBossData("emperor");
         cleanUp();
     }
 

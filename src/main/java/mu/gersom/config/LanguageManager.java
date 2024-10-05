@@ -106,6 +106,9 @@ public class LanguageManager {
     public String getBossMessageDeath() {
         return getMessage("bosses.messages.death", "has died!");
     }
+    public String getBossMessageKilled() {
+        return getMessage("bosses.messages.killed", "has been killed by");
+    }
 
     // Name of the objects left behind when he dies
     public String getBossItemBow() {

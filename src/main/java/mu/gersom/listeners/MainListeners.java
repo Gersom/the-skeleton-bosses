@@ -48,17 +48,36 @@ public class MainListeners implements Listener {
         // (20L = 20 ticks = 1 seg)
     }
 
-    // Evento de muerte de un mob
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
         if (event.getEntityType() == EntityType.SKELETON) {
-            // Si el mob existe en el set de mobs
             if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
                 if (plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(event.getEntity().getUniqueId())) {
-                    plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
-                    Bukkit.broadcastMessage(General.setColor(
-                        "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
-                    ));
+                    plugin.getBossPersistenceManager().removeBossData("emperor");
+                    Player killer = event.getEntity().getKiller();
+
+                    if (killer != null) {
+                        event.getDrops().clear(); // Clear default drops
+                        event.setDroppedExp(170);
+
+                        if (plugin.getConfigs().getBossesCommandEnabled()) {
+                            Bukkit.getServer().dispatchCommand(
+                                Bukkit.getConsoleSender(), 
+                                plugin.getConfigs().getBossesEmperorCommand().replace("{player_killed}", killer.getName())
+                            );
+                        } else {
+                            plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
+                        }
+
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
+                        ));
+                        // Aquí puedes agregar lógica adicional para recompensar al asesino
+                    } else {
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
+                        ));
+                    }
                 }
             }
         }
@@ -66,10 +85,30 @@ public class MainListeners implements Listener {
         if (event.getEntityType() == EntityType.WITHER_SKELETON) {
             if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
                 if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(event.getEntity().getUniqueId())) {
-                    plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
-                    Bukkit.broadcastMessage(General.setColor(
-                        "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
-                    ));
+                    Player killer = event.getEntity().getKiller();
+                    plugin.getBossPersistenceManager().removeBossData("king");
+                    if (killer != null) {
+                        event.getDrops().clear(); // Clear default drops
+                        event.setDroppedExp(255);
+
+                        if (plugin.getConfigs().getBossesCommandEnabled()) {
+                            Bukkit.getServer().dispatchCommand(
+                                Bukkit.getConsoleSender(), 
+                                plugin.getConfigs().getBossesKingCommand().replace("{player_killed}", killer.getName())
+                            );
+                        } else {
+                            plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
+                        }
+
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
+                        ));
+
+                    } else {
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
+                        ));
+                    }
                 }
             }
         }

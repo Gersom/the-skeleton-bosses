@@ -125,7 +125,7 @@ public class MainGenerator {
         double distance = random.nextDouble() * radius;
         int x = (int) (center.getX() + distance * Math.cos(angle));
         int z = (int) (center.getZ() + distance * Math.sin(angle));
-        int y = world.getHighestBlockYAt(x, z);
+        int y = world.getHighestBlockYAt(x, z) + 1;
         return new Location(world, x, y, z);
     }
 

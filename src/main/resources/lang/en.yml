@@ -26,6 +26,7 @@ bosses:
   messages:
     spawn: "has spawned!"
     death: "has died!"
+    killed: "has been killed by"
 
   # Name of the objects left behind when he dies
   items:

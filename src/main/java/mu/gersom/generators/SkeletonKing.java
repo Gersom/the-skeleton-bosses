@@ -115,9 +115,7 @@ public class SkeletonKing {
         createTaskBossBar();
     }
 
-    public void onSkeletonKingDeath(EntityDeathEvent event) {
-        event.getDrops().clear(); // Clear default drops
-            
+    public void onSkeletonKingDeath(EntityDeathEvent event) {    
         double dropChance = random.nextDouble();
         
         if (dropChance < 0.33) {
@@ -154,7 +152,6 @@ public class SkeletonKing {
             event.getDrops().add(helmet);
         }
 
-        plugin.getBossPersistenceManager().removeBossData("king");
         cleanUp();
     }
 
