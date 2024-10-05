@@ -5,6 +5,7 @@
 
 package mu.gersom.generators;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
@@ -32,6 +34,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import mu.gersom.MuMc;
 import mu.gersom.utils.General;
+import mu.gersom.utils.Vars;
 
 /**
  *
@@ -168,6 +171,42 @@ public class SkeletonEmperor {
 
             // Reiniciar las tareas de actualización
             startUpdateTasks();
+        }
+    }
+
+    public void onSuccessGenerated() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(
+                Objects.requireNonNull(player.getLocation()), 
+                Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
+                1, 
+                1
+            );
+        }
+
+        Bukkit.broadcastMessage(General.setColor(
+            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+        ));
+    }
+
+    public void onSuccessDeath(Player killer) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(
+                Objects.requireNonNull(player.getLocation()), 
+                Sound.ENTITY_SKELETON_HORSE_DEATH, 
+                1, 
+                1
+            );
+        }
+
+        if (killer != null) {
+            Bukkit.broadcastMessage(General.setColor(
+                "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
+            ));
+        } else {
+            Bukkit.broadcastMessage(General.setColor(
+                "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
+            ));
         }
     }
 

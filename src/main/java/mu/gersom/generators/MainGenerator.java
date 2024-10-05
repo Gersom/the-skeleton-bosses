@@ -16,8 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import mu.gersom.MuMc;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
 
 /**
  *
@@ -78,9 +76,8 @@ public class MainGenerator {
             skeletonEmperor = new SkeletonEmperor(plugin);
             skeletonEmperor.generateSkeletonEmperor(world, location);
             plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
-            Bukkit.broadcastMessage(General.setColor(
-                "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-            ));
+
+            plugin.getMainMobs().getSkeletonEmperor().onSuccessGenerated();
         }
     }
 
@@ -89,9 +86,8 @@ public class MainGenerator {
             skeletonKing = new SkeletonKing(plugin);
             skeletonKing.generateSkeletonKing(world, location);
             plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
-            Bukkit.broadcastMessage(General.setColor(
-                "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-            ));
+            
+            plugin.getMainMobs().getSkeletonKing().onSuccessGenerated();
         }
     }
 

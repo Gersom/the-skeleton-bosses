@@ -15,8 +15,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import mu.gersom.MuMc;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
 
 /**
  *
@@ -41,15 +39,10 @@ public class MainListeners implements Listener {
                 if (player.isOnline()) {
 
                     if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-                        ));
+                        plugin.getMainMobs().getSkeletonEmperor().onSuccessGenerated();
                     }
-
                     if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-                        ));
+                        plugin.getMainMobs().getSkeletonKing().onSuccessGenerated();
                     }
                 }
             }
@@ -77,16 +70,9 @@ public class MainListeners implements Listener {
                         } else {
                             plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
                         }
-
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
-                        ));
-                        // Aquí puedes agregar lógica adicional para recompensar al asesino
-                    } else {
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
-                        ));
                     }
+
+                    plugin.getMainMobs().getSkeletonEmperor().onSuccessDeath(killer);
                 }
             }
         }
@@ -96,6 +82,7 @@ public class MainListeners implements Listener {
                 if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(event.getEntity().getUniqueId())) {
                     Player killer = event.getEntity().getKiller();
                     plugin.getBossPersistenceManager().removeBossData("king");
+
                     if (killer != null) {
                         event.getDrops().clear(); // Clear default drops
                         event.setDroppedExp(plugin.getConfigs().getBossesKingExp());
@@ -108,16 +95,9 @@ public class MainListeners implements Listener {
                         } else {
                             plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
                         }
-
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
-                        ));
-
-                    } else {
-                        Bukkit.broadcastMessage(General.setColor(
-                            "&c" + Vars.prefix + "&d&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
-                        ));
                     }
+
+                    plugin.getMainMobs().getSkeletonKing().onSuccessDeath(killer);
                 }
             }
         }
