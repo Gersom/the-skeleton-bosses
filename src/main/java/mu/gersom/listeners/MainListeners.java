@@ -39,9 +39,18 @@ public class MainListeners implements Listener {
             @Override
             public void run() {
                 if (player.isOnline()) {
-                    player.sendMessage(General.setColor(
-                        "&6&l" + Vars.prefix + plugin.getConfigs().getWelcomeMessage()
-                    ));
+
+                    if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+                        ));
+                    }
+
+                    if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
+                        Bukkit.broadcastMessage(General.setColor(
+                            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonKing() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
+                        ));
+                    }
                 }
             }
         }.runTaskLater(plugin, 60L);
