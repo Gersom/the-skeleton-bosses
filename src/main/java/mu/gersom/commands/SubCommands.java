@@ -55,10 +55,15 @@ public class SubCommands {
 
     private void reloadConfig(CommandSender sender) {
         plugin.getConfigs().reloadConfig();
-        plugin.autoSpawnBosses();
-        if (!(plugin.getConfigs().getSpawnEnabled())) {
+
+        if (plugin.getMainMobs().getTaskAutoSpawn() != null) {
             plugin.getMainMobs().getTaskAutoSpawn().cancel();
         }
+
+        if (plugin.getConfigs().getSpawnEnabled()) {
+            plugin.autoSpawnBosses();
+        }
+
         sender.sendMessage(General.setColor("&a" + Vars.prefix + plugin.getConfigs().getReloadText()));
     }
 

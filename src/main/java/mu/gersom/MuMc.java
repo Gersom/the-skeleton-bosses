@@ -48,7 +48,7 @@ public class MuMc extends JavaPlugin {
             "&a" + Vars.prefix + "&a&l> " + configs.getMsgPluginEnabled()
         );
         Console.printBlankLine();
-        Console.printFooter();
+        Console.printFooter(getConfigs().getLanguage());
         Console.printBlankLine();
         Console.sendMessage(General.generateSeparator());
 
@@ -64,7 +64,7 @@ public class MuMc extends JavaPlugin {
                 "&c" + Vars.prefix + "&c&l> " + configs.getMsgPluginDisabled()
             );
             Console.printBlankLine();
-            Console.printFooter();
+            Console.printFooter(getConfigs().getLanguage());
             Console.printBlankLine();
             Console.sendMessage(General.generateSeparator());
         }
