@@ -1,4 +1,4 @@
-package mu.gersom;
+package gersom;
 
 import java.util.Objects;
 
@@ -6,17 +6,17 @@ import org.bukkit.Location;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mu.gersom.commands.MainCommand;
-import mu.gersom.commands.MainTabCompleter;
-import mu.gersom.config.BossPersistenceManager;
-import mu.gersom.config.MainConfigManager;
-import mu.gersom.generators.MainGenerator;
-import mu.gersom.listeners.MainListeners;
-import mu.gersom.utils.Console;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
+import gersom.commands.MainCommand;
+import gersom.commands.MainTabCompleter;
+import gersom.config.BossPersistenceManager;
+import gersom.config.MainConfigManager;
+import gersom.generators.MainGenerator;
+import gersom.listeners.MainListeners;
+import gersom.utils.Console;
+import gersom.utils.General;
+import gersom.utils.Vars;
 
-public class MuMc extends JavaPlugin {
+public class TSB extends JavaPlugin {
 
     private MainConfigManager configs;
     private MainGenerator mainMobs;
@@ -73,7 +73,7 @@ public class MuMc extends JavaPlugin {
     public void registerCommands() {
         MainCommand mainCommand = new MainCommand(this);
         MainTabCompleter tabCompleter = new MainTabCompleter();
-        PluginCommand command = Objects.requireNonNull(this.getCommand("mumc"));
+        PluginCommand command = Objects.requireNonNull(this.getCommand("tsb"));
         command.setExecutor(mainCommand);
         command.setTabCompleter(tabCompleter);
     }

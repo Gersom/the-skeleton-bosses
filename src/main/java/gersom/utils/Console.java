@@ -1,4 +1,4 @@
-package mu.gersom.utils;
+package gersom.utils;
 
 import org.bukkit.Bukkit;
 

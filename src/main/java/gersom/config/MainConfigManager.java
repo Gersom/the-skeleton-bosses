@@ -1,15 +1,15 @@
-package mu.gersom.config;
+package gersom.config;
 
 import java.util.List;
 
-import mu.gersom.MuMc;
+import gersom.TSB;
 
 public class MainConfigManager {
     private final CustomConfig configFile;
     private LanguageManager languageManager;
-    private final MuMc plugin;
+    private final TSB plugin;
 
-    public MainConfigManager(MuMc plugin) {
+    public MainConfigManager(TSB plugin) {
         this.plugin = plugin;
         this.configFile = new CustomConfig("config.yml", null, plugin);
         this.configFile.registerConfig();

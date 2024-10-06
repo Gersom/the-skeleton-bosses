@@ -10,11 +10,11 @@
     </a>
 </p>
 
-# MuMc
+# THE SKELETON BOSSES
 
-## Welcome to MuMc!
+## Welcome to THE SKELETON BOSSES!
 
-This plugin allows you to recreate the dynamics of the classic game **Mu Online** in Minecraft.
+TSB introduces formidable skeleton bosses to your Minecraft world: the Skeleton Emperor and the Skeleton King. These powerful entities spawn automatically in designated areas, boasting enhanced attributes that set them apart from ordinary skeletons. Defeat these challenging foes to claim unique and valuable loot, adding an exciting new dimension to your gameplay experience.
 
 ## Features
 
@@ -69,23 +69,23 @@ MUMC/
 
 ## Commands
 
-### /mumc spawn [emperor|king]
+### /tsb spawn [emperor|king]
 
 Spawns a specific boss at the player's location.
 
-### /mumc reload
+### /tsb reload
 
 Reloads the plugin configuration.
 
-### /mumc author
+### /tsb author
 
 Shows information about the plugin author.
 
-### /mumc version
+### /tsb version
 
 Displays the current version of the plugin.
 
-### /mumc help
+### /tsb help
 
 Shows the list of available commands.
 

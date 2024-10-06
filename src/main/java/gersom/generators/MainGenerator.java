@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mu.gersom.generators;
+package gersom.generators;
 
 import java.util.Random;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import mu.gersom.MuMc;
+import gersom.TSB;
 
 /**
  *
@@ -24,11 +24,11 @@ import mu.gersom.MuMc;
 public class MainGenerator {
     private SkeletonEmperor skeletonEmperor;
     private SkeletonKing skeletonKing;
-    private final MuMc plugin;
+    private final TSB plugin;
     private final Random random = new Random();
     private BukkitTask taskAutoSpawn;
 
-    public MainGenerator(MuMc plugin) {
+    public MainGenerator(TSB plugin) {
         this.plugin = plugin;
         loadExistingBosses();
     }

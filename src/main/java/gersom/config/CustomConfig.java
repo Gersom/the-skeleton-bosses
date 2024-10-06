@@ -1,4 +1,4 @@
-package mu.gersom.config;
+package gersom.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +12,16 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import mu.gersom.MuMc;
+import gersom.TSB;
 
 public class CustomConfig {
-    private final MuMc plugin;
+    private final TSB plugin;
     private final String fileName;
     private FileConfiguration fileConfiguration = null;
     private File file = null;
     private final String folderName;
 
-    public CustomConfig(String fileName, String folderName, MuMc plugin) {
+    public CustomConfig(String fileName, String folderName, TSB plugin) {
         this.fileName = fileName;
         this.folderName = folderName;
         this.plugin = plugin;

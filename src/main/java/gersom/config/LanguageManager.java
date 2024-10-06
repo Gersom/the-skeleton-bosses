@@ -1,18 +1,18 @@
-package mu.gersom.config;
+package gersom.config;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import mu.gersom.MuMc;
-import mu.gersom.utils.Console;
+import gersom.TSB;
+import gersom.utils.Console;
 
 public class LanguageManager {
-    private final MuMc plugin;
+    private final TSB plugin;
     private CustomConfig langConfig;
     private static final List<String> SUPPORTED_LANGUAGES = Arrays.asList("en", "es", "other");
 
-    public LanguageManager(MuMc plugin) {
+    public LanguageManager(TSB plugin) {
         this.plugin = plugin;
         createLanguageFiles();
         loadLanguageConfig();

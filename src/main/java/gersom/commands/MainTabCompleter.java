@@ -1,4 +1,4 @@
-package mu.gersom.commands;
+package gersom.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class MainTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
-        if (sender.hasPermission("mumc.use")) {
+        if (sender.hasPermission("the-skeleton-bosses.use")) {
             if (args.length == 1) {
                 // Main commands
                 completions.add("help");

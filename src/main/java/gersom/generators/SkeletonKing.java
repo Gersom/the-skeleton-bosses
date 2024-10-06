@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mu.gersom.generators;
+package gersom.generators;
 
 import java.util.Objects;
 import java.util.Random;
@@ -32,9 +32,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import mu.gersom.MuMc;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
+import gersom.TSB;
+import gersom.utils.General;
+import gersom.utils.Vars;
  
  /**
   *
@@ -42,14 +42,14 @@ import mu.gersom.utils.Vars;
   */
 public class SkeletonKing {
     private UUID skeletonKingID = null;
-    private final MuMc plugin;
+    private final TSB plugin;
     private final Random random = new Random();
     private BossBar bossBar;
     private WitherSkeleton skeletonKing;
     private BukkitTask taskBossBar;
     private BukkitTask taskParticles;
 
-    public SkeletonKing(MuMc plugin) {
+    public SkeletonKing(TSB plugin) {
         this.plugin = plugin;
     }
 

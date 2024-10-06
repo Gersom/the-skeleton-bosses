@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mu.gersom.utils;
+package gersom.utils;
 
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class Vars {
     public static String version;
     public static String name;
+    public static String title;
     public static String prefix;
     public static String author;
 
@@ -21,6 +22,6 @@ public class Vars {
         name = plugin.getName();
         version = plugin.getVersion();
         author = String.join(", ", plugin.getAuthors());
-        prefix = "[" + name + "] ";
+        prefix = "[TSB] ";
     }
 }

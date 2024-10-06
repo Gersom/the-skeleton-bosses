@@ -10,11 +10,11 @@
     </a>
 </p>
 
-# MuMc
+# THE SKELETON BOSSES
 
-## ¡Bienvenido a MuMc!
+## ¡Bienvenido a Los Jefes de Esqueleto!
 
-Este plugin te permite recrear las dinámicas del clásico juego **Mu Online** en Minecraft.
+TSB presenta formidables jefes esqueletos en tu mundo de Minecraft: el Emperador Esqueleto y el Rey Esqueleto. Estas poderosas entidades aparecen automáticamente en áreas designadas y cuentan con atributos mejorados que las distinguen de los esqueletos comunes. Derrota a estos desafiantes enemigos para obtener un botín único y valioso, lo que agregará una nueva y emocionante dimensión a tu experiencia de juego.
 
 ## Características
 
@@ -69,23 +69,23 @@ MUMC/
 
 ## Comandos
 
-### /mumc spawn [emperor|king]
+### /tsb spawn [emperor|king]
 
 Genera un boss específico en la ubicación del jugador.
 
-### /mumc reload
+### /tsb reload
 
 Recarga la configuración del plugin.
 
-### /mumc author
+### /tsb author
 
 Muestra información sobre el autor del plugin.
 
-### /mumc version
+### /tsb version
 
 Muestra la versión actual del plugin.
 
-### /mumc help
+### /tsb help
 
 Muestra la lista de comandos disponibles.
 

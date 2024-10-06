@@ -4,10 +4,11 @@ messages:
     enabled: "plugin has been enabled!"
     disabled: "plugin has been disabled!"
   about:
-    welcome: "Welcome"
+    welcome: "Welcome to Skeleton Bosses!"
     description: 
-      - "This plugin allows you to recreate"
-      - "the dynamics of the classic game &e&lMu Online"
+      - "TSB introduces formidable skeleton bosses to your Minecraft world: &6&lthe Skeleton Emperor and &dthe Skeleton King."
+      - "These powerful entities automatically appear around the designated area and boast enhanced attributes that distinguish them from common skeletons."
+      - "Defeat these challenging enemies to obtain unique and valuable loot, adding an exciting new dimension to your gaming experience."
   commands:
     list: "List of commands"
     player_only: "You can only use this command from within the game!"

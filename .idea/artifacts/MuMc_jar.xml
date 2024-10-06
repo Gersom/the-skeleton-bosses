@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="MuMc:jar">
-    <output-path>$USER_HOME$/Desktop/mc/paper-pruebas/plugins</output-path>
-    <root id="archive" name="MuMc.jar">
-      <element id="module-output" name="MuMc" />
-    </root>
-  </artifact>
-</component>

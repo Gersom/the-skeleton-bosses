@@ -4,10 +4,11 @@ messages:
     enabled: "¡El plugin ha sido habilitado!"
     disabled: "¡El plugin ha sido deshabilitado!"
   about:
-    welcome: "¡Bienvenido!"
-    description: 
-      - "Este plugin te permite recrear"
-      - "las dinamicas del clasico juego &e&lMu Online"
+    welcome: "¡Bienvenido a Los Jefes de Esqueleto!"
+    description:
+      - "TSB presenta formidables jefes esqueletos en tu mundo de Minecraft: &6&lel Esqueleto Emperador y &del Rey Esqueleto."
+      - "Estas poderosas entidades aparecen automáticamente alrededor del área designada y cuentan con atributos mejorados que las distinguen de los esqueletos comunes."
+      - "Derrota a estos desafiantes enemigos para obtener un botín único y valioso, lo que agregará una nueva y emocionante dimensión a tu experiencia de juego."
   commands:
     list: "Listado de comandos"
     player_only: "¡Solo puedes usar este comando desde el juego!"

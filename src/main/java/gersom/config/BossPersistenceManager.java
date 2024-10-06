@@ -1,4 +1,4 @@
-package mu.gersom.config;
+package gersom.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,16 +8,16 @@ import java.util.logging.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import mu.gersom.MuMc;
-import mu.gersom.utils.Console;
-import mu.gersom.utils.Vars;
+import gersom.TSB;
+import gersom.utils.Console;
+import gersom.utils.Vars;
 
 public class BossPersistenceManager {
-    private final MuMc plugin;
+    private final TSB plugin;
     private final File dataFile;
     private FileConfiguration dataConfig;
 
-    public BossPersistenceManager(MuMc plugin) {
+    public BossPersistenceManager(TSB plugin) {
         this.plugin = plugin;
         createDataFolder();
         this.dataFile = new File(plugin.getDataFolder() + File.separator + "data", "bosses_data.yml");

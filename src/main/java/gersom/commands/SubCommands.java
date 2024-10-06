@@ -1,17 +1,17 @@
-package mu.gersom.commands;
+package gersom.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mu.gersom.MuMc;
-import mu.gersom.utils.Console;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
+import gersom.TSB;
+import gersom.utils.Console;
+import gersom.utils.General;
+import gersom.utils.Vars;
 
 public class SubCommands {
-    private final MuMc plugin;
+    private final TSB plugin;
 
-    public SubCommands(MuMc plugin) {
+    public SubCommands(TSB plugin) {
         this.plugin = plugin;
     }
 
@@ -45,10 +45,10 @@ public class SubCommands {
         sender.sendMessage(General.generateTextFrame(Vars.name));
         sender.sendMessage("");
         sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getListCommands() + ":"));
-        sender.sendMessage(General.setColor("  &6/mumc spawn [emperor, king]"));
-        sender.sendMessage(General.setColor("  &6/mumc reload"));
-        sender.sendMessage(General.setColor("  &6/mumc author"));
-        sender.sendMessage(General.setColor("  &6/mumc version"));
+        sender.sendMessage(General.setColor("  &6/tsb spawn [emperor, king]"));
+        sender.sendMessage(General.setColor("  &6/tsb reload"));
+        sender.sendMessage(General.setColor("  &6/tsb author"));
+        sender.sendMessage(General.setColor("  &6/tsb version"));
         sender.sendMessage("");
         sender.sendMessage(General.generateSeparator());
     }
@@ -82,7 +82,7 @@ public class SubCommands {
     public void showHelpText(CommandSender sender) {
         sender.sendMessage("");
         sender.sendMessage(General.setColor("* " + plugin.getConfigs().getHelpText()));
-        sender.sendMessage(General.setColor("  &6/mumc help"));
+        sender.sendMessage(General.setColor("  &6/tsb help"));
     }
 
     public void showAboutText(CommandSender sender, String playerName) {

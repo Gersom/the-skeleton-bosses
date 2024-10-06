@@ -7,7 +7,7 @@ messages:
     welcome: ""
     description: 
       - ""
-      - " &e&lMu Online"
+      - ""
   commands:
     player_only: ""
     list: ""

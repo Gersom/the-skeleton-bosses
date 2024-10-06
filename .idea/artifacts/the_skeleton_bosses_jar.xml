@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="the-skeleton-bosses:jar">
+    <output-path>$USER_HOME$/Desktop/mc/paper-pruebas/plugins</output-path>
+    <root id="archive" name="TheSkeletonBosses.jar">
+      <element id="module-output" name="the-skeleton-bosses" />
+    </root>
+  </artifact>
+</component>

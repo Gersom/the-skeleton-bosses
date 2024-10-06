@@ -1,19 +1,19 @@
-package mu.gersom.commands;
+package gersom.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mu.gersom.MuMc;
-import mu.gersom.utils.General;
-import mu.gersom.utils.Vars;
+import gersom.TSB;
+import gersom.utils.General;
+import gersom.utils.Vars;
 
 public class MainCommand implements CommandExecutor {
-    private final MuMc plugin;
+    private final TSB plugin;
     private final SubCommands subCommands;
 
-    public MainCommand(MuMc plugin) {
+    public MainCommand(TSB plugin) {
         this.plugin = plugin;
         this.subCommands = new SubCommands(plugin);
     }
@@ -43,7 +43,7 @@ public class MainCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (player.hasPermission("mumc.use")) {
+        if (player.hasPermission("the-skeleton-bosses.use")) {
             // no existe argumentos
             if (args.length == 0) {
                 subCommands.showAboutText(sender, player.getName());

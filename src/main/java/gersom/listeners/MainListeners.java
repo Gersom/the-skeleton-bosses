@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mu.gersom.listeners;
+package gersom.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import mu.gersom.MuMc;
+import gersom.TSB;
 
 /**
  *
@@ -22,9 +22,9 @@ import mu.gersom.MuMc;
  */
 public class MainListeners implements Listener {
 
-    private final MuMc plugin;
+    private final TSB plugin;
 
-    public MainListeners(MuMc plugin) {
+    public MainListeners(TSB plugin) {
         this.plugin = plugin;
     }
 
