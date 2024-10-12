@@ -61,17 +61,40 @@ public class MainConfigManager {
         return configFile.getInt("spawn.location.x", 0);
     }
     public int getSpawnLocationY() {
-        return configFile.getInt("spawn.location.y", 150);
+        // This field is irrelevant, 
+        // it is only there as a reference to generate
+        // the Location variable, since position «y» 
+        // will be the highest non-empty coordinate (impassable).
+        return 150;
     }
     public int getSpawnLocationZ() {
         return configFile.getInt("spawn.location.z", 0);
     }
+
+    // BOSSES
     public double  getSpawnKingPercentage() {
-        double kpercentage = configFile.getInt("spawn.king_percentage", 50);
+        double kpercentage = configFile.getInt("bosses.skeleton_king.percentage", 50);
         return kpercentage / 100;
     }
     public double  getSpawnEmperorPercentage() {
         return 1 - getSpawnKingPercentage();
+    }
+    // Experience of the bosses
+    public int getBossesKingExp() {
+        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
+    }
+    public int getBossesEmperorExp() {
+        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
+    }
+    // Command of the bosses
+    public Boolean getBossesCommandEnabled() {
+        return configFile.getBoolean("commands_after_death", false);
+    }
+    public String getBossesKingCommand() {
+        return configFile.getString("bosses.skeleton_king.command", "me killed the king");
+    }
+    public String getBossesEmperorCommand() {
+        return configFile.getString("bosses.skeleton_emperor.command", "me killed the emperor");
     }
 
     // Delegate message methods to LanguageManager
@@ -111,31 +134,13 @@ public class MainConfigManager {
         return languageManager.getNotPermission();
     }
     
+    // BOSSES MESSAGES LANGUAGE
     // Name of the bosses
     public String getBossSkeletonEmperor() {
         return languageManager.getBossSkeletonEmperor();
     }
     public String getBossSkeletonKing() {
         return languageManager.getBossSkeletonKing();
-    }
-
-    // Experience of the bosses
-    public int getBossesKingExp() {
-        return configFile.getInt("bosses.king_experience", 350);
-    }
-    public int getBossesEmperorExp() {
-        return configFile.getInt("bosses.emperor_experience", 250);
-    }
-
-    // Command of the bosses
-    public Boolean getBossesCommandEnabled() {
-        return configFile.getBoolean("bosses.commands_after_death", false);
-    }
-    public String getBossesKingCommand() {
-        return configFile.getString("bosses.king_command", "me killed the king");
-    }
-    public String getBossesEmperorCommand() {
-        return configFile.getString("bosses.emperor_command", "me killed the emperor");
     }
     
     // Messages of the bosses

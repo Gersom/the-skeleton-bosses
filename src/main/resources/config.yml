@@ -1,36 +1,55 @@
 # Prefix of the plugin
-prefix: "[TSB] "
+prefix: "[TheSkeletonBosses] "
 
+# check in the /lang folder
 # Plugin language [en, es, other]
 language: "en"
 
 spawn:
   enabled: false
+
   # Name of the world where mobs will spawn
   world: "world"
-  # Time interval for mob spawning (1d = 1440 minutes)
+
+  # Time interval for mob spawning (1d = 1440 minutes, 1minute = 1 interval) 
   interval: 1440
-  # Mob spawning radius range
+
+  # Mob spawning radius
+  # Requeried: min_radius < max_radius
   min_radius: 0
   max_radius: 10
-  # Percentage of mobs that will spawn
+
+  # Percentage of all bosses that will spawn
   chance: 100
+
   # Reference position for mob spawning
   location:
-    x: -80
-    z: 277
-  # Percentage of King spawns
-  king_percentage: 50
-  # Percentage of Emperor spawns
-  # emperor_percentage = (100%) - (king_percentage)
+    x: -74
+    z: 296
+
+# If commands_after_death is enabled, the default custom items will not drop, instead the command will be executed.
+# In both cases it will drop the experience.
+commands_after_death: false
 
 bosses:
-  king_experience: 350
-  emperor_experience: 250
-  # If enabled it will not drop items by default, 
-  # only the command will be executed,
-  # you can add {player_killed} to the command
-  # to refer to the player who killed the boss
-  commands_after_death: false
-  king_command: "give {player_killed} minecraft:diamond 3"
-  emperor_command: "give {player_killed} minecraft:diamond 3"
+  skeleton_king:
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 350
+
+    # Appearance percentage relative to other bosses
+    percentage: 50
+
+    # you can add {player_killed} to the command
+    # to refer to the player who killed the boss
+    command: "giftbox give SkeletonKingEs {player_killed}"
+
+  skeleton_emperor:
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 300
+
+    # Appearance percentage relative to other bosses
+    # percentage = (100%) - (skeleton_king.percentage)
+
+    # you can add {player_killed} to the command
+    # to refer to the player who killed the boss
+    command: "giftbox give SkeletonEmperorEs {player_killed}"
