@@ -7,9 +7,10 @@ spawn:
   world: "world"
   # Time interval for mob spawning (1d = 1440 minutes)
   interval: 1440
-  # Mob spawning radius
-  radius: 10
-  # Mob spawn chance
+  # Mob spawning radius range
+  min_radius: 0
+  max_radius: 10
+  # Percentage of mobs that will spawn
   chance: 100
   # Reference position for mob spawning
   location:

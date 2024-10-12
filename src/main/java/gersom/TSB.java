@@ -88,7 +88,8 @@ public class TSB extends JavaPlugin {
                     getConfigs().getSpawnLocationY(), 
                     getConfigs().getSpawnLocationZ()
                 ), 
-                getConfigs().getSpawnRadius(), 
+                getConfigs().getSpawnMinRadius(),
+                getConfigs().getSpawnMaxRadius(),
                 20 * 60 * getConfigs().getSpawnInterval()
             );
         }

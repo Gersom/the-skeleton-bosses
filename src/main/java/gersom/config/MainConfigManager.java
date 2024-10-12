@@ -44,8 +44,11 @@ public class MainConfigManager {
     public int getSpawnInterval() {
         return configFile.getInt("spawn.interval", 20);
     }
-    public int getSpawnRadius() {
-        return configFile.getInt("spawn.radius", 10);
+    public int getSpawnMinRadius() {
+        return configFile.getInt("spawn.min_radius", 0);
+    }
+    public int getSpawnMaxRadius() {
+        return configFile.getInt("spawn.max_radius", 10);
     }
     public double getSpawnChance() {
         return configFile.getInt("spawn.chance", 100) / 100;

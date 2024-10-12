@@ -91,13 +91,13 @@ public class MainGenerator {
         }
     }
 
-    public void startAutoSpawnBoss(World world, Location center, int radius, long interval) {
+    public void startAutoSpawnBoss(World world, Location center, int minRadius, int maxRadius, long interval) {
         this.taskAutoSpawn = new BukkitRunnable() {
             @Override
             public void run() {
                 if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
                     (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null)) {
-                    Location spawnLocation = getRandomLocation(world, center, radius);
+                    Location spawnLocation = getRandomLocation(world, center, minRadius, maxRadius);
 
                     Double chance = random.nextDouble();
                     if (chance < plugin.getConfigs().getSpawnChance()) {
@@ -116,9 +116,9 @@ public class MainGenerator {
         }.runTaskTimer(plugin, 0L, interval);
     }
 
-    private Location getRandomLocation(World world, Location center, int radius) {
+    private Location getRandomLocation(World world, Location center, int minRadius, int maxRadius) {
         double angle = random.nextDouble() * 2 * Math.PI;
-        double distance = random.nextDouble() * radius;
+        double distance = minRadius + random.nextDouble() * (maxRadius - minRadius);
         int x = (int) (center.getX() + distance * Math.cos(angle));
         int z = (int) (center.getZ() + distance * Math.sin(angle));
         int y = world.getHighestBlockYAt(x, z) + 1;
