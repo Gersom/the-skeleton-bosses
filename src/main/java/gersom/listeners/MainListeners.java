@@ -31,18 +31,23 @@ public class MainListeners implements Listener {
     // Evento de entrada en el juego
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
         new BukkitRunnable() {
             @Override
             public void run() {
+                Player player = event.getPlayer();
                 if (player.isOnline()) {
 
                     if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
-                        plugin.getMainMobs().getSkeletonEmperor().onSuccessGenerated();
+                        plugin.getMainMobs().onSuccessGenerated(
+                            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity(),
+                            "&6&l" + plugin.getConfigs().getBossSkeletonEmperor()
+                        );
                     }
                     if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
-                        plugin.getMainMobs().getSkeletonKing().onSuccessGenerated();
+                        plugin.getMainMobs().onSuccessGenerated(
+                            plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity(),
+                            "&d&l" + plugin.getConfigs().getBossSkeletonKing()
+                        );
                     }
                 }
             }
@@ -58,21 +63,22 @@ public class MainListeners implements Listener {
                     plugin.getBossPersistenceManager().removeBossData("emperor");
                     Player killer = event.getEntity().getKiller();
 
-                    if (killer != null) {
-                        event.getDrops().clear(); // Clear default drops
-                        event.setDroppedExp(plugin.getConfigs().getBossesEmperorExp());
+                    event.getDrops().clear(); // Clear default drops
+                    event.setDroppedExp(plugin.getConfigs().getBossesEmperorExp());
 
+                    if (killer != null) {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
                                 plugin.getConfigs().getBossesEmperorCommand().replace("{player_killed}", killer.getName())
                             );
                         } else {
-                            plugin.getMainMobs().getSkeletonEmperor().onSkeletonEmperorDeath(event);
+                            plugin.getMainMobs().getSkeletonEmperor().generateDrops(event);
                         }
                     }
 
-                    plugin.getMainMobs().getSkeletonEmperor().onSuccessDeath(killer);
+                    plugin.getMainMobs().getSkeletonEmperor().cleanUp();
+                    plugin.getMainMobs().onSuccessDeath("&6&l" + plugin.getConfigs().getBossSkeletonEmperor(), killer);
                 }
             }
         }
@@ -83,21 +89,22 @@ public class MainListeners implements Listener {
                     Player killer = event.getEntity().getKiller();
                     plugin.getBossPersistenceManager().removeBossData("king");
 
-                    if (killer != null) {
-                        event.getDrops().clear(); // Clear default drops
-                        event.setDroppedExp(plugin.getConfigs().getBossesKingExp());
+                    event.getDrops().clear(); // Clear default drops
+                    event.setDroppedExp(plugin.getConfigs().getBossesKingExp());
 
+                    if (killer != null) {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
                                 plugin.getConfigs().getBossesKingCommand().replace("{player_killed}", killer.getName())
                             );
                         } else {
-                            plugin.getMainMobs().getSkeletonKing().onSkeletonKingDeath(event);
+                            plugin.getMainMobs().getSkeletonKing().generateDrops(event);
                         }
                     }
 
-                    plugin.getMainMobs().getSkeletonKing().onSuccessDeath(killer);
+                    plugin.getMainMobs().getSkeletonKing().cleanUp();
+                    plugin.getMainMobs().onSuccessDeath("&d&l" + plugin.getConfigs().getBossSkeletonKing(), killer);
                 }
             }
         }

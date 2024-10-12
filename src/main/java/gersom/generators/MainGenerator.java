@@ -5,17 +5,22 @@
 
 package gersom.generators;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import gersom.TSB;
+import gersom.utils.General;
+import gersom.utils.Vars;
 
 /**
  *
@@ -70,6 +75,53 @@ public class MainGenerator {
         }
         return null;
     }
+
+    public void onSuccessGenerated(Entity entity, String bossName) {
+        Location spawnLocation = entity.getLocation();
+        String coords = String.format("(%.0f, %.0f, %.0f)", 
+                                      spawnLocation.getX(), 
+                                      spawnLocation.getY(), 
+                                      spawnLocation.getZ());
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(
+                Objects.requireNonNull(player.getLocation()), 
+                Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
+                1, 
+                1
+            );
+        }
+
+        Bukkit.broadcastMessage(General.setColor(
+            "&a" + Vars.prefix + bossName + 
+            " &r&a" + plugin.getConfigs().getBossMessageSpawn() + 
+            " &7coords: &e" + coords
+        ));
+    }
+
+    public void onSuccessDeath(String bossName, Player killer) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(
+                Objects.requireNonNull(player.getLocation()), 
+                Sound.ENTITY_SKELETON_HORSE_DEATH, 
+                1, 
+                1
+            );
+        }
+
+        if (killer != null) {
+            Bukkit.broadcastMessage(General.setColor(
+                "&c" + Vars.prefix + bossName + 
+                " &r&c" + plugin.getConfigs().getBossMessageKilled() + 
+                " &l&n" + killer.getName()
+            ));
+        } else {
+            Bukkit.broadcastMessage(General.setColor(
+                "&c" + Vars.prefix + bossName + 
+                " &r&c" + plugin.getConfigs().getBossMessageDeath()
+            ));
+        }
+    }
     
     public void generateEmperor(World world, Location location) {
         if (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null) {
@@ -77,7 +129,9 @@ public class MainGenerator {
             skeletonEmperor.generateSkeletonEmperor(world, location);
             plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
 
-            plugin.getMainMobs().getSkeletonEmperor().onSuccessGenerated();
+            onSuccessGenerated(skeletonEmperor.getSkeletonEmperorEntity(), 
+                               "&6&l" + plugin.getConfigs().getBossSkeletonEmperor()
+                               );
         }
     }
 
@@ -87,7 +141,9 @@ public class MainGenerator {
             skeletonKing.generateSkeletonKing(world, location);
             plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
             
-            plugin.getMainMobs().getSkeletonKing().onSuccessGenerated();
+            onSuccessGenerated(skeletonKing.getSkeletonKingEntity(),
+                               "&d&l" + plugin.getConfigs().getBossSkeletonKing()
+                               );
         }
     }
 

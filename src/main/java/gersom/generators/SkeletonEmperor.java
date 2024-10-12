@@ -5,7 +5,6 @@
 
 package gersom.generators;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
@@ -34,7 +32,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import gersom.TSB;
 import gersom.utils.General;
-import gersom.utils.Vars;
 
 /**
  *
@@ -122,7 +119,7 @@ public class SkeletonEmperor {
         createTaskBossBar();
     }
 
-    public void onSkeletonEmperorDeath(EntityDeathEvent event) {
+    public void generateDrops(EntityDeathEvent event) {
         double dropChance = random.nextDouble();
         
         if (dropChance < 0.33) {
@@ -159,8 +156,6 @@ public class SkeletonEmperor {
             helmet.setItemMeta(helmetMeta);
             event.getDrops().add(helmet);
         }
-
-        cleanUp();
     }
 
     public void recreateBossBar(Entity entity) {
@@ -174,45 +169,13 @@ public class SkeletonEmperor {
         }
     }
 
-    public void onSuccessGenerated() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(
-                Objects.requireNonNull(player.getLocation()), 
-                Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
-                1, 
-                1
-            );
-        }
-
-        Bukkit.broadcastMessage(General.setColor(
-            "&a" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&a" + plugin.getConfigs().getBossMessageSpawn()
-        ));
-    }
-
-    public void onSuccessDeath(Player killer) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(
-                Objects.requireNonNull(player.getLocation()), 
-                Sound.ENTITY_SKELETON_HORSE_DEATH, 
-                1, 
-                1
-            );
-        }
-
-        if (killer != null) {
-            Bukkit.broadcastMessage(General.setColor(
-                "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageKilled() + " &l&n" + killer.getName()
-            ));
-        } else {
-            Bukkit.broadcastMessage(General.setColor(
-                "&c" + Vars.prefix + "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " &r&c" + plugin.getConfigs().getBossMessageDeath()
-            ));
-        }
-    }
-
     // Método para obtener la ubicación actual del Skeleton King
     public Location getLocation() {
         return skeleton != null ? skeleton.getLocation() : null;
+    }
+
+    public Skeleton getSkeletonEmperorEntity() {
+        return this.skeleton;
     }
 
     public UUID getSkeletonEmperorID() {
@@ -296,7 +259,7 @@ public class SkeletonEmperor {
         }
     }
 
-    private void cleanUp() {
+    public void cleanUp() {
         if (taskBossBar != null) {
             taskBossBar.cancel();
             taskBossBar = null;
