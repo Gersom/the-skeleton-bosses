@@ -34,6 +34,10 @@ public class MainConfigManager {
         return configFile.getString("language", "en");
     }
 
+    public String getPrefix() {
+        return configFile.getString("prefix", "[TSB] ");
+    }
+
     // Spawn data
     public Boolean getSpawnEnabled() {
         return configFile.getBoolean("spawn.enabled", false);

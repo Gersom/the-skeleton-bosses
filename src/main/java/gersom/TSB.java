@@ -45,10 +45,10 @@ public class TSB extends JavaPlugin {
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
         Console.sendMessage(
-            "&a" + Vars.prefix + "&a&l> " + configs.getMsgPluginEnabled()
+            "&a" + configs.getPrefix() + "&a&l> " + configs.getMsgPluginEnabled()
         );
         Console.printBlankLine();
-        Console.printFooter(getConfigs().getLanguage());
+        Console.printFooter(getConfigs().getLanguage(), configs.getPrefix());
         Console.printBlankLine();
         Console.sendMessage(General.generateSeparator());
 
@@ -61,10 +61,10 @@ public class TSB extends JavaPlugin {
             Console.sendMessage(General.generateHeadFrame());
             Console.printBlankLine();
             Console.sendMessage(
-                "&c" + Vars.prefix + "&c&l> " + configs.getMsgPluginDisabled()
+                "&c" + configs.getPrefix() + "&c&l> " + configs.getMsgPluginDisabled()
             );
             Console.printBlankLine();
-            Console.printFooter(getConfigs().getLanguage());
+            Console.printFooter(getConfigs().getLanguage(), configs.getPrefix());
             Console.printBlankLine();
             Console.sendMessage(General.generateSeparator());
         }

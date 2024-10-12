@@ -15,13 +15,11 @@ public class Vars {
     public static String version;
     public static String name;
     public static String title;
-    public static String prefix;
     public static String author;
 
     public static void initialize(PluginDescriptionFile plugin) {
         name = plugin.getName();
         version = plugin.getVersion();
         author = String.join(", ", plugin.getAuthors());
-        prefix = "[TSB] ";
     }
 }

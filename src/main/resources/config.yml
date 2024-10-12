@@ -1,3 +1,6 @@
+# Prefix of the plugin
+prefix: "[TSB] "
+
 # Plugin language [en, es, other]
 language: "en"
 

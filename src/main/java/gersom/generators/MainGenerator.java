@@ -20,7 +20,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import gersom.TSB;
 import gersom.utils.General;
-import gersom.utils.Vars;
 
 /**
  *
@@ -93,7 +92,7 @@ public class MainGenerator {
         }
 
         Bukkit.broadcastMessage(General.setColor(
-            "&a" + Vars.prefix + bossName + 
+            "&a" + plugin.getConfigs().getPrefix() + bossName + 
             " &r&a" + plugin.getConfigs().getBossMessageSpawn() + 
             " &7coords: &e" + coords
         ));
@@ -111,13 +110,13 @@ public class MainGenerator {
 
         if (killer != null) {
             Bukkit.broadcastMessage(General.setColor(
-                "&c" + Vars.prefix + bossName + 
+                "&c" + plugin.getConfigs().getPrefix() + bossName + 
                 " &r&c" + plugin.getConfigs().getBossMessageKilled() + 
                 " &l&n" + killer.getName()
             ));
         } else {
             Bukkit.broadcastMessage(General.setColor(
-                "&c" + Vars.prefix + bossName + 
+                "&c" + plugin.getConfigs().getPrefix() + bossName + 
                 " &r&c" + plugin.getConfigs().getBossMessageDeath()
             ));
         }

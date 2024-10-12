@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 import gersom.TSB;
 import gersom.utils.General;
-import gersom.utils.Vars;
 
 public class MainCommand implements CommandExecutor {
     private final TSB plugin;
@@ -23,7 +22,7 @@ public class MainCommand implements CommandExecutor {
         // Si se ejecuta el comando desde la consola
         if (!(sender instanceof Player)) {
             // Console.sendMessage(General.setColor(
-            //     "&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand()
+            //     "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getPlayerOnlyCommand()
             // ));
 
             // no existe argumentos
@@ -59,7 +58,7 @@ public class MainCommand implements CommandExecutor {
 
         else {
             player.sendMessage(General.setColor(
-                "&c" + Vars.prefix + plugin.getConfigs().getNotPermission()
+                "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getNotPermission()
             ));
         }
 

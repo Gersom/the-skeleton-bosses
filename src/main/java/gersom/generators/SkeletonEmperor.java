@@ -5,6 +5,7 @@
 
 package gersom.generators;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -71,20 +72,20 @@ public class SkeletonEmperor {
 
         // Create and enchant golden helmet
         ItemStack goldenHelmet = new ItemStack(Material.GOLDEN_HELMET);
-        ItemMeta helmetMeta = goldenHelmet.getItemMeta();
+        ItemMeta helmetMeta = Objects.requireNonNull(goldenHelmet.getItemMeta());
         helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true); // Protection IV
         goldenHelmet.setItemMeta(helmetMeta);
 
         // Create elytra with Unbreaking III
         ItemStack elytra = new ItemStack(Material.ELYTRA);
-        ItemMeta elytraMeta = elytra.getItemMeta();
+        ItemMeta elytraMeta = Objects.requireNonNull(elytra.getItemMeta());
         elytraMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         elytra.setItemMeta(elytraMeta);
 
         // Create and enchant bow
         ItemStack bowCustom = new ItemStack(Material.BOW);
-        ItemMeta bowCustomMeta = bowCustom.getItemMeta();
+        ItemMeta bowCustomMeta = Objects.requireNonNull(bowCustom.getItemMeta());
         bowCustomMeta.addEnchant(Enchantment.MULTISHOT, 1, true); // Multishot
         bowCustomMeta.addEnchant(Enchantment.FLAME, 1, true); // Flame
         bowCustomMeta.addEnchant(Enchantment.POWER, 30, true); // Power V
@@ -125,7 +126,7 @@ public class SkeletonEmperor {
         if (dropChance < 0.33) {
             // 33% chance to drop bow with MULTISHOT and FLAME
             ItemStack bow = new ItemStack(Material.BOW);
-            ItemMeta bowMeta = bow.getItemMeta();
+            ItemMeta bowMeta = Objects.requireNonNull(bow.getItemMeta());
             bowMeta.setDisplayName(General.setColor(
                 "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
             ));
@@ -136,7 +137,7 @@ public class SkeletonEmperor {
         } else if (dropChance < 0.66) {
             // 33% chance to drop bow with INFINITY and UNBREAKING 3
             ItemStack bow = new ItemStack(Material.BOW);
-            ItemMeta bowMeta = bow.getItemMeta();
+            ItemMeta bowMeta = Objects.requireNonNull(bow.getItemMeta());
             bowMeta.setDisplayName(General.setColor(
                 "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
             ));
@@ -147,7 +148,7 @@ public class SkeletonEmperor {
         } else {
             // 33% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
-            ItemMeta helmetMeta = helmet.getItemMeta();
+            ItemMeta helmetMeta = Objects.requireNonNull(helmet.getItemMeta());
             helmetMeta.setDisplayName(General.setColor(
                 "&6&l" + plugin.getConfigs().getBossItemHelmet() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
             ));

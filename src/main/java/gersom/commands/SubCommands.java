@@ -36,7 +36,7 @@ public class SubCommands {
 
     public void showNotFoundCommandText(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&c" + Vars.prefix + plugin.getConfigs().getCommandNotFound()
+            "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getCommandNotFound()
         ));
         showHelpText(sender);
     }
@@ -64,18 +64,18 @@ public class SubCommands {
             plugin.autoSpawnBosses();
         }
 
-        sender.sendMessage(General.setColor("&a" + Vars.prefix + plugin.getConfigs().getReloadText()));
+        sender.sendMessage(General.setColor("&a" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getReloadText()));
     }
 
     private void showAuthor(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&b" + Vars.prefix + "Author: " + Vars.author
+            "&b" + plugin.getConfigs().getPrefix() + "Author: " + Vars.author
         ));
     }
 
     private void showVersion(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&b" + Vars.prefix + "Versión: " + Vars.version
+            "&b" + plugin.getConfigs().getPrefix() + "Versión: " + Vars.version
         ));
     }
 
@@ -101,7 +101,7 @@ public class SubCommands {
 
     private void spawnMobCustom(CommandSender sender, String[] arg) {
         if (!(sender instanceof Player)) {
-            Console.sendMessage("&c" + Vars.prefix + plugin.getConfigs().getPlayerOnlyCommand());
+            Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getPlayerOnlyCommand());
             return;
         }
 

@@ -5,6 +5,7 @@
 
 package gersom.generators;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -72,20 +73,20 @@ public class SkeletonKing {
 
         // Create and enchant golden helmet
         ItemStack goldenHelmet = new ItemStack(Material.GOLDEN_HELMET);
-        ItemMeta helmetMeta = goldenHelmet.getItemMeta();
+        ItemMeta helmetMeta = Objects.requireNonNull(goldenHelmet.getItemMeta());
         helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true); // Protection IV
         goldenHelmet.setItemMeta(helmetMeta);
 
         // Create elytra with Unbreaking III
         ItemStack elytra = new ItemStack(Material.ELYTRA);
-        ItemMeta elytraMeta = elytra.getItemMeta();
+        ItemMeta elytraMeta = Objects.requireNonNull(elytra.getItemMeta());
         elytraMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         elytra.setItemMeta(elytraMeta);
 
         // Create and enchant bow
         ItemStack swordCustom = new ItemStack(Material.NETHERITE_SWORD);
-        ItemMeta swordCustomMeta = swordCustom.getItemMeta();
+        ItemMeta swordCustomMeta = Objects.requireNonNull(swordCustom.getItemMeta());
         swordCustomMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         swordCustom.setItemMeta(swordCustomMeta);
 
@@ -121,7 +122,7 @@ public class SkeletonKing {
         if (dropChance < 0.33) {
             // 33% chance to drop NETHERITE_SWORD with SHARPNESS
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
-            ItemMeta swordMeta = sword.getItemMeta();
+            ItemMeta swordMeta = Objects.requireNonNull(sword.getItemMeta());
             swordMeta.setDisplayName(General.setColor(
                 "&d&l" + plugin.getConfigs().getBossItemSword() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")" 
             ));
@@ -131,7 +132,7 @@ public class SkeletonKing {
         } else if (dropChance < 0.66) {
             // 33% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
             ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
-            ItemMeta swordMeta = sword.getItemMeta();
+            ItemMeta swordMeta = Objects.requireNonNull(sword.getItemMeta());
             swordMeta.setDisplayName(General.setColor(
                 "&d&l" + plugin.getConfigs().getBossItemSword() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")"
             ));
@@ -141,7 +142,7 @@ public class SkeletonKing {
         } else {
             // 33% chance to drop golden helmet with UNBREAKING 3 and FIRE_PROTECTION 3
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
-            ItemMeta helmetMeta = helmet.getItemMeta();
+            ItemMeta helmetMeta = Objects.requireNonNull(helmet.getItemMeta());
             helmetMeta.setDisplayName(General.setColor(
                 "&d&l" + plugin.getConfigs().getBossItemHelmet() + " &r&d(" + plugin.getConfigs().getBossSkeletonKing() + ")"
             ));
@@ -152,6 +153,8 @@ public class SkeletonKing {
             event.getDrops().add(helmet);
         }
     }
+//     import java.util.Objects;
+// Objects.requireNonNull
 
     public void recreateBossBar(Entity entity) {
         if (entity instanceof WitherSkeleton witherSkeleton) {

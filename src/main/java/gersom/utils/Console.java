@@ -14,13 +14,13 @@ public class Console {
         Bukkit.getConsoleSender().sendMessage("");
     }
 
-    public static void printFooter(String lang) {    
+    public static void printFooter(String lang, String prefix) {    
         if (lang.equals("es")) {
-            sendMessage("&b" + Vars.prefix + "&lGracias por usar mi plugin <3");
-            sendMessage("&b" + Vars.prefix + "&lDesarrollador: &eGersom");
+            sendMessage("&b" + prefix + "&lGracias por usar mi plugin <3");
+            sendMessage("&b" + prefix + "&lDesarrollador: &eGersom");
         } else {
-            sendMessage("&b" + Vars.prefix + "&lThank you for using my plugin <3");
-            sendMessage("&b" + Vars.prefix + "&lDeveloper: &eGersom");
+            sendMessage("&b" + prefix + "&lThank you for using my plugin <3");
+            sendMessage("&b" + prefix + "&lDeveloper: &eGersom");
         }
     }
 }
