@@ -40,7 +40,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <outputDirectory>${project.basedir}/build</outputDirectory>
-                    <finalName>${project.name}-${project.version}</finalName>
+                    <finalName>${project.name}-v${project.version}</finalName>
                 </configuration>
             </plugin>
         </plugins>
