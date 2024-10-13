@@ -15,7 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.boss.BarColor;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
@@ -189,14 +189,46 @@ public class SkeletonEmperor {
 
     // Private methods
     private void createBossBar() {
-        // Recrear la BossBar
+        String title = plugin.getConfigs().getBossesEmperorBossbarTitle();
+        title = title.replace("{boss_name}", plugin.getConfigs().getBossSkeletonEmperor());
+        title = title.replace("{health}", "");
+        title = title.replace("{max_health}", "");
+        title = title.replace("{boss_color}", plugin.getConfigs().getBossSkeletonEmperorColor());
+
         bossBar = Bukkit.createBossBar(
-            General.setColor("&6&l" + plugin.getConfigs().getBossSkeletonEmperor()),
-            BarColor.YELLOW,
+            General.setColor(title),
+            General.generateBossBarColor(plugin.getConfigs().getBossesEmperorBossbarColor()),
             BarStyle.SOLID
         );
+
         bossBar.setProgress(1.0);
         bossBar.setVisible(true);
+    }
+
+    private void updateBossBar() {
+        if (skeleton == null || bossBar == null) return;
+
+        double health = skeleton.getHealth();
+        AttributeInstance attribute = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        double maxHealth = (attribute != null) ? attribute.getBaseValue() : 0.0;
+
+        String title = plugin.getConfigs().getBossesEmperorBossbarTitle();
+        title = title.replace("{boss_name}", plugin.getConfigs().getBossSkeletonEmperor());
+        title = title.replace("{health}", String.format("%.0f", health));
+        title = title.replace("{max_health}", String.format("%.0f", maxHealth));
+        title = title.replace("{boss_color}", plugin.getConfigs().getBossSkeletonEmperorColor());
+
+        bossBar.setTitle(General.setColor(title));
+        bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
+
+        Location loc = skeleton.getLocation();
+        for (Player player : loc.getWorld().getPlayers()) {
+            if (player.getLocation().distance(loc) <= 50 && player.getWorld() == loc.getWorld()) {
+                bossBar.addPlayer(player);
+            } else {
+                bossBar.removePlayer(player);
+            }
+        }
     }
 
     private void createTaskBossBar() {
@@ -238,26 +270,6 @@ public class SkeletonEmperor {
         createTaskPaticles();
         createTaskBossBar();
         
-    }
-
-    private void updateBossBar() {
-        if (skeleton == null || bossBar == null) return;
-
-        double health = skeleton.getHealth();
-        double maxHealth = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-        bossBar.setTitle(General.setColor(
-            "&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + " (" + (int) health + "/" + (int) maxHealth + ")❤"
-        ));
-        bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
-
-        Location loc = skeleton.getLocation();
-        for (Player player : loc.getWorld().getPlayers()) {
-            if (player.getLocation().distance(loc) <= 50 && player.getWorld() == loc.getWorld()) {
-                bossBar.addPlayer(player);
-            } else {
-                bossBar.removePlayer(player);
-            }
-        }
     }
 
     public void cleanUp() {

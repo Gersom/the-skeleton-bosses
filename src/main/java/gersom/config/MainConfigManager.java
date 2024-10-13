@@ -86,6 +86,26 @@ public class MainConfigManager {
     public int getBossesEmperorExp() {
         return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
     }
+    // Color Boss
+    public String getBossSkeletonKingColor() {
+        return configFile.getString("bosses.skeleton_king.color", "&d");
+    }
+    public String getBossSkeletonEmperorColor() {
+        return configFile.getString("bosses.skeleton_emperor.color", "&6");
+    }
+    // Bossbar messages
+    public String getBossesKingBossbarTitle() {
+        return configFile.getString("bosses.skeleton_king.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
+    }
+    public String getBossesKingBossbarColor() {
+        return configFile.getString("bosses.skeleton_king.bossbar.color", "PURPLE");
+    }
+    public String getBossesEmperorBossbarTitle() {
+        return configFile.getString("bosses.skeleton_emperor.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
+    }
+    public String getBossesEmperorBossbarColor() {
+        return configFile.getString("bosses.skeleton_emperor.bossbar.color", "YELLOW");
+    }
     // Command of the bosses
     public Boolean getBossesCommandEnabled() {
         return configFile.getBoolean("commands_after_death", false);

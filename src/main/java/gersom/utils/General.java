@@ -1,6 +1,7 @@
 package gersom.utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
 
 public class General {
     // Función para setear el color de un texto
@@ -23,4 +24,16 @@ public class General {
         return setColor("&b================================");
     }
 
+    public static BarColor generateBossBarColor(String color) {
+        return switch (color) {
+            case "BLUE" -> BarColor.BLUE;
+            case "GREEN" -> BarColor.GREEN;
+            case "PINK" -> BarColor.PINK;
+            case "PURPLE" -> BarColor.PURPLE;
+            case "RED" -> BarColor.RED;
+            case "WHITE" -> BarColor.WHITE;
+            case "YELLOW" -> BarColor.YELLOW;
+            default -> BarColor.PURPLE;
+        };
+    }
 }
