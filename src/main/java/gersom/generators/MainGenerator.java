@@ -93,7 +93,7 @@ public class MainGenerator {
 
         Bukkit.broadcastMessage(General.setColor(
             "&a" + plugin.getConfigs().getPrefix() + bossName + 
-            " &r&a" + plugin.getConfigs().getBossMessageSpawn() + 
+            " &r&a" + plugin.getConfigs().getLangBossesMsgSpawn() + 
             " &7coords: &e" + coords
         ));
     }
@@ -111,13 +111,13 @@ public class MainGenerator {
         if (killer != null) {
             Bukkit.broadcastMessage(General.setColor(
                 "&c" + plugin.getConfigs().getPrefix() + bossName + 
-                " &r&c" + plugin.getConfigs().getBossMessageKilled() + 
+                " &r&c" + plugin.getConfigs().getLangBossesMsgKilled() + 
                 " &l&n" + killer.getName()
             ));
         } else {
             Bukkit.broadcastMessage(General.setColor(
                 "&c" + plugin.getConfigs().getPrefix() + bossName + 
-                " &r&c" + plugin.getConfigs().getBossMessageDeath()
+                " &r&c" + plugin.getConfigs().getLangBossesMsgDeath()
             ));
         }
     }
@@ -129,7 +129,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
 
             onSuccessGenerated(skeletonEmperor.getSkeletonEmperorEntity(), 
-                               "&6&l" + plugin.getConfigs().getBossSkeletonEmperor()
+                               "&6&l" + plugin.getConfigs().getLangBossEmperorName()
                                );
         }
     }
@@ -141,7 +141,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
             
             onSuccessGenerated(skeletonKing.getSkeletonKingEntity(),
-                               "&d&l" + plugin.getConfigs().getBossSkeletonKing()
+                               "&d&l" + plugin.getConfigs().getLangBossKingName()
                                );
         }
     }
@@ -157,12 +157,12 @@ public class MainGenerator {
                     Double chance = random.nextDouble();
                     if (chance < plugin.getConfigs().getSpawnChance()) {
                         // chance for King
-                        if (chance < plugin.getConfigs().getSpawnKingPercentage()) {
+                        if (chance < plugin.getConfigs().getBossKingPercentage()) {
                             generateKing(world, spawnLocation);
                         } 
                         
                         // chance for Emperor
-                        else if (chance < (plugin.getConfigs().getSpawnKingPercentage() + plugin.getConfigs().getSpawnEmperorPercentage())) {
+                        else if (chance < plugin.getConfigs().getBossEmperorPercentage()) {
                             generateEmperor(world, spawnLocation);
                         }
                     }

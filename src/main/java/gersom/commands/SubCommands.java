@@ -36,7 +36,7 @@ public class SubCommands {
 
     public void showNotFoundCommandText(CommandSender sender) {
         sender.sendMessage(General.setColor(
-            "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getCommandNotFound()
+            "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandNotFound()
         ));
         showHelpText(sender);
     }
@@ -44,7 +44,7 @@ public class SubCommands {
     private void showListCommands(CommandSender sender) {
         sender.sendMessage(General.generateTextFrame(Vars.name));
         sender.sendMessage("");
-        sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getListCommands() + ":"));
+        sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getLangCommandsList() + ":"));
         sender.sendMessage(General.setColor("  &6/tsb spawn [emperor, king]"));
         sender.sendMessage(General.setColor("  &6/tsb reload"));
         sender.sendMessage(General.setColor("  &6/tsb author"));
@@ -64,7 +64,7 @@ public class SubCommands {
             plugin.autoSpawnBosses();
         }
 
-        sender.sendMessage(General.setColor("&a" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getReloadText()));
+        sender.sendMessage(General.setColor("&a" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandReload()));
     }
 
     private void showAuthor(CommandSender sender) {
@@ -81,7 +81,7 @@ public class SubCommands {
 
     public void showHelpText(CommandSender sender) {
         sender.sendMessage("");
-        sender.sendMessage(General.setColor("* " + plugin.getConfigs().getHelpText()));
+        sender.sendMessage(General.setColor("* " + plugin.getConfigs().getLangCommandHelpText()));
         sender.sendMessage(General.setColor("  &6/tsb help"));
     }
 
@@ -89,9 +89,9 @@ public class SubCommands {
         sender.sendMessage(General.generateTextFrame(Vars.name));
         sender.sendMessage("");
         sender.sendMessage(General.setColor(
-            "* " + plugin.getConfigs().getWelcomeMessage() + " &b&l" + playerName
+            "* " + plugin.getConfigs().getLangWelcome() + " &b&l" + playerName
         ));
-        for (String line : plugin.getConfigs().getDescriptionMessages()) {
+        for (String line : plugin.getConfigs().getLangDescription()) {
             sender.sendMessage(General.setColor("&7  " + line));
         }
         showHelpText(sender);
@@ -101,7 +101,7 @@ public class SubCommands {
 
     private void spawnMobCustom(CommandSender sender, String[] arg) {
         if (!(sender instanceof Player)) {
-            Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getPlayerOnlyCommand());
+            Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandPlayerOnly());
             return;
         }
 

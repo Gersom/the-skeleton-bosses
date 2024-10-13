@@ -45,7 +45,7 @@ public class TSB extends JavaPlugin {
         Console.sendMessage(General.generateHeadFrame());
         Console.printBlankLine();
         Console.sendMessage(
-            "&a" + configs.getPrefix() + "&a&l> " + configs.getMsgPluginEnabled()
+            "&a" + configs.getPrefix() + "&a&l> " + configs.getLangPluginEnabled()
         );
         Console.printBlankLine();
         Console.printFooter(getConfigs().getLanguage(), configs.getPrefix());
@@ -61,7 +61,7 @@ public class TSB extends JavaPlugin {
             Console.sendMessage(General.generateHeadFrame());
             Console.printBlankLine();
             Console.sendMessage(
-                "&c" + configs.getPrefix() + "&c&l> " + configs.getMsgPluginDisabled()
+                "&c" + configs.getPrefix() + "&c&l> " + configs.getLangPluginDisabled()
             );
             Console.printBlankLine();
             Console.printFooter(getConfigs().getLanguage(), configs.getPrefix());

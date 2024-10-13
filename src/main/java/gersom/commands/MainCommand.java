@@ -22,7 +22,7 @@ public class MainCommand implements CommandExecutor {
         // Si se ejecuta el comando desde la consola
         if (!(sender instanceof Player)) {
             // Console.sendMessage(General.setColor(
-            //     "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getPlayerOnlyCommand()
+            //     "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandPlayerOnly()
             // ));
 
             // no existe argumentos
@@ -58,7 +58,7 @@ public class MainCommand implements CommandExecutor {
 
         else {
             player.sendMessage(General.setColor(
-                "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getNotPermission()
+                "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandNotPermission()
             ));
         }
 

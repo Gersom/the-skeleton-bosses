@@ -72,117 +72,118 @@ public class MainConfigManager {
     }
 
     // BOSSES
-    public double  getSpawnKingPercentage() {
+    // Percentage of all bosses that will spawn
+    public double  getBossKingPercentage() {
         double kpercentage = configFile.getInt("bosses.skeleton_king.percentage", 50);
         return kpercentage / 100;
     }
-    public double  getSpawnEmperorPercentage() {
-        return 1 - getSpawnKingPercentage();
+    public double  getBossEmperorPercentage() {
+        return getBossKingPercentage() + (1 - getBossKingPercentage());
     }
     // Experience of the bosses
-    public int getBossesKingExp() {
+    public int getBossKingExp() {
         return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
     }
-    public int getBossesEmperorExp() {
+    public int getBossEmperorExp() {
         return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
     }
     // Color Boss
-    public String getBossSkeletonKingColor() {
+    public String getBossKingColor() {
         return configFile.getString("bosses.skeleton_king.color", "&d");
     }
-    public String getBossSkeletonEmperorColor() {
+    public String getBossEmperorColor() {
         return configFile.getString("bosses.skeleton_emperor.color", "&6");
     }
     // Bossbar messages
-    public String getBossesKingBossbarTitle() {
+    public String getBossKingBossbarTitle() {
         return configFile.getString("bosses.skeleton_king.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
     }
-    public String getBossesKingBossbarColor() {
+    public String getBossKingBossbarColor() {
         return configFile.getString("bosses.skeleton_king.bossbar.color", "PURPLE");
     }
-    public String getBossesEmperorBossbarTitle() {
+    public String getBossEmperorBossbarTitle() {
         return configFile.getString("bosses.skeleton_emperor.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
     }
-    public String getBossesEmperorBossbarColor() {
+    public String getBossEmperorBossbarColor() {
         return configFile.getString("bosses.skeleton_emperor.bossbar.color", "YELLOW");
     }
     // Command of the bosses
     public Boolean getBossesCommandEnabled() {
         return configFile.getBoolean("commands_after_death", false);
     }
-    public String getBossesKingCommand() {
+    public String getBossKingCommand() {
         return configFile.getString("bosses.skeleton_king.command", "me killed the king");
     }
-    public String getBossesEmperorCommand() {
+    public String getBossEmperorCommand() {
         return configFile.getString("bosses.skeleton_emperor.command", "me killed the emperor");
     }
 
     // Delegate message methods to LanguageManager
     // Plugin messages
-    public String getMsgPluginEnabled() {
-        return languageManager.getMsgPluginEnabled();
+    public String getLangPluginEnabled() {
+        return languageManager.getLangPluginEnabled();
     }
-    public String getMsgPluginDisabled() {
-        return languageManager.getMsgPluginDisabled();
+    public String getLangPluginDisabled() {
+        return languageManager.getLangPluginDisabled();
     }
 
     // About messages
-    public String getWelcomeMessage() {
-        return languageManager.getWelcomeMessage();
+    public String getLangWelcome() {
+        return languageManager.getLangWelcome();
     }
-    public List<String> getDescriptionMessages() {
-        return languageManager.getDescriptionMessages();
+    public List<String> getLangDescription() {
+        return languageManager.getLangDescription();
     }
 
     // Commands messages
-    public String getListCommands() {
-        return languageManager.getListCommands();
+    public String getLangCommandsList() {
+        return languageManager.getLangCommandsList();
     }
-    public String getPlayerOnlyCommand() {
-        return languageManager.getPlayerOnlyCommand();
+    public String getLangCommandPlayerOnly() {
+        return languageManager.getLangCommandPlayerOnly();
     }
-    public String getHelpText() {
-        return languageManager.getHelpText();
+    public String getLangCommandHelpText() {
+        return languageManager.getLangCommandHelpText();
     }
-    public String getReloadText() {
-        return languageManager.getReloadText();
+    public String getLangCommandReload() {
+        return languageManager.getLangCommandReload();
     }
-    public String getCommandNotFound() {
-        return languageManager.getCommandNotFound();
+    public String getLangCommandNotFound() {
+        return languageManager.getLangCommandNotFound();
     }
-    public String getNotPermission() {
-        return languageManager.getNotPermission();
+    public String getLangCommandNotPermission() {
+        return languageManager.getLangCommandNotPermission();
     }
     
     // BOSSES MESSAGES LANGUAGE
     // Name of the bosses
-    public String getBossSkeletonEmperor() {
-        return languageManager.getBossSkeletonEmperor();
+    public String getLangBossEmperorName() {
+        return languageManager.getLangBossEmperorName();
     }
-    public String getBossSkeletonKing() {
-        return languageManager.getBossSkeletonKing();
+    public String getLangBossKingName() {
+        return languageManager.getLangBossKingName();
     }
     
     // Messages of the bosses
-    public String getBossMessageSpawn() {
-        return languageManager.getBossMessageSpawn();
+    public String getLangBossesMsgSpawn() {
+        return languageManager.getLangBossesMsgSpawn();
     }
-    public String getBossMessageDeath() {
-        return languageManager.getBossMessageDeath();
+    public String getLangBossesMsgDeath() {
+        return languageManager.getLangBossesMsgDeath();
     }
-    public String getBossMessageKilled() {
-        return languageManager.getBossMessageKilled();
+    public String getLangBossesMsgKilled() {
+        return languageManager.getLangBossesMsgKilled();
     }
 
     // Name of the objects left behind when he dies
-    public String getBossItemBow() {
-        return languageManager.getBossItemBow();
+    public String getLangBossesItemBow() {
+        return languageManager.getLangBossesItemBow();
     }
-    public String getBossItemSword() {
-        return languageManager.getBossItemSword();
+    public String getLangBossesItemSword() {
+        return languageManager.getLangBossesItemSword();
     }
-    public String getBossItemHelmet() {
-        return languageManager.getBossItemHelmet();
+    public String getLangBossesItemHelmet() {
+        return languageManager.getLangBossesItemHelmet();
     }
     
 }

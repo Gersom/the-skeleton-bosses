@@ -40,13 +40,13 @@ public class MainListeners implements Listener {
                     if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
                         plugin.getMainMobs().onSuccessGenerated(
                             plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity(),
-                            "&6&l" + plugin.getConfigs().getBossSkeletonEmperor()
+                            "&6&l" + plugin.getConfigs().getLangBossEmperorName()
                         );
                     }
                     if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
                         plugin.getMainMobs().onSuccessGenerated(
                             plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity(),
-                            "&d&l" + plugin.getConfigs().getBossSkeletonKing()
+                            "&d&l" + plugin.getConfigs().getLangBossKingName()
                         );
                     }
                 }
@@ -64,13 +64,13 @@ public class MainListeners implements Listener {
                     Player killer = event.getEntity().getKiller();
 
                     event.getDrops().clear(); // Clear default drops
-                    event.setDroppedExp(plugin.getConfigs().getBossesEmperorExp());
+                    event.setDroppedExp(plugin.getConfigs().getBossEmperorExp());
 
                     if (killer != null) {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
-                                plugin.getConfigs().getBossesEmperorCommand().replace("{player_killed}", killer.getName())
+                                plugin.getConfigs().getBossEmperorCommand().replace("{player_killed}", killer.getName())
                             );
                         } else {
                             plugin.getMainMobs().getSkeletonEmperor().generateDrops(event);
@@ -78,7 +78,7 @@ public class MainListeners implements Listener {
                     }
 
                     plugin.getMainMobs().getSkeletonEmperor().cleanUp();
-                    plugin.getMainMobs().onSuccessDeath("&6&l" + plugin.getConfigs().getBossSkeletonEmperor(), killer);
+                    plugin.getMainMobs().onSuccessDeath("&6&l" + plugin.getConfigs().getLangBossEmperorName(), killer);
                 }
             }
         }
@@ -90,13 +90,13 @@ public class MainListeners implements Listener {
                     plugin.getBossPersistenceManager().removeBossData("king");
 
                     event.getDrops().clear(); // Clear default drops
-                    event.setDroppedExp(plugin.getConfigs().getBossesKingExp());
+                    event.setDroppedExp(plugin.getConfigs().getBossKingExp());
 
                     if (killer != null) {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
-                                plugin.getConfigs().getBossesKingCommand().replace("{player_killed}", killer.getName())
+                                plugin.getConfigs().getBossKingCommand().replace("{player_killed}", killer.getName())
                             );
                         } else {
                             plugin.getMainMobs().getSkeletonKing().generateDrops(event);
@@ -104,7 +104,7 @@ public class MainListeners implements Listener {
                     }
 
                     plugin.getMainMobs().getSkeletonKing().cleanUp();
-                    plugin.getMainMobs().onSuccessDeath("&d&l" + plugin.getConfigs().getBossSkeletonKing(), killer);
+                    plugin.getMainMobs().onSuccessDeath("&d&l" + plugin.getConfigs().getLangBossKingName(), killer);
                 }
             }
         }

@@ -60,7 +60,7 @@ public class SkeletonEmperor {
         // Make the skeleton persistent
         skeleton.setRemoveWhenFarAway(false);
 
-        skeleton.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getBossSkeletonEmperor() + "&r&f"));
+        skeleton.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getLangBossEmperorName() + "&r&f"));
         skeleton.setCustomNameVisible(true);
 
         // Change scale Mob
@@ -128,7 +128,7 @@ public class SkeletonEmperor {
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = Objects.requireNonNull(bow.getItemMeta());
             bowMeta.setDisplayName(General.setColor(
-                "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+                "&6&l" + plugin.getConfigs().getLangBossesItemBow() + " &r&6(" + plugin.getConfigs().getLangBossEmperorName() + ")"
             ));
             bowMeta.addEnchant(Enchantment.MULTISHOT, 1, true);
             bowMeta.addEnchant(Enchantment.FLAME, 1, true);
@@ -139,7 +139,7 @@ public class SkeletonEmperor {
             ItemStack bow = new ItemStack(Material.BOW);
             ItemMeta bowMeta = Objects.requireNonNull(bow.getItemMeta());
             bowMeta.setDisplayName(General.setColor(
-                "&6&l" + plugin.getConfigs().getBossItemBow() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+                "&6&l" + plugin.getConfigs().getLangBossesItemBow() + " &r&6(" + plugin.getConfigs().getLangBossEmperorName() + ")"
             ));
             bowMeta.addEnchant(Enchantment.INFINITY, 1, true);
             bowMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
@@ -150,7 +150,7 @@ public class SkeletonEmperor {
             ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
             ItemMeta helmetMeta = Objects.requireNonNull(helmet.getItemMeta());
             helmetMeta.setDisplayName(General.setColor(
-                "&6&l" + plugin.getConfigs().getBossItemHelmet() + " &r&6(" + plugin.getConfigs().getBossSkeletonEmperor() + ")"
+                "&6&l" + plugin.getConfigs().getLangBossesItemHelmet() + " &r&6(" + plugin.getConfigs().getLangBossEmperorName() + ")"
             ));
             helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true);
             helmetMeta.addEnchant(Enchantment.FIRE_PROTECTION, 3, true);
@@ -189,15 +189,15 @@ public class SkeletonEmperor {
 
     // Private methods
     private void createBossBar() {
-        String title = plugin.getConfigs().getBossesEmperorBossbarTitle();
-        title = title.replace("{boss_name}", plugin.getConfigs().getBossSkeletonEmperor());
+        String title = plugin.getConfigs().getBossEmperorBossbarTitle();
+        title = title.replace("{boss_name}", plugin.getConfigs().getLangBossEmperorName());
         title = title.replace("{health}", "");
         title = title.replace("{max_health}", "");
-        title = title.replace("{boss_color}", plugin.getConfigs().getBossSkeletonEmperorColor());
+        title = title.replace("{boss_color}", plugin.getConfigs().getBossEmperorColor());
 
         bossBar = Bukkit.createBossBar(
             General.setColor(title),
-            General.generateBossBarColor(plugin.getConfigs().getBossesEmperorBossbarColor()),
+            General.generateBossBarColor(plugin.getConfigs().getBossEmperorBossbarColor()),
             BarStyle.SOLID
         );
 
@@ -212,11 +212,11 @@ public class SkeletonEmperor {
         AttributeInstance attribute = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         double maxHealth = (attribute != null) ? attribute.getBaseValue() : 0.0;
 
-        String title = plugin.getConfigs().getBossesEmperorBossbarTitle();
-        title = title.replace("{boss_name}", plugin.getConfigs().getBossSkeletonEmperor());
+        String title = plugin.getConfigs().getBossEmperorBossbarTitle();
+        title = title.replace("{boss_name}", plugin.getConfigs().getLangBossEmperorName());
         title = title.replace("{health}", String.format("%.0f", health));
         title = title.replace("{max_health}", String.format("%.0f", maxHealth));
-        title = title.replace("{boss_color}", plugin.getConfigs().getBossSkeletonEmperorColor());
+        title = title.replace("{boss_color}", plugin.getConfigs().getBossEmperorColor());
 
         bossBar.setTitle(General.setColor(title));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
