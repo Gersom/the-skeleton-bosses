@@ -121,7 +121,7 @@ public class MainGenerator {
         }
     }
 
-    public void onSuccessDeath(String bossName, Player killer) {
+    public void onSuccessDeath(String boss, Player killer) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(
                 Objects.requireNonNull(player.getLocation()), 
@@ -131,25 +131,32 @@ public class MainGenerator {
             );
         }
 
-        if (killer != null) {
-            
-            // String title = plugin.getConfigs().getBossEmperorBossbarTitle();
-            // title = title.replace("{boss_name}", plugin.getConfigs().getLangBossEmperorName());
-            // title = title.replace("{health}", "");
-            // title = title.replace("{max_health}", "");
-            // title = title.replace("{boss_color}", plugin.getConfigs().getBossEmperorColor());
+        String title;
+        String bossName = "";
+        String bossColor = "";
+        String playerKiller = "";
 
-            Bukkit.broadcastMessage(General.setColor(
-                "&c" + plugin.getConfigs().getPrefix() + bossName + 
-                " &r&c" + plugin.getConfigs().getLangBossesMsgKilled() + 
-                " &l&n" + killer.getName()
-            ));
-        } else {
-            Bukkit.broadcastMessage(General.setColor(
-                "&c" + plugin.getConfigs().getPrefix() + bossName + 
-                " &r&c" + plugin.getConfigs().getLangBossesMsgDeath()
-            ));
+        if (boss.equals("emperor")) {
+            bossName = plugin.getConfigs().getLangBossEmperorName();
+            bossColor = plugin.getConfigs().getBossEmperorColor();
+        } else if (boss.equals("king")) {
+            bossName = plugin.getConfigs().getLangBossKingName();
+            bossColor = plugin.getConfigs().getBossKingColor();
         }
+
+        if (killer != null) {
+            title = plugin.getConfigs().getLangBossesMsgKilled();
+            playerKiller = killer.getName();
+        } else {
+            title = plugin.getConfigs().getLangBossesMsgDeath();
+        }
+
+        title = title.replace("{prefix}", plugin.getConfigs().getPrefix());
+        title = title.replace("{boss_name}", bossName);
+        title = title.replace("{boss_color}", bossColor);
+        title = title.replace("{player_killer}", playerKiller);
+
+        Bukkit.broadcastMessage(General.setColor(title));
     }
     
     public void generateEmperor(World world, Location location) {

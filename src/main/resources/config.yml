@@ -1,5 +1,5 @@
 # Prefix of the plugin
-prefix: "[TheSkeletonBosses] "
+prefix: "&l[TSB] &r"
 
 # check in the /lang folder
 # Plugin language [en, es, other]
@@ -37,7 +37,7 @@ bosses:
     color: "&d"
 
     bossbar:
-      title: "{boss_color} &l{boss_name} ({health}/{max_health})❤"
+      title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "PURPLE"
@@ -56,7 +56,7 @@ bosses:
     color: "&6"
 
     bossbar:
-      title: "{boss_color} &l{boss_name} ({health}/{max_health})❤"
+      title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "YELLOW"

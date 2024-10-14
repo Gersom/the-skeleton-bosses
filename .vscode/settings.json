@@ -4,5 +4,6 @@
     "editor.insertSpaces": true,
     "editor.detectIndentation": false
   },
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.configuration.updateBuildConfiguration": "disabled"
 }

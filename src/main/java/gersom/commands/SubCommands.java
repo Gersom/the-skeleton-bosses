@@ -68,15 +68,19 @@ public class SubCommands {
     }
 
     private void showAuthor(CommandSender sender) {
+        sender.sendMessage("");
         sender.sendMessage(General.setColor(
-            "&b" + plugin.getConfigs().getPrefix() + "Author: " + Vars.author
+            "&b" + plugin.getConfigs().getPrefix() + "&r&bAuthor: " + Vars.author
         ));
+        sender.sendMessage("");
     }
 
     private void showVersion(CommandSender sender) {
+        sender.sendMessage("");
         sender.sendMessage(General.setColor(
-            "&b" + plugin.getConfigs().getPrefix() + "Versión: " + Vars.version
+            "&b" + plugin.getConfigs().getPrefix() + "&r&bVersión: " + Vars.version
         ));
+        sender.sendMessage("");
     }
 
     public void showHelpText(CommandSender sender) {

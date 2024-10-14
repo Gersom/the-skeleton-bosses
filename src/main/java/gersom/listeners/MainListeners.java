@@ -80,7 +80,7 @@ public class MainListeners implements Listener {
                     }
 
                     plugin.getMainMobs().getSkeletonEmperor().cleanUp();
-                    plugin.getMainMobs().onSuccessDeath("&6&l" + plugin.getConfigs().getLangBossEmperorName(), killer);
+                    plugin.getMainMobs().onSuccessDeath("emperor", killer);
                 }
             }
         }
@@ -106,7 +106,7 @@ public class MainListeners implements Listener {
                     }
 
                     plugin.getMainMobs().getSkeletonKing().cleanUp();
-                    plugin.getMainMobs().onSuccessDeath("&d&l" + plugin.getConfigs().getLangBossKingName(), killer);
+                    plugin.getMainMobs().onSuccessDeath("king", killer);
                 }
             }
         }

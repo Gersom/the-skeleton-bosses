@@ -7,7 +7,7 @@ author: Gersom
 commands:
   tsb:
     description: TSB command
-    aliases: [the-skeleton-bosses, tsb]
+    aliases: [tsb]
     usage: /<command> [subcommand]
     permission-message: §4You don't have permission to use this command
     subcommands:
