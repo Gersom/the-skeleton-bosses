@@ -48,15 +48,15 @@ bosses:
     # Appearance percentage relative to other bosses
     percentage: 50
 
-    # you can add {player_killed} to the command
+    # you can add {player_killer} to the command
     # to refer to the player who killed the boss
-    command: "give {player_killed} diamont 1"
+    command: "give {player_killer} diamont 1"
 
   skeleton_emperor:
     color: "&6"
 
     bossbar:
-      title: "{boss_color}&l {boss_name} ({health}/{max_health})❤"
+      title: "{boss_color} &l{boss_name} ({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "YELLOW"
@@ -67,6 +67,6 @@ bosses:
     # Appearance percentage relative to other bosses
     # percentage = (100%) - (skeleton_king.percentage)
 
-    # you can add {player_killed} to the command
+    # you can add {player_killer} to the command
     # to refer to the player who killed the boss
-    command: "give {player_killed} diamont 1"
+    command: "give {player_killer} diamont 1"

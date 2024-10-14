@@ -1,14 +1,15 @@
 # Messages of the plugin
-messages:
-  plugin:
-    enabled: "plugin has been enabled!"
-    disabled: "plugin has been disabled!"
+plugin:
+  enabled: "plugin has been enabled!"
+  disabled: "plugin has been disabled!"
+
   about:
     welcome: "Welcome to Skeleton Bosses!"
     description: 
       - "TSB introduces formidable skeleton bosses to your Minecraft world: &6&lthe Skeleton Emperor and &dthe Skeleton King."
       - "These powerful entities automatically appear around the designated area and boast enhanced attributes that distinguish them from common skeletons."
       - "Defeat these challenging enemies to obtain unique and valuable loot, adding an exciting new dimension to your gaming experience."
+
   commands:
     list: "List of commands"
     player_only: "You can only use this command from within the game!"
@@ -17,20 +18,23 @@ messages:
     not_found: "Command not found!"
     no_permission: "You don't have permission to use this command!"
 
-# Information about the bosses
-bosses:
-  # Name of the bosses
-  skeleton_emperor: "Skeleton Emperor"
+# Name of the bosses
+# Here are the values of the variable {boss_name}
+bosses_names:
   skeleton_king: "Skeleton King"
+  skeleton_emperor: "Skeleton Emperor"
 
-  # Messages of the bosses
-  messages:
-    spawn: "has spawned!"
-    death: "has died!"
-    killed: "has been killed by"
+# Messages of the bosses
+events:
+  # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
+  spawn: "&a{prefix} ¡{boss_color}The {boss_name} &r&ahas spawned! &7coords: &e{coords}"
+  # Variables: {prefix}, {boss_color}, {boss_name}
+  death_without_killer: "&c{prefix} ¡{boss_color}The {boss_name} &r&chas died!"
+  # Variables: {prefix}, {boss_color}, {boss_name}, {player_killer}
+  death_with_killer: "&c{prefix} ¡{boss_color}The {boss_name} &r&chas been killed by &l&n{player_killer}!" 
 
-  # Name of the objects left behind when he dies
-  items:
-    bow: "Bow"
-    sword: "Sword"
-    helmet: "Helmet"
+# Name of the default items that drop when bosses are killed
+items_names:
+  bow: "Bow"
+  sword: "Sword"
+  helmet: "Helmet"

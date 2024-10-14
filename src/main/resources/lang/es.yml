@@ -1,14 +1,14 @@
-# Mensajes del plugin
-messages:
-  plugin:
-    enabled: "¡El plugin ha sido habilitado!"
-    disabled: "¡El plugin ha sido deshabilitado!"
+plugin:
+  enabled: "¡El plugin ha sido habilitado!"
+  disabled: "¡El plugin ha sido deshabilitado!"
+
   about:
     welcome: "¡Bienvenido a Los Jefes de Esqueleto!"
     description:
       - "TSB presenta formidables jefes esqueletos en tu mundo de Minecraft: &6&lel Esqueleto Emperador y &del Rey Esqueleto."
       - "Estas poderosas entidades aparecen automáticamente alrededor del área designada y cuentan con atributos mejorados que las distinguen de los esqueletos comunes."
       - "Derrota a estos desafiantes enemigos para obtener un botín único y valioso, lo que agregará una nueva y emocionante dimensión a tu experiencia de juego."
+
   commands:
     list: "Listado de comandos"
     player_only: "¡Solo puedes usar este comando desde el juego!"
@@ -17,20 +17,22 @@ messages:
     not_found: "¡Comando no encontrado!"
     no_permission: "¡No tienes permiso para usar este comando!"
 
-# Información sobre los bosses
-bosses:
-  # Nombre de los bosses
-  skeleton_emperor: "Esqueleto Emperador"
+# Nombre de los jefes
+# Aquí estan los valores de la variable {boss_name}
+bosses_names:
   skeleton_king: "Rey Esqueleto"
+  skeleton_emperor: "Esqueleto Emperador"
 
-  # Mensajes del boss
-  messages:
-    spawn: "ha aparecido!"
-    death: "ha muerto!"
-    killed: "ha sido asesinado por"
+events:
+  # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
+  spawn: "&a{prefix} ¡{boss_color}El {boss_name} &r&aha aparecido! &7coords: &e{coords}"
+  # Variables: {prefix}, {boss_color}, {boss_name}
+  death_without_killer: "&c{prefix} ¡{boss_color}El {boss_name} &r&cha muerto!"
+  # Variables: {prefix}, {boss_color}, {boss_name}, {player_killer}
+  death_with_killer: "&c{prefix} ¡{boss_color}El {boss_name} &r&c ha sido asesinado por &l&n{player_killer}!" 
 
-  # Nombre de los objetos que deja cuando se muere
-  items:
-    bow: "Arco"
-    sword: "Espada"
-    helmet: "Casco"
+# Nombre de los objetos por defecto que dejan caer cuando mueren los jefes
+items_names:
+  bow: "Arco"
+  sword: "Espada"
+  helmet: "Casco"

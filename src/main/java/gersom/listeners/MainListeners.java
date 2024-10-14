@@ -40,19 +40,21 @@ public class MainListeners implements Listener {
                     if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
                         plugin.getMainMobs().onSuccessGenerated(
                             plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity(),
-                            "&6&l" + plugin.getConfigs().getLangBossEmperorName()
+                            "emperor",
+                            "player"
                         );
                     }
                     if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
                         plugin.getMainMobs().onSuccessGenerated(
                             plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity(),
-                            "&d&l" + plugin.getConfigs().getLangBossKingName()
+                            "king",
+                            "player"
                         );
                     }
                 }
             }
-        }.runTaskLater(plugin, 60L);
         // (20L = 20 ticks = 1 seg)
+        }.runTaskLater(plugin, 60L);
     }
 
     @EventHandler
@@ -70,7 +72,7 @@ public class MainListeners implements Listener {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
-                                plugin.getConfigs().getBossEmperorCommand().replace("{player_killed}", killer.getName())
+                                plugin.getConfigs().getBossEmperorCommand().replace("{player_killer}", killer.getName())
                             );
                         } else {
                             plugin.getMainMobs().getSkeletonEmperor().generateDrops(event);
@@ -96,7 +98,7 @@ public class MainListeners implements Listener {
                         if (plugin.getConfigs().getBossesCommandEnabled()) {
                             Bukkit.getServer().dispatchCommand(
                                 Bukkit.getConsoleSender(), 
-                                plugin.getConfigs().getBossKingCommand().replace("{player_killed}", killer.getName())
+                                plugin.getConfigs().getBossKingCommand().replace("{player_killer}", killer.getName())
                             );
                         } else {
                             plugin.getMainMobs().getSkeletonKing().generateDrops(event);

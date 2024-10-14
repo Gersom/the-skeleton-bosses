@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import gersom.TSB;
+import gersom.utils.Console;
 import gersom.utils.General;
 
 /**
@@ -75,12 +76,28 @@ public class MainGenerator {
         return null;
     }
 
-    public void onSuccessGenerated(Entity entity, String bossName) {
+    public void onSuccessGenerated(Entity entity, String boss, String senderType) {
         Location spawnLocation = entity.getLocation();
         String coords = String.format("(%.0f, %.0f, %.0f)", 
                                       spawnLocation.getX(), 
                                       spawnLocation.getY(), 
                                       spawnLocation.getZ());
+
+        String bossName = "";
+        String bossColor = "";
+        String title = plugin.getConfigs().getLangBossesMsgSpawn();
+        if (boss.equals("emperor")) {
+            bossName = plugin.getConfigs().getLangBossEmperorName();
+            bossColor = plugin.getConfigs().getBossEmperorColor();
+        } else if (boss.equals("king")) {
+            bossName = plugin.getConfigs().getLangBossKingName();
+            bossColor = plugin.getConfigs().getBossKingColor();
+        }
+
+        title = title.replace("{prefix}", plugin.getConfigs().getPrefix());
+        title = title.replace("{boss_name}", bossName);
+        title = title.replace("{boss_color}", bossColor);
+        title = title.replace("{coords}", coords);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(
@@ -89,13 +106,19 @@ public class MainGenerator {
                 1, 
                 1
             );
+
+            if (senderType.equals("player")) {
+                player.sendMessage(General.setColor(title));
+            }
         }
 
-        Bukkit.broadcastMessage(General.setColor(
-            "&a" + plugin.getConfigs().getPrefix() + bossName + 
-            " &r&a" + plugin.getConfigs().getLangBossesMsgSpawn() + 
-            " &7coords: &e" + coords
-        ));
+        if (senderType.equals("console")) {
+            Console.sendMessage(General.setColor(title));
+        }
+
+        if (senderType.equals("both")) {
+            Bukkit.broadcastMessage(General.setColor(title));
+        }
     }
 
     public void onSuccessDeath(String bossName, Player killer) {
@@ -109,6 +132,13 @@ public class MainGenerator {
         }
 
         if (killer != null) {
+            
+            // String title = plugin.getConfigs().getBossEmperorBossbarTitle();
+            // title = title.replace("{boss_name}", plugin.getConfigs().getLangBossEmperorName());
+            // title = title.replace("{health}", "");
+            // title = title.replace("{max_health}", "");
+            // title = title.replace("{boss_color}", plugin.getConfigs().getBossEmperorColor());
+
             Bukkit.broadcastMessage(General.setColor(
                 "&c" + plugin.getConfigs().getPrefix() + bossName + 
                 " &r&c" + plugin.getConfigs().getLangBossesMsgKilled() + 
@@ -128,9 +158,11 @@ public class MainGenerator {
             skeletonEmperor.generateSkeletonEmperor(world, location);
             plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
 
-            onSuccessGenerated(skeletonEmperor.getSkeletonEmperorEntity(), 
-                               "&6&l" + plugin.getConfigs().getLangBossEmperorName()
-                               );
+            onSuccessGenerated(
+                skeletonEmperor.getSkeletonEmperorEntity(),
+                "emperor",
+                "both"
+            );
         }
     }
 
@@ -140,9 +172,11 @@ public class MainGenerator {
             skeletonKing.generateSkeletonKing(world, location);
             plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
             
-            onSuccessGenerated(skeletonKing.getSkeletonKingEntity(),
-                               "&d&l" + plugin.getConfigs().getLangBossKingName()
-                               );
+            onSuccessGenerated(
+                skeletonKing.getSkeletonKingEntity(),
+                "king",
+                "both"
+            );
         }
     }
 

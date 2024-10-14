@@ -57,67 +57,67 @@ public class LanguageManager {
     // Add methods for each message you need to retrieve
     // Plugin messages
     public String getLangPluginEnabled() {
-        return getMessage("messages.plugin.enabled", "Plugin has been enabled!");
+        return getMessage("plugin.enabled", "Plugin has been enabled!");
     }
     public String getLangPluginDisabled() {
-        return getMessage("messages.plugin.disabled", "Plugin has been disabled!");
+        return getMessage("plugin.disabled", "Plugin has been disabled!");
     }
 
     // About messages
     public String getLangWelcome() {
-        return getMessage("messages.about.welcome", "Welcome!");
+        return getMessage("plugin.about.welcome", "Welcome!");
     }
     public List<String> getLangDescription() {
-        return getMessageList("messages.about.description");
+        return getMessageList("plugin.about.description");
     }
 
     // Commands messages
     public String getLangCommandsList() {
-        return getMessage("messages.commands.list", "List of commands:");
+        return getMessage("plugin.commands.list", "List of commands:");
     }
     public String getLangCommandPlayerOnly() {
-        return getMessage("messages.commands.player_only", "This command can only be used in-game!");
+        return getMessage("plugin.commands.player_only", "This command can only be used in-game!");
     }
     public String getLangCommandHelpText() {
-        return getMessage("messages.commands.help_text", "To see the list of commands, type");
+        return getMessage("plugin.commands.help_text", "To see the list of commands, type");
     }
     public String getLangCommandReload() {
-        return getMessage("messages.commands.reload", "Reload the configs");
+        return getMessage("plugin.commands.reload", "Reload the configs");
     }
     public String getLangCommandNotFound() {
-        return getMessage("messages.commands.not_found", "Command not found!");
+        return getMessage("plugin.commands.not_found", "Command not found!");
     }
     public String getLangCommandNotPermission() {
-        return getMessage("messages.commands.no_permission", "You don't have permission to use this command!");
+        return getMessage("plugin.commands.no_permission", "You don't have permission to use this command!");
     }
 
     // Name of the bosses
     public String getLangBossEmperorName() {
-        return getMessage("bosses.skeleton_emperor", "Skeleton Emperor");
+        return getMessage("bosses_names.skeleton_emperor", "Skeleton Emperor");
     }
     public String getLangBossKingName() {
-        return getMessage("bosses.skeleton_king", "Skeleton King");
+        return getMessage("bosses_names.skeleton_king", "Skeleton King");
     }
 
     // Messages of the bosses
     public String getLangBossesMsgSpawn() {
-        return getMessage("bosses.messages.spawn", "has spawned!");
+        return getMessage("events.spawn", "&a{prefix} ¡{boss_color}The {boss_name} &r&ahas spawned! &7coords: &e{coords}");
     }
     public String getLangBossesMsgDeath() {
-        return getMessage("bosses.messages.death", "has died!");
+        return getMessage("events.death_without_killer", "&c{prefix} ¡{boss_color}The {boss_name} &r&chas died!");
     }
     public String getLangBossesMsgKilled() {
-        return getMessage("bosses.messages.killed", "has been killed by");
+        return getMessage("events.death_with_killer", "&c{prefix} ¡{boss_color}The {boss_name} &r&chas been killed by &l&n{player_killer}!");
     }
 
     // Name of the objects left behind when he dies
     public String getLangBossesItemBow() {
-        return getMessage("bosses.items.bow", "Bow");
+        return getMessage("items_names.bow", "Bow");
     }
     public String getLangBossesItemSword() {
-        return getMessage("bosses.items.sword", "Sword");
+        return getMessage("items_names.sword", "Sword");
     }
     public String getLangBossesItemHelmet() {
-        return getMessage("bosses.items.helmet", "Helmet");
+        return getMessage("items_names.helmet", "Helmet");
     }
 }

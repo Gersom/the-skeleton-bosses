@@ -1,35 +1,40 @@
-# Language file for other languages
-messages:
-  plugin:
-    enabled: ""
-    disabled: ""
+# Messages of the plugin
+plugin:
+  enabled: ""
+  disabled: ""
+
   about:
     welcome: ""
     description: 
-      - ""
-      - ""
+      - "TSB introduces formidable skeleton bosses to your Minecraft world: &6&lthe Skeleton Emperor and &dthe Skeleton King."
+      - "These powerful entities automatically appear around the designated area and boast enhanced attributes that distinguish them from common skeletons."
+      - "Defeat these challenging enemies to obtain unique and valuable loot, adding an exciting new dimension to your gaming experience."
+
   commands:
-    player_only: ""
     list: ""
+    player_only: ""
     help_text: ""
     reload: ""
     not_found: ""
     no_permission: ""
 
-# Information about the bosses
-bosses:
-  # Name of the bosses
-  skeleton_emperor: ""
+# Name of the bosses
+# Here are the values of the variable {boss_name}
+bosses_names:
   skeleton_king: ""
+  skeleton_emperor: ""
 
-  # Messages of the bosses
-  messages:
-    spawn: "!"
-    death: "!"
-    killed: ""
+# Messages of the bosses
+events:
+  # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
+  spawn: ""
+  # Variables: {prefix}, {boss_color}, {boss_name}
+  death_without_killer: ""
+  # Variables: {prefix}, {boss_color}, {boss_name}, {player_killer}
+  death_with_killer: "" 
 
-  # Name of the objects left behind when he dies
-  items:
-    bow: ""
-    sword: ""
-    helmet: ""
+# Name of the default items that drop when bosses are killed
+items_names:
+  bow: ""
+  sword: ""
+  helmet: ""
