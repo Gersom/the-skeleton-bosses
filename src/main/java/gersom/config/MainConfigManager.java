@@ -121,15 +121,34 @@ public class MainConfigManager {
     public String getBossEmperorBossbarColor() {
         return configFile.getString("bosses.skeleton_emperor.bossbar.color", "YELLOW");
     }
-    // Command of the bosses
+    // Command for player killed the boss
     public Boolean getBossesCommandEnabled() {
         return configFile.getBoolean("commands_after_death", false);
     }
     public String getBossKingCommand() {
-        return configFile.getString("bosses.skeleton_king.command", "me killed the king");
+        return configFile.getString("bosses.skeleton_king.command", "");
     }
     public String getBossEmperorCommand() {
-        return configFile.getString("bosses.skeleton_emperor.command", "me killed the emperor");
+        return configFile.getString("bosses.skeleton_emperor.command", "");
+    }
+    // Command for nearby players
+    public boolean getBossKingNearbyCommandEnabled() {
+        return configFile.getBoolean("bosses.skeleton_king.command_for_nearby_players.enabled", false);
+    }
+    public int getBossKingNearbyCommandRadius() {
+        return configFile.getInt("bosses.skeleton_king.command_for_nearby_players.radius", 50);
+    }
+    public String getBossKingNearbyCommand() {
+        return configFile.getString("bosses.skeleton_king.command_for_nearby_players.command", "give {player} diamond 1");
+    }
+    public boolean getBossEmperorNearbyCommandEnabled() {
+        return configFile.getBoolean("bosses.skeleton_emperor.command_for_nearby_players.enabled", false);
+    }
+    public int getBossEmperorNearbyCommandRadius() {
+        return configFile.getInt("bosses.skeleton_emperor.command_for_nearby_players.radius", 40);
+    }
+    public String getBossEmperorNearbyCommand() {
+        return configFile.getString("bosses.skeleton_emperor.command_for_nearby_players.command", "give {player} diamond 1");
     }
 
     // Delegate message methods to LanguageManager

@@ -58,6 +58,13 @@ bosses:
     # to refer to the player who killed the boss
     command: "give {player_killer} diamont 1"
 
+    # This option will only be executed if “commands_after_death” is set to true.
+    command_for_nearby_players:
+      enabled: false
+      radius: 50  # Radius in blocks
+      # uses {player} representing each nearby player
+      command: "give {player} diamond 1"
+
   skeleton_emperor:
     color: "&6"
 
@@ -82,3 +89,10 @@ bosses:
     # you can add {player_killer} to the command
     # to refer to the player who killed the boss
     command: "give {player_killer} diamont 1"
+
+    # This option will only be executed if “commands_after_death” is set to true.
+    command_for_nearby_players:
+      enabled: false
+      radius: 50  # Radius in blocks
+      # uses {player} representing each nearby player
+      command: "give {player} diamond 1"

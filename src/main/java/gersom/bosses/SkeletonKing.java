@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package gersom.generators;
+package gersom.bosses;
 
 import java.util.Objects;
 import java.util.Random;
@@ -38,9 +38,8 @@ import gersom.utils.General;
   *
   * @author Gersom
   */
-public class SkeletonKing {
+  public class SkeletonKing extends Boss {
     private UUID skeletonKingID = null;
-    private final TSB plugin;
     private final Random random = new Random();
     private BossBar bossBar;
     private WitherSkeleton skeletonKing;
@@ -48,9 +47,8 @@ public class SkeletonKing {
     private BukkitTask taskParticles;
 
     public SkeletonKing(TSB plugin) {
-        this.plugin = plugin;
+        super(plugin, "skeletonKing");
     }
-
     public void generateSkeletonKing(World world, Location location) {
         this.skeletonKing = (WitherSkeleton) world.spawnEntity(location, EntityType.WITHER_SKELETON);
 
@@ -117,6 +115,7 @@ public class SkeletonKing {
         createTaskBossBar();
     }
 
+    @Override
     public void generateDrops(EntityDeathEvent event) {    
         double dropChance = random.nextDouble();
 
@@ -269,6 +268,7 @@ public class SkeletonKing {
         createTaskBossBar();
     }
 
+    @Override
     public void cleanUp() {
         if (taskBossBar != null) {
             taskBossBar.cancel();
@@ -285,6 +285,36 @@ public class SkeletonKing {
         skeletonKing = null;
         // Remove the skeleton's UUID from our set
         skeletonKingID = null;
+    }
+
+    @Override
+    public Entity getEntity() {
+        return skeletonKing;
+    }
+
+    @Override
+    protected int getExperience() {
+        return plugin.getConfigs().getBossKingExp();
+    }
+
+    @Override
+    protected String getKillerCommand() {
+        return plugin.getConfigs().getBossKingCommand();
+    }
+
+    @Override
+    protected boolean isNearbyCommandEnabled() {
+        return plugin.getConfigs().getBossKingNearbyCommandEnabled();
+    }
+
+    @Override
+    protected int getNearbyCommandRadius() {
+        return plugin.getConfigs().getBossKingNearbyCommandRadius();
+    }
+
+    @Override
+    protected String getNearbyCommand() {
+        return plugin.getConfigs().getBossKingNearbyCommand();
     }
 }
  

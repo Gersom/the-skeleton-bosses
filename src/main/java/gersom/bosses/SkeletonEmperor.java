@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package gersom.generators;
+package gersom.bosses;
 
 import java.util.Objects;
 import java.util.Random;
@@ -38,9 +38,8 @@ import gersom.utils.General;
  *
  * @author Gersom
  */
-public class SkeletonEmperor {
+public class SkeletonEmperor extends Boss {
     private UUID skeletonEmperorID = null;
-    private final TSB plugin;
     private final Random random = new Random();
     private BossBar bossBar;
     private Skeleton skeletonEmperor;
@@ -48,7 +47,7 @@ public class SkeletonEmperor {
     private BukkitTask taskParticles;
 
     public SkeletonEmperor(TSB plugin) {
-        this.plugin = plugin;
+        super(plugin, "skeletonEmperor");
     }
 
     public void generateSkeletonEmperor(World world, Location location) {
@@ -121,6 +120,7 @@ public class SkeletonEmperor {
         createTaskBossBar();
     }
 
+    @Override
     public void generateDrops(EntityDeathEvent event) {
         double dropChance = random.nextDouble();
         
@@ -273,6 +273,7 @@ public class SkeletonEmperor {
         
     }
 
+    @Override
     public void cleanUp() {
         if (taskBossBar != null) {
             taskBossBar.cancel();
@@ -289,5 +290,35 @@ public class SkeletonEmperor {
         skeletonEmperor = null;
         // Remove the skeleton's UUID from our set
         skeletonEmperorID = null;
+    }
+
+    @Override
+    public Entity getEntity() {
+        return skeletonEmperor;
+    }
+
+    @Override
+    protected int getExperience() {
+        return plugin.getConfigs().getBossEmperorExp();
+    }
+
+    @Override
+    protected String getKillerCommand() {
+        return plugin.getConfigs().getBossEmperorCommand();
+    }
+
+    @Override
+    protected boolean isNearbyCommandEnabled() {
+        return plugin.getConfigs().getBossEmperorNearbyCommandEnabled();
+    }
+
+    @Override
+    protected int getNearbyCommandRadius() {
+        return plugin.getConfigs().getBossEmperorNearbyCommandRadius();
+    }
+
+    @Override
+    protected String getNearbyCommand() {
+        return plugin.getConfigs().getBossEmperorNearbyCommand();
     }
 }

@@ -112,11 +112,23 @@ public class SubCommands {
         Player player = (Player) sender;
 
         if (arg.length > 1) {
-            if (arg[1].equalsIgnoreCase("emperor")) {
+            if (arg[1].equalsIgnoreCase("SkeletonEmperor")) {
+                plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
+            }
+            else if (arg[1].equalsIgnoreCase("skeletonemperor")) {
+                plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
+            }
+            else if (arg[1].equalsIgnoreCase("skeleton-emperor")) {
                 plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
             }
             
-            else if (arg[1].equalsIgnoreCase("king")) {
+            else if (arg[1].equalsIgnoreCase("SkeletonKing")) {
+                plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
+            }
+            else if (arg[1].equalsIgnoreCase("skeletonking")) {
+                plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
+            }
+            else if (arg[1].equalsIgnoreCase("skeleton-king")) {
                 plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
             }
 

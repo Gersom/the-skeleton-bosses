@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package gersom.generators;
+package gersom.bosses;
 
 import java.util.Objects;
 import java.util.Random;
@@ -39,8 +39,8 @@ public class MainGenerator {
     }
 
     private void loadExistingBosses() {
-        UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("emperor");
-        UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("king");
+        UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
+        UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
         
         if (emperorUUID != null) {
             Entity entity = findEntityByUUID(emperorUUID);
@@ -49,7 +49,7 @@ public class MainGenerator {
                 skeletonEmperor.setSkeletonEmperorID(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
             } else {
-                plugin.getBossPersistenceManager().removeBossData("emperor");
+                plugin.getBossPersistenceManager().removeBossData("skeletonEmperor");
             }
         }
         
@@ -60,7 +60,7 @@ public class MainGenerator {
                 skeletonKing.setSkeletonKingID(kingUUID);
                 skeletonKing.recreateBossBar(entity);
             } else {
-                plugin.getBossPersistenceManager().removeBossData("king");
+                plugin.getBossPersistenceManager().removeBossData("skeletonKing");
             }
         }
     }
@@ -76,7 +76,7 @@ public class MainGenerator {
         return null;
     }
 
-    public void onSuccessGenerated(Entity entity, String boss, String senderType) {
+    public void onSuccessGenerated(Entity entity, String bossType, String senderType) {
         Location spawnLocation = entity.getLocation();
         String coords = String.format("(%.0f, %.0f, %.0f)", 
                                       spawnLocation.getX(), 
@@ -86,10 +86,10 @@ public class MainGenerator {
         String bossName = "";
         String bossColor = "";
         String title = plugin.getConfigs().getLangBossesMsgSpawn();
-        if (boss.equals("emperor")) {
+        if (bossType.equals("skeletonEmperor")) {
             bossName = plugin.getConfigs().getLangBossEmperorName();
             bossColor = plugin.getConfigs().getBossEmperorColor();
-        } else if (boss.equals("king")) {
+        } else if (bossType.equals("skeletonKing")) {
             bossName = plugin.getConfigs().getLangBossKingName();
             bossColor = plugin.getConfigs().getBossKingColor();
         }
@@ -121,7 +121,7 @@ public class MainGenerator {
         }
     }
 
-    public void onSuccessDeath(String boss, Player killer) {
+    public void onSuccessDeath(String bossType, Player killer) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(
                 Objects.requireNonNull(player.getLocation()), 
@@ -136,10 +136,10 @@ public class MainGenerator {
         String bossColor = "";
         String playerKiller = "";
 
-        if (boss.equals("emperor")) {
+        if (bossType.equals("skeletonEmperor")) {
             bossName = plugin.getConfigs().getLangBossEmperorName();
             bossColor = plugin.getConfigs().getBossEmperorColor();
-        } else if (boss.equals("king")) {
+        } else if (bossType.equals("skeletonKing")) {
             bossName = plugin.getConfigs().getLangBossKingName();
             bossColor = plugin.getConfigs().getBossKingColor();
         }
@@ -163,11 +163,11 @@ public class MainGenerator {
         if (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null) {
             skeletonEmperor = new SkeletonEmperor(plugin);
             skeletonEmperor.generateSkeletonEmperor(world, location);
-            plugin.getBossPersistenceManager().saveBossData("emperor", skeletonEmperor.getSkeletonEmperorID());
+            plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getSkeletonEmperorID());
 
             onSuccessGenerated(
                 skeletonEmperor.getSkeletonEmperorEntity(),
-                "emperor",
+                "skeletonEmperor",
                 "both"
             );
         }
@@ -177,11 +177,11 @@ public class MainGenerator {
         if (skeletonKing == null || skeletonKing.getSkeletonKingID() == null) {
             skeletonKing = new SkeletonKing(plugin);
             skeletonKing.generateSkeletonKing(world, location);
-            plugin.getBossPersistenceManager().saveBossData("king", skeletonKing.getSkeletonKingID());
+            plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getSkeletonKingID());
             
             onSuccessGenerated(
                 skeletonKing.getSkeletonKingEntity(),
-                "king",
+                "skeletonKing",
                 "both"
             );
         }

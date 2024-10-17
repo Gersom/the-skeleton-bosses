@@ -6,11 +6,11 @@ import org.bukkit.Location;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import gersom.bosses.MainGenerator;
 import gersom.commands.MainCommand;
 import gersom.commands.MainTabCompleter;
 import gersom.config.BossPersistenceManager;
 import gersom.config.MainConfigManager;
-import gersom.generators.MainGenerator;
 import gersom.listeners.MainListeners;
 import gersom.utils.Console;
 import gersom.utils.General;
