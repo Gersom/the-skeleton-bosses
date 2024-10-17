@@ -42,14 +42,17 @@ bosses:
     # The unit of measurement is the amount of experience, not the number of levels.
     drop_experience: 350
 
+    # Projectile evasion chance (0-100)
+    projectile_evasion: 75
+
+    # Appearance percentage relative to other bosses (0-100)
+    percentage: 50
+
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "PURPLE"
-
-    # Appearance percentage relative to other bosses
-    percentage: 50
 
     # you can add {player_killer} to the command
     # to refer to the player who killed the boss
@@ -64,15 +67,17 @@ bosses:
     # The unit of measurement is the amount of experience, not the number of levels.
     drop_experience: 300
 
+    # Projectile evasion chance (0-100)
+    projectile_evasion: 50
+
+    # Appearance percentage relative to other bosses (0-100)
+    # percentage = (100%) - (skeleton_king.percentage)
+
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "YELLOW"
-
-
-    # Appearance percentage relative to other bosses
-    # percentage = (100%) - (skeleton_king.percentage)
 
     # you can add {player_killer} to the command
     # to refer to the player who killed the boss

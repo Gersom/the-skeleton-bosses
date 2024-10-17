@@ -5,11 +5,16 @@
 
 package gersom.listeners;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,12 +28,13 @@ import gersom.TSB;
 public class MainListeners implements Listener {
 
     private final TSB plugin;
+    private final Random random = new Random();
 
     public MainListeners(TSB plugin) {
         this.plugin = plugin;
     }
 
-    // Evento de entrada en el juego
+    // Event listener for when a player joins the server
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         new BukkitRunnable() {
@@ -57,6 +63,7 @@ public class MainListeners implements Listener {
         }.runTaskLater(plugin, 60L);
     }
 
+    // Event listener for when a mob dies
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
         if (event.getEntityType() == EntityType.SKELETON) {
@@ -107,6 +114,39 @@ public class MainListeners implements Listener {
 
                     plugin.getMainMobs().getSkeletonKing().cleanUp();
                     plugin.getMainMobs().onSuccessDeath("king", killer);
+                }
+            }
+        }
+    }
+
+    // Event listener for when a mob takes damage
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        Entity damagedEntity = event.getEntity();
+        
+        // Verifica si la entidad dañada es uno de nuestros jefes
+        if (plugin.getMainMobs().getSkeletonEmperor() != null &&
+            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null &&
+            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(damagedEntity.getUniqueId())) {
+            
+            // Verifica si el daño proviene de un proyectil
+            if (event.getDamager() instanceof Projectile) {
+                int evasionChance = plugin.getConfigs().getBossEmperorProjectileEvasion();
+                if (random.nextInt(100) < evasionChance) {
+                    event.setCancelled(true);  // Cancela el evento, evadiendo el daño
+                }
+            }
+        }
+        
+        // Haz lo mismo para el Skeleton King
+        if (plugin.getMainMobs().getSkeletonKing() != null &&
+            plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null &&
+            plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(damagedEntity.getUniqueId())) {
+            
+            if (event.getDamager() instanceof Projectile) {
+                int evasionChance = plugin.getConfigs().getBossKingProjectileEvasion();
+                if (random.nextInt(100) < evasionChance) {
+                    event.setCancelled(true);  // Cancela el evento, evadiendo el daño
                 }
             }
         }

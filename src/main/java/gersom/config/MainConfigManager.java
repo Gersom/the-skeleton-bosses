@@ -101,6 +101,13 @@ public class MainConfigManager {
     public int getBossEmperorExp() {
         return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
     }
+    // Projectile evasion of the bosses
+    public int getBossKingProjectileEvasion() {
+        return configFile.getInt("bosses.skeleton_king.projectile_evasion", 75);
+    }
+    public int getBossEmperorProjectileEvasion() {
+        return configFile.getInt("bosses.skeleton_emperor.projectile_evasion", 50);
+    }
     // Bossbar messages
     public String getBossKingBossbarTitle() {
         return configFile.getString("bosses.skeleton_king.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
