@@ -80,19 +80,26 @@ public class MainConfigManager {
     public double  getBossEmperorPercentage() {
         return getBossKingPercentage() + (1 - getBossKingPercentage());
     }
-    // Experience of the bosses
-    public int getBossKingExp() {
-        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
-    }
-    public int getBossEmperorExp() {
-        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
-    }
     // Color Boss
     public String getBossKingColor() {
         return configFile.getString("bosses.skeleton_king.color", "&d");
     }
     public String getBossEmperorColor() {
         return configFile.getString("bosses.skeleton_emperor.color", "&6");
+    }
+    // Health of the bosses
+    public double getBossKingHealth() {
+        return configFile.getDouble("bosses.skeleton_king.health", 200.0);
+    }
+    public double getBossEmperorHealth() {
+        return configFile.getDouble("bosses.skeleton_emperor.health", 140.0);
+    }
+    // Experience of the bosses
+    public int getBossKingExp() {
+        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
+    }
+    public int getBossEmperorExp() {
+        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
     }
     // Bossbar messages
     public String getBossKingBossbarTitle() {

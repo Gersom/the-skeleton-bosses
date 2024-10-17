@@ -43,7 +43,7 @@ public class SkeletonEmperor {
     private final TSB plugin;
     private final Random random = new Random();
     private BossBar bossBar;
-    private Skeleton skeleton;
+    private Skeleton skeletonEmperor;
     private BukkitTask taskBossBar;
     private BukkitTask taskParticles;
 
@@ -52,23 +52,24 @@ public class SkeletonEmperor {
     }
 
     public void generateSkeletonEmperor(World world, Location location) {
-        this.skeleton = (Skeleton) world.spawnEntity(location, EntityType.SKELETON);
+        this.skeletonEmperor = (Skeleton) world.spawnEntity(location, EntityType.SKELETON);
         
         // Add the skeleton's UUID to our set of custom skeletons
-        skeletonEmperorID = skeleton.getUniqueId();
+        skeletonEmperorID = skeletonEmperor.getUniqueId();
 
         // Make the skeleton persistent
-        skeleton.setRemoveWhenFarAway(false);
+        skeletonEmperor.setRemoveWhenFarAway(false);
 
-        skeleton.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getLangBossEmperorName() + "&r&f"));
-        skeleton.setCustomNameVisible(true);
+        skeletonEmperor.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getLangBossEmperorName() + "&r&f"));
+        skeletonEmperor.setCustomNameVisible(true);
 
         // Change scale Mob
-        skeleton.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.15);
+        skeletonEmperor.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.15);
 
         // Set health to 20 hearts (40 health points)
-        skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(140);
-        skeleton.setHealth(140);
+        double health = plugin.getConfigs().getBossEmperorHealth();
+        skeletonEmperor.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
+        skeletonEmperor.setHealth(health);
 
         // Create and enchant golden helmet
         ItemStack goldenHelmet = new ItemStack(Material.GOLDEN_HELMET);
@@ -95,20 +96,20 @@ public class SkeletonEmperor {
         bowCustom.setItemMeta(bowCustomMeta);
 
         // Set the equipment on the skeleton
-        skeleton.getEquipment().setHelmet(goldenHelmet);
-        skeleton.getEquipment().setChestplate(elytra);
-        skeleton.getEquipment().setItemInMainHand(bowCustom);
+        skeletonEmperor.getEquipment().setHelmet(goldenHelmet);
+        skeletonEmperor.getEquipment().setChestplate(elytra);
+        skeletonEmperor.getEquipment().setItemInMainHand(bowCustom);
         
-        // Ensure the equipment doesn't drop when the skeleton dies
-        skeleton.getEquipment().setHelmetDropChance(0.0f);
-        skeleton.getEquipment().setChestplateDropChance(0.0f);
-        skeleton.getEquipment().setLeggingsDropChance(0.0f);
-        skeleton.getEquipment().setBootsDropChance(0.0f);
-        skeleton.getEquipment().setItemInMainHandDropChance(0.0f);
-        skeleton.getEquipment().setItemInOffHandDropChance(0.0f);
+        // Ensure the equipment doesn't drop when the skeletonEmperor dies
+        skeletonEmperor.getEquipment().setHelmetDropChance(0.0f);
+        skeletonEmperor.getEquipment().setChestplateDropChance(0.0f);
+        skeletonEmperor.getEquipment().setLeggingsDropChance(0.0f);
+        skeletonEmperor.getEquipment().setBootsDropChance(0.0f);
+        skeletonEmperor.getEquipment().setItemInMainHandDropChance(0.0f);
+        skeletonEmperor.getEquipment().setItemInOffHandDropChance(0.0f);
 
         // Add fire resistance effect
-        skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
+        skeletonEmperor.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
 
         // Crear y configurar la BossBar
         createBossBar();
@@ -161,7 +162,7 @@ public class SkeletonEmperor {
 
     public void recreateBossBar(Entity entity) {
         if (entity instanceof Skeleton skeleton1) {
-            this.skeleton = skeleton1;
+            this.skeletonEmperor = skeleton1;
             
             createBossBar();
 
@@ -172,11 +173,11 @@ public class SkeletonEmperor {
 
     // Método para obtener la ubicación actual del Skeleton King
     public Location getLocation() {
-        return skeleton != null ? skeleton.getLocation() : null;
+        return skeletonEmperor != null ? skeletonEmperor.getLocation() : null;
     }
 
     public Skeleton getSkeletonEmperorEntity() {
-        return this.skeleton;
+        return this.skeletonEmperor;
     }
 
     public UUID getSkeletonEmperorID() {
@@ -206,10 +207,10 @@ public class SkeletonEmperor {
     }
 
     private void updateBossBar() {
-        if (skeleton == null || bossBar == null) return;
+        if (skeletonEmperor == null || bossBar == null) return;
 
-        double health = skeleton.getHealth();
-        AttributeInstance attribute = skeleton.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        double health = skeletonEmperor.getHealth();
+        AttributeInstance attribute = skeletonEmperor.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         double maxHealth = (attribute != null) ? attribute.getBaseValue() : 0.0;
 
         String title = plugin.getConfigs().getBossEmperorBossbarTitle();
@@ -221,7 +222,7 @@ public class SkeletonEmperor {
         bossBar.setTitle(General.setColor(title));
         bossBar.setProgress(Math.max(0, Math.min(health / maxHealth, 1)));
 
-        Location loc = skeleton.getLocation();
+        Location loc = skeletonEmperor.getLocation();
         for (Player player : loc.getWorld().getPlayers()) {
             if (player.getLocation().distance(loc) <= 50 && player.getWorld() == loc.getWorld()) {
                 bossBar.addPlayer(player);
@@ -235,7 +236,7 @@ public class SkeletonEmperor {
         this.taskBossBar = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeleton == null || !skeleton.isValid() || skeleton.isDead()) {
+                if (skeletonEmperor == null || !skeletonEmperor.isValid() || skeletonEmperor.isDead()) {
                     cleanUp();
                     return;
                 }
@@ -248,11 +249,11 @@ public class SkeletonEmperor {
         this.taskParticles = new BukkitRunnable() {
             @Override
             public void run() {
-                if (skeleton == null || !skeleton.isValid() || skeleton.isDead()) {
+                if (skeletonEmperor == null || !skeletonEmperor.isValid() || skeletonEmperor.isDead()) {
                     cleanUp();
                     return;
                 }
-                skeleton.getWorld().spawnParticle(Particle.FLAME, skeleton.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
+                skeletonEmperor.getWorld().spawnParticle(Particle.FLAME, skeletonEmperor.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
             }
         }.runTaskTimer(plugin, 0L, 10L);
     }
@@ -285,7 +286,7 @@ public class SkeletonEmperor {
             bossBar.removeAll();
             bossBar = null;
         }
-        skeleton = null;
+        skeletonEmperor = null;
         // Remove the skeleton's UUID from our set
         skeletonEmperorID = null;
     }

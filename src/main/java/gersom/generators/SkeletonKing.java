@@ -68,8 +68,9 @@ public class SkeletonKing {
         skeletonKing.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(40.0);
 
         // Set health to 20 hearts (40 health points)
-        skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(200);
-        skeletonKing.setHealth(200);
+        double health = plugin.getConfigs().getBossKingHealth();
+        skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
+        skeletonKing.setHealth(health);
 
         // Create and enchant golden helmet
         ItemStack goldenHelmet = new ItemStack(Material.GOLDEN_HELMET);

@@ -36,14 +36,17 @@ bosses:
     # boss_color 
     color: "&d"
 
+    # Health of the Skeleton King
+    health: 200
+
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 350
+
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "PURPLE"
-
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 350
 
     # Appearance percentage relative to other bosses
     percentage: 50
@@ -55,14 +58,18 @@ bosses:
   skeleton_emperor:
     color: "&6"
 
+    # Health of the Skeleton Emperor
+    health: 140
+
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 300
+
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
       # The allowed colors are:
       # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
       color: "YELLOW"
 
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 300
 
     # Appearance percentage relative to other bosses
     # percentage = (100%) - (skeleton_king.percentage)
