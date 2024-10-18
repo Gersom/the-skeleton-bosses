@@ -41,15 +41,18 @@ public abstract class Boss {
     }
 
     protected void executeKillerCommand(Player killer) {
-        String command = getKillerCommand().replace("{player_killer}", killer.getName());
-        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+        String command = getKillerCommand();
+        if (command != null && !command.trim().isEmpty()) {
+            command = command.replace("{player_killer}", killer.getName());
+            plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+        }
     }
-
+    
     protected void executeNearbyPlayersCommands(Location location) {
-        if (isNearbyCommandEnabled()) {
+        String command = getNearbyCommand();
+        if (isNearbyCommandEnabled() && command != null && !command.trim().isEmpty()) {
             int radius = getNearbyCommandRadius();
-            String command = getNearbyCommand();
-
+    
             for (Entity entity : location.getWorld().getNearbyEntities(location, radius, radius, radius)) {
                 if (entity instanceof Player nearbyPlayer) {
                     String playerCommand = command.replace("{player}", nearbyPlayer.getName());

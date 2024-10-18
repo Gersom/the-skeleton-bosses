@@ -55,9 +55,6 @@ import gersom.utils.General;
         // Add the skeleton's UUID to our set of custom skeletons
         skeletonKingID = skeletonKing.getUniqueId();
 
-        // Make the skeleton persistent
-        skeletonKing.setRemoveWhenFarAway(false);
-
         skeletonKing.setCustomName(General.setColor("&d&l" + plugin.getConfigs().getLangBossKingName() + "&r&f"));
         skeletonKing.setCustomNameVisible(true);
 
@@ -75,6 +72,7 @@ import gersom.utils.General;
         ItemMeta helmetMeta = Objects.requireNonNull(goldenHelmet.getItemMeta());
         helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true); // Protection IV
+        helmetMeta.setUnbreakable(true); // irrompible
         goldenHelmet.setItemMeta(helmetMeta);
 
         // Create elytra with Unbreaking III
@@ -101,6 +99,11 @@ import gersom.utils.General;
         skeletonKing.getEquipment().setBootsDropChance(0.0f);
         skeletonKing.getEquipment().setItemInMainHandDropChance(0.0f);
         skeletonKing.getEquipment().setItemInOffHandDropChance(0.0f);
+
+        skeletonKing.setCanPickupItems(false); // Evita que recoja items
+        // Make the skeleton persistent
+        skeletonKing.setRemoveWhenFarAway(false);
+        skeletonKing.setPersistent(true); // Asegura que no desaparezca
 
         // Add fire resistance effect
         skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));

@@ -6,7 +6,7 @@
 
     <groupId>gersom</groupId>
     <artifactId>the-skeleton-bosses</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <name>TheSkeletonBosses</name>
 
     <properties>

@@ -56,9 +56,6 @@ public class SkeletonEmperor extends Boss {
         // Add the skeleton's UUID to our set of custom skeletons
         skeletonEmperorID = skeletonEmperor.getUniqueId();
 
-        // Make the skeleton persistent
-        skeletonEmperor.setRemoveWhenFarAway(false);
-
         skeletonEmperor.setCustomName(General.setColor("&6&l" + plugin.getConfigs().getLangBossEmperorName() + "&r&f"));
         skeletonEmperor.setCustomNameVisible(true);
 
@@ -75,6 +72,7 @@ public class SkeletonEmperor extends Boss {
         ItemMeta helmetMeta = Objects.requireNonNull(goldenHelmet.getItemMeta());
         helmetMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
         helmetMeta.addEnchant(Enchantment.PROTECTION, 4, true); // Protection IV
+        helmetMeta.setUnbreakable(true); // irrompible
         goldenHelmet.setItemMeta(helmetMeta);
 
         // Create elytra with Unbreaking III
@@ -106,6 +104,11 @@ public class SkeletonEmperor extends Boss {
         skeletonEmperor.getEquipment().setBootsDropChance(0.0f);
         skeletonEmperor.getEquipment().setItemInMainHandDropChance(0.0f);
         skeletonEmperor.getEquipment().setItemInOffHandDropChance(0.0f);
+
+        skeletonEmperor.setCanPickupItems(false); // Evita que recoja items
+        // Make the skeleton persistent
+        skeletonEmperor.setRemoveWhenFarAway(false);
+        skeletonEmperor.setPersistent(true); // Asegura que no desaparezca
 
         // Add fire resistance effect
         skeletonEmperor.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
