@@ -17,11 +17,13 @@ public class MainTabCompleter implements TabCompleter {
         if (sender.hasPermission("the-skeleton-bosses.use")) {
             if (args.length == 1) {
                 // Main commands
-                completions.add("help");
-                completions.add("spawn");
                 completions.add("reload");
-                completions.add("author");
+                completions.add("location");
+                completions.add("spawn");
+                completions.add("clear");
                 completions.add("version");
+                completions.add("author");
+                completions.add("help");
             } else if (args.length == 2) {
                 // Subcommands
                 if (args[0].equalsIgnoreCase("spawn")) {

@@ -4,7 +4,7 @@ plugin:
   disabled: "¡El plugin ha sido deshabilitado!"
 
   about:
-    welcome: "¡Bienvenido a Los Jefes de Esqueleto!"
+    welcome: "¡Bienvenido a Los Jefes Esqueleto!"
     description:
       - "TSB presenta formidables jefes esqueletos en tu mundo de Minecraft: &6&lel Esqueleto Emperador y &del Rey Esqueleto."
       - "Estas poderosas entidades aparecen automáticamente alrededor del área designada y cuentan con atributos mejorados que las distinguen de los esqueletos comunes."
@@ -17,6 +17,8 @@ plugin:
     reload: "¡Configuración recargada!"
     not_found: "¡Comando no encontrado!"
     no_permission: "¡No tienes permiso para usar este comando!"
+    already_exists: "No puedes generar otro Jefe porque ya existe uno en el mundo."
+    clear_records: "¡Todos los registros de los Jefes han sido borrados!"
 
 # Nombre de los jefes
 # Aquí estan los valores de la variable {boss_name}

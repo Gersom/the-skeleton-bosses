@@ -187,6 +187,12 @@ public class MainConfigManager {
     public String getLangCommandNotPermission() {
         return languageManager.getLangCommandNotPermission();
     }
+    public String getLangCommandAlreadyExist() {
+        return languageManager.getLangCommandAlreadyExist();
+    }
+    public String getLangCommandClearRecords() {
+        return languageManager.getLangCommandClearRecords();
+    }
     
     // BOSSES MESSAGES LANGUAGE
     // Name of the bosses

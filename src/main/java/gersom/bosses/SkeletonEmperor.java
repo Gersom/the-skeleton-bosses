@@ -50,6 +50,7 @@ public class SkeletonEmperor extends Boss {
         super(plugin, "skeletonEmperor");
     }
 
+    @SuppressWarnings("")
     public void generateSkeletonEmperor(World world, Location location) {
         this.skeletonEmperor = (Skeleton) world.spawnEntity(location, EntityType.SKELETON);
         
@@ -209,6 +210,7 @@ public class SkeletonEmperor extends Boss {
         bossBar.setVisible(true);
     }
 
+    @SuppressWarnings("")
     private void updateBossBar() {
         if (skeletonEmperor == null || bossBar == null) return;
 

@@ -90,6 +90,12 @@ public class LanguageManager {
     public String getLangCommandNotPermission() {
         return getMessage("plugin.commands.no_permission", "You don't have permission to use this command!");
     }
+    public String getLangCommandAlreadyExist() {
+        return getMessage("plugin.commands.already_exists", "You cannot generate another Boss because one already exists in the world. last registered coordinates: {coords}");
+    }
+    public String getLangCommandClearRecords() {
+        return getMessage("plugin.commands.clear_records", "All the bosses' records have been deleted!");
+    }
 
     // Name of the bosses
     public String getLangBossEmperorName() {

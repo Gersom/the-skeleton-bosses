@@ -17,6 +17,8 @@ plugin:
     reload: ""
     not_found: ""
     no_permission: ""
+    already_exists: ""
+    clear_records: ""
 
 # Name of the bosses
 # Here are the values of the variable {boss_name}

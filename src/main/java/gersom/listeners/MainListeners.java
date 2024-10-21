@@ -42,25 +42,30 @@ public class MainListeners implements Listener {
             public void run() {
                 Player player = event.getPlayer();
                 if (player.isOnline()) {
-
-                    if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
-                        plugin.getMainMobs().onSuccessGenerated(
-                            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity(),
-                            "skeletonEmperor",
-                            "player"
-                        );
-                    }
-                    if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
-                        plugin.getMainMobs().onSuccessGenerated(
-                            plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity(),
-                            "skeletonKing",
-                            "player"
-                        );
-                    }
+                    checkAndNotifyBoss("skeletonEmperor");
+                    checkAndNotifyBoss("skeletonKing");
                 }
             }
         // (20L = 20 ticks = 1 seg)
         }.runTaskLater(plugin, 60L);
+    }
+
+    private void checkAndNotifyBoss(String bossType) {
+        Entity bossEntity = null;
+        
+        if (bossType.equals("skeletonEmperor")) {
+            if (plugin.getMainMobs().getSkeletonEmperor() != null && 
+                plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
+                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity();
+            }
+        } else if (bossType.equals("skeletonKing")) {
+            if (plugin.getMainMobs().getSkeletonKing() != null && 
+                plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
+                bossEntity = plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity();
+            }
+        }
+
+        plugin.getMainMobs().onSuccessGenerated(bossEntity, bossType, "player");
     }
 
     // Event listener for when a mob dies
@@ -70,11 +75,13 @@ public class MainListeners implements Listener {
 
         if (event.getEntityType() == EntityType.SKELETON) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null &&
+                plugin.getMainMobs().getSkeletonEmperor().getEntity() != null &&
                 plugin.getMainMobs().getSkeletonEmperor().getEntity().getUniqueId().equals(event.getEntity().getUniqueId())) {
                 boss = plugin.getMainMobs().getSkeletonEmperor();
             }
         } else if (event.getEntityType() == EntityType.WITHER_SKELETON) {
             if (plugin.getMainMobs().getSkeletonKing() != null &&
+                plugin.getMainMobs().getSkeletonKing().getEntity() != null &&
                 plugin.getMainMobs().getSkeletonKing().getEntity().getUniqueId().equals(event.getEntity().getUniqueId())) {
                 boss = plugin.getMainMobs().getSkeletonKing();
             }
@@ -116,5 +123,5 @@ public class MainListeners implements Listener {
                 }
             }
         }
-    }    
+    }
 }

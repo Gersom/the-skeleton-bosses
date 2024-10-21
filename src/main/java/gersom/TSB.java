@@ -2,7 +2,9 @@ package gersom;
 
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +55,11 @@ public class TSB extends JavaPlugin {
         Console.sendMessage(General.generateSeparator());
 
         autoSpawnBosses();
+
+        // Agregar esto al final del método onEnable()
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            getMainMobs().checkAndRecoverBosses();
+        }, 20 * 60, 20 * 10); // Ejecutar cada 60 segundos (20 ticks * 60)
     }
 
     @Override
@@ -80,10 +87,11 @@ public class TSB extends JavaPlugin {
 
     public void autoSpawnBosses() {
         if (getConfigs().getSpawnEnabled()) {
+            World world = getServer().getWorld(getConfigs().getSpawnWorld());
             this.mainMobs.startAutoSpawnBoss(
-                getServer().getWorld(getConfigs().getSpawnWorld()), 
+                world, 
                 new Location(
-                    getServer().getWorld(getConfigs().getSpawnWorld()), 
+                    world, 
                     getConfigs().getSpawnLocationX(), 
                     getConfigs().getSpawnLocationY(), 
                     getConfigs().getSpawnLocationZ()

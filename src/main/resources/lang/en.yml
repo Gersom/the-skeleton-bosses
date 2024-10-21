@@ -17,6 +17,8 @@ plugin:
     reload: "Configuration reloaded!"
     not_found: "Command not found!"
     no_permission: "You don't have permission to use this command!"
+    already_exists: "You cannot generate another Boss because one already exists in the world."
+    clear_records: "All the bosses' records have been deleted!"
 
 # Name of the bosses
 # Here are the values of the variable {boss_name}

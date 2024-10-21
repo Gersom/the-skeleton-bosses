@@ -49,6 +49,8 @@ import gersom.utils.General;
     public SkeletonKing(TSB plugin) {
         super(plugin, "skeletonKing");
     }
+
+    @SuppressWarnings("")
     public void generateSkeletonKing(World world, Location location) {
         this.skeletonKing = (WitherSkeleton) world.spawnEntity(location, EntityType.WITHER_SKELETON);
 
@@ -204,6 +206,7 @@ import gersom.utils.General;
         bossBar.setVisible(true);
     }
 
+    @SuppressWarnings("")
     private void updateBossBar() {
         if (skeletonKing == null || bossBar == null) return;
 

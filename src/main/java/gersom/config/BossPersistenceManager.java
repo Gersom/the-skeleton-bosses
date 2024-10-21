@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -32,6 +33,7 @@ public class BossPersistenceManager {
         }
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     private void loadData() {
         if (!dataFile.exists()) {
             try {
@@ -46,8 +48,13 @@ public class BossPersistenceManager {
         this.dataConfig = YamlConfiguration.loadConfiguration(dataFile);
     }
 
-    public void saveBossData(String bossType, UUID uuid) {
+    @SuppressWarnings("CallToPrintStackTrace")
+    public void saveBossData(String bossType, UUID uuid, Location location) {
         dataConfig.set(bossType + ".uuid", uuid.toString());
+        dataConfig.set(bossType + ".world", location.getWorld().getName());
+        dataConfig.set(bossType + ".x", location.getX());
+        dataConfig.set(bossType + ".y", location.getY());
+        dataConfig.set(bossType + ".z", location.getZ());
         try {
             dataConfig.save(dataFile);
         } catch (IOException e) {
@@ -61,6 +68,19 @@ public class BossPersistenceManager {
         return uuidString != null ? UUID.fromString(uuidString) : null;
     }
 
+    public Location getBossLocation(String bossType) {
+        String worldName = dataConfig.getString(bossType + ".world");
+        double x = dataConfig.getDouble(bossType + ".x");
+        double y = dataConfig.getDouble(bossType + ".y");
+        double z = dataConfig.getDouble(bossType + ".z");
+        
+        if (worldName != null) {
+            return new Location(plugin.getServer().getWorld(worldName), x, y, z);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("CallToPrintStackTrace")
     public void removeBossData(String bossType) {
         dataConfig.set(bossType, null);
         try {

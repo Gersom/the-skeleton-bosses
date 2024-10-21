@@ -15,6 +15,8 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -48,8 +50,6 @@ public class MainGenerator {
                 skeletonEmperor = new SkeletonEmperor(plugin);
                 skeletonEmperor.setSkeletonEmperorID(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
-            } else {
-                plugin.getBossPersistenceManager().removeBossData("skeletonEmperor");
             }
         }
         
@@ -59,32 +59,48 @@ public class MainGenerator {
                 skeletonKing = new SkeletonKing(plugin);
                 skeletonKing.setSkeletonKingID(kingUUID);
                 skeletonKing.recreateBossBar(entity);
-            } else {
-                plugin.getBossPersistenceManager().removeBossData("skeletonKing");
             }
         }
     }
     
+    @SuppressWarnings("")
     private Entity findEntityByUUID(UUID uuid) {
-        for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                if (entity.getUniqueId().equals(uuid)) {
-                    return entity;
-                }
+        String worldName = plugin.getConfigs().getSpawnWorld();
+        World world = Bukkit.getWorld(worldName);
+
+        if (world == null) {
+            Console.sendMessage("&cError: The world specified in the configuration does not exist.");
+            return null;
+        }
+
+        for (Entity entity : world.getEntities()) {
+            if (entity.getUniqueId().equals(uuid)) {
+                return entity;
             }
         }
         return null;
     }
 
     public void onSuccessGenerated(Entity entity, String bossType, String senderType) {
-        Location spawnLocation = entity.getLocation();
+        Location spawnLocation;
+        String bossName = "";
+        String bossColor = "";
+
+        if (entity != null) {
+            spawnLocation = entity.getLocation();
+        } else {
+            spawnLocation = plugin.getBossPersistenceManager().getBossLocation(bossType);
+            if (spawnLocation == null) {
+                // If there's no location data, we can't show a message
+                return;
+            }
+        }
+
         String coords = String.format("(%.0f, %.0f, %.0f)", 
                                       spawnLocation.getX(), 
                                       spawnLocation.getY(), 
                                       spawnLocation.getZ());
 
-        String bossName = "";
-        String bossColor = "";
         String title = plugin.getConfigs().getLangBossesMsgSpawn();
         if (bossType.equals("skeletonEmperor")) {
             bossName = plugin.getConfigs().getLangBossEmperorName();
@@ -163,7 +179,7 @@ public class MainGenerator {
         if (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null) {
             skeletonEmperor = new SkeletonEmperor(plugin);
             skeletonEmperor.generateSkeletonEmperor(world, location);
-            plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getSkeletonEmperorID());
+            plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getSkeletonEmperorID(), location);
 
             onSuccessGenerated(
                 skeletonEmperor.getSkeletonEmperorEntity(),
@@ -177,7 +193,7 @@ public class MainGenerator {
         if (skeletonKing == null || skeletonKing.getSkeletonKingID() == null) {
             skeletonKing = new SkeletonKing(plugin);
             skeletonKing.generateSkeletonKing(world, location);
-            plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getSkeletonKingID());
+            plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getSkeletonKingID(), location);
             
             onSuccessGenerated(
                 skeletonKing.getSkeletonKingEntity(),
@@ -191,25 +207,83 @@ public class MainGenerator {
         this.taskAutoSpawn = new BukkitRunnable() {
             @Override
             public void run() {
-                if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
-                    (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null)) {
-                    Location spawnLocation = getRandomLocation(world, center, minRadius, maxRadius);
+                // Verificar si ya existe un jefe en bosses_data.yml
+                UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
+                UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
 
-                    Double chance = random.nextDouble();
-                    if (chance < plugin.getConfigs().getSpawnChance()) {
-                        // chance for King
-                        if (chance < plugin.getConfigs().getBossKingPercentage()) {
-                            generateKing(world, spawnLocation);
-                        } 
-                        
-                        // chance for Emperor
-                        else if (chance < plugin.getConfigs().getBossEmperorPercentage()) {
-                            generateEmperor(world, spawnLocation);
+                if (emperorUUID == null && kingUUID == null) {
+                    if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
+                        (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null)) {
+                        Location spawnLocation = getRandomLocation(world, center, minRadius, maxRadius);
+
+                        Double chance = random.nextDouble();
+                        if (chance < plugin.getConfigs().getSpawnChance()) {
+                            // chance for King
+                            if (chance < plugin.getConfigs().getBossKingPercentage()) {
+                                generateKing(world, spawnLocation);
+                            } 
+                            
+                            // chance for Emperor
+                            else if (chance < plugin.getConfigs().getBossEmperorPercentage()) {
+                                generateEmperor(world, spawnLocation);
+                            }
+                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&achance:" + chance);
+                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&aBossKingPercentage:" + plugin.getConfigs().getBossKingPercentage());
+                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&aBossEmperorPercentage:" + plugin.getConfigs().getBossEmperorPercentage());
                         }
                     }
                 }
             }
         }.runTaskTimer(plugin, 0L, interval);
+    }
+
+    public void checkAndRecoverBosses() {
+        boolean needToCheckEmperor = (skeletonEmperor == null || skeletonEmperor.getEntity() == null);
+        boolean needToCheckKing = (skeletonKing == null || skeletonKing.getEntity() == null);
+    
+        if (!needToCheckEmperor && !needToCheckKing) {
+            // Ambos jefes están en memoria y tienen entidades válidas, no es necesario hacer nada
+            return;
+        }
+    
+        UUID emperorUUID = needToCheckEmperor ? plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor") : null;
+        UUID kingUUID = needToCheckKing ? plugin.getBossPersistenceManager().getBossUUID("skeletonKing") : null;
+    
+        if (emperorUUID == null && kingUUID == null) {
+            // No hay jefes que necesiten ser recuperados
+            return;
+        }
+    
+        String worldName = plugin.getConfigs().getSpawnWorld();
+        World world = Bukkit.getWorld(worldName);
+    
+        if (world == null) {
+            Console.sendMessage("&cError: The world specified in the configuration does not exist.");
+            return;
+        }
+    
+        for (Entity entity : world.getEntities()) {
+            if (needToCheckEmperor && entity instanceof Skeleton && emperorUUID != null && entity.getUniqueId().equals(emperorUUID)) {
+                skeletonEmperor = new SkeletonEmperor(plugin);
+                skeletonEmperor.setSkeletonEmperorID(emperorUUID);
+                skeletonEmperor.recreateBossBar(entity);
+                plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", emperorUUID, entity.getLocation());
+                Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton Emperor was found again.");
+                needToCheckEmperor = false;
+            } else if (needToCheckKing && entity instanceof WitherSkeleton && kingUUID != null && entity.getUniqueId().equals(kingUUID)) {
+                skeletonKing = new SkeletonKing(plugin);
+                skeletonKing.setSkeletonKingID(kingUUID);
+                skeletonKing.recreateBossBar(entity);
+                plugin.getBossPersistenceManager().saveBossData("skeletonKing", kingUUID, entity.getLocation());
+                Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton King was found again.");
+                needToCheckKing = false;
+            }
+    
+            if (!needToCheckEmperor && !needToCheckKing) {
+                // Si los 2 jefes han sido recuperados, podemos salir del bucle
+                break;
+            }
+        }
     }
 
     private Location getRandomLocation(World world, Location center, int minRadius, int maxRadius) {
