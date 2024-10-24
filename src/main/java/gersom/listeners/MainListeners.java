@@ -42,15 +42,15 @@ public class MainListeners implements Listener {
             public void run() {
                 Player player = event.getPlayer();
                 if (player.isOnline()) {
-                    checkAndNotifyBoss("skeletonEmperor");
-                    checkAndNotifyBoss("skeletonKing");
+                    checkAndNotifyBoss("skeletonEmperor", player);
+                    checkAndNotifyBoss("skeletonKing", player);
                 }
             }
         // (20L = 20 ticks = 1 seg)
         }.runTaskLater(plugin, 60L);
     }
 
-    private void checkAndNotifyBoss(String bossType) {
+    private void checkAndNotifyBoss(String bossType, Player player) {
         Entity bossEntity = null;
         
         if (bossType.equals("skeletonEmperor")) {
@@ -65,7 +65,7 @@ public class MainListeners implements Listener {
             }
         }
 
-        plugin.getMainMobs().onSuccessGenerated(bossEntity, bossType, "player");
+        plugin.getMainMobs().onSuccessGenerated(bossEntity, bossType, "player", player);
     }
 
     // Event listener for when a mob dies

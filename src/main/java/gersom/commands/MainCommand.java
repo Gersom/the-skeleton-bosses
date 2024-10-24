@@ -21,17 +21,13 @@ public class MainCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         // Si se ejecuta el comando desde la consola
         if (!(sender instanceof Player)) {
-            // Console.sendMessage(General.setColor(
-            //     "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandPlayerOnly()
-            // ));
-
-            // no existe argumentos
+            // No existe argumentos
             if (args.length == 0) {
                 subCommands.showAboutText(sender, "Console");
                 return true;
             }
     
-            // si al menos hay un argumento
+            // Si al menos hay un argumento
             if (args.length > 0) {
                 subCommands.handleSubCommands(sender, args);
                 return true;
@@ -42,24 +38,45 @@ public class MainCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (player.hasPermission("the-skeleton-bosses.use")) {
-            // no existe argumentos
-            if (args.length == 0) {
-                subCommands.showAboutText(sender, player.getName());
-                return true;
-            }
-    
-            // si al menos hay un argumento
-            if (args.length > 0) {
-                subCommands.handleSubCommands(player, args);
-                return true;
-            }
+        // No existe argumentos
+        if (args.length == 0) {
+            // Mostrar información básica incluso sin permisos
+            subCommands.showAboutText(sender, player.getName());
+            return true;
         }
 
-        else {
-            player.sendMessage(General.setColor(
-                "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandNotPermission()
-            ));
+        // Si hay argumentos, verificar el comando específico
+        if (args.length > 0) {
+            String subCommand = args[0].toLowerCase();
+            
+            // Comandos que requieren permiso básico
+            if (subCommand.equals("location") || subCommand.equals("author")) {
+                if (player.hasPermission("the-skeleton-bosses.use")) {
+                    subCommands.handleSubCommands(player, args);
+                } else {
+                    player.sendMessage(General.setColor(
+                        "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandNotPermission()
+                    ));
+                }
+                return true;
+            }
+            
+            // Comandos que requieren permiso de admin
+            if (subCommand.equals("reload") || subCommand.equals("spawn") || 
+                subCommand.equals("help") || subCommand.equals("clear") || 
+                subCommand.equals("version")) {
+                if (player.hasPermission("the-skeleton-bosses.admin")) {
+                    subCommands.handleSubCommands(player, args);
+                } else {
+                    player.sendMessage(General.setColor(
+                        "&c" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandNotPermission()
+                    ));
+                }
+                return true;
+            }
+
+            // Si el comando no existe
+            subCommands.showNotFoundCommandText(sender);
         }
 
         return true;

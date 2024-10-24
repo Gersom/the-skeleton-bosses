@@ -81,7 +81,7 @@ public class MainGenerator {
         return null;
     }
 
-    public void onSuccessGenerated(Entity entity, String bossType, String senderType) {
+    public void onSuccessGenerated(Entity entity, String bossType, String senderType, Player player) {
         Location spawnLocation;
         String bossName = "";
         String bossColor = "";
@@ -115,17 +115,14 @@ public class MainGenerator {
         title = title.replace("{boss_color}", bossColor);
         title = title.replace("{coords}", coords);
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        if (senderType.equals("player")) {
             player.playSound(
                 Objects.requireNonNull(player.getLocation()), 
                 Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
                 1, 
                 1
             );
-
-            if (senderType.equals("player")) {
-                player.sendMessage(General.setColor(title));
-            }
+            player.sendMessage(General.setColor(title));
         }
 
         if (senderType.equals("console")) {
@@ -133,6 +130,14 @@ public class MainGenerator {
         }
 
         if (senderType.equals("both")) {
+            for (Player playerTmp : Bukkit.getOnlinePlayers()) {
+                playerTmp.playSound(
+                    Objects.requireNonNull(playerTmp.getLocation()), 
+                    Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
+                    1, 
+                    1
+                );
+            }
             Bukkit.broadcastMessage(General.setColor(title));
         }
     }
@@ -184,7 +189,8 @@ public class MainGenerator {
             onSuccessGenerated(
                 skeletonEmperor.getSkeletonEmperorEntity(),
                 "skeletonEmperor",
-                "both"
+                "both",
+                null
             );
         }
     }
@@ -198,7 +204,8 @@ public class MainGenerator {
             onSuccessGenerated(
                 skeletonKing.getSkeletonKingEntity(),
                 "skeletonKing",
-                "both"
+                "both",
+                null
             );
         }
     }

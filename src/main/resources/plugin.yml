@@ -1,5 +1,5 @@
 name: TheSkeletonBosses
-version: 1.3.0
+version: 1.3.1
 main: gersom.TSB
 api-version: 1.17
 author: Gersom
@@ -14,29 +14,41 @@ commands:
       help:
         description: Shows help message
         usage: /<command> help
+        permission: the-skeleton-bosses.admin
       list:
         description: Shows list of commands
         usage: /<command> list
       reload:
         description: Reloads config.yml
         usage: /<command> reload
+        permission: the-skeleton-bosses.admin
       author:
         description: Shows author of plugin
         usage: /<command> author
+        permission: the-skeleton-bosses.use
       version:
         description: Shows version of plugin
         usage: /<command> version
+        permission: the-skeleton-bosses.admin
       spawn:
         description: Spawns a custom mob
         usage: /<command> spawn [emperor, king]
-      spawn:
+        permission: the-skeleton-bosses.admin
+      location:
         description: Shows the last registered coordinates of the boss
         usage: /<command> location
-      spawn:
+        permission: the-skeleton-bosses.use
+      clear:
         description: Clears the Bosses registered
         usage: /<command> clear
+        permission: the-skeleton-bosses.admin
 
 permissions:
   the-skeleton-bosses.use:
-    description: Allows player to use TSB commands
+    description: Allows players to use basic TSB commands (location, author)
+    default: true
+  the-skeleton-bosses.admin:
+    description: Allows administrators to use all TSB commands
     default: op
+    children:
+      the-skeleton-bosses.use: true
