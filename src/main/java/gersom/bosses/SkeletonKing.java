@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -22,6 +23,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +41,7 @@ import gersom.utils.General;
   * @author Gersom
   */
   public class SkeletonKing extends Boss {
+    private BukkitTask horseParticlesTask;
     private UUID skeletonKingID = null;
     private final Random random = new Random();
     private BossBar bossBar;
@@ -77,6 +80,13 @@ import gersom.utils.General;
         helmetMeta.setUnbreakable(true); // irrompible
         goldenHelmet.setItemMeta(helmetMeta);
 
+        // Escudo
+        ItemStack shield = new ItemStack(Material.SHIELD);
+        ItemMeta shieldMeta = Objects.requireNonNull(shield.getItemMeta());
+        shieldMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
+        shieldMeta.setUnbreakable(true); // irrompible
+        shield.setItemMeta(shieldMeta);
+
         // Create elytra with Unbreaking III
         ItemStack elytra = new ItemStack(Material.ELYTRA);
         ItemMeta elytraMeta = Objects.requireNonNull(elytra.getItemMeta());
@@ -91,6 +101,7 @@ import gersom.utils.General;
 
         // Set the equipment on the skeleton
         skeletonKing.getEquipment().setHelmet(goldenHelmet);
+        skeletonKing.getEquipment().setItemInOffHand(shield);
         skeletonKing.getEquipment().setChestplate(elytra);
         skeletonKing.getEquipment().setItemInMainHand(swordCustom);
         
@@ -108,13 +119,13 @@ import gersom.utils.General;
         skeletonKing.setPersistent(true); // Asegura que no desaparezca
 
         // Add fire resistance effect
-        skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
+        skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, true));
 
         // Crear y configurar la BossBar
         createBossBar();
 
         // Add dragon breath particles
-        createTaskPaticles();
+        // createTaskPaticles();
 
         // Iniciar tarea para actualizar la barra de vida y los jugadores
         createTaskBossBar();
@@ -157,6 +168,43 @@ import gersom.utils.General;
             helmet.setItemMeta(helmetMeta);
             event.getDrops().add(helmet);
         }
+    }
+
+    @SuppressWarnings("")
+    public void generateHorse() {
+        World world = plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity().getWorld();
+        Location location = plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity().getLocation();
+        
+        // Generar el caballo esqueleto
+        SkeletonHorse skeletonHorse = (SkeletonHorse) world.spawnEntity(location, EntityType.SKELETON_HORSE);
+        skeletonHorse.setCustomName("Skeleton King Horse");
+
+        // Configurar atributos del caballo
+        skeletonHorse.setAdult();
+        skeletonHorse.setTamed(true);
+        skeletonHorse.setDomestication(1);
+        skeletonHorse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(900.0);
+        skeletonHorse.setHealth(900.0);
+        skeletonHorse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
+        skeletonHorse.setJumpStrength(1.0);
+        skeletonHorse.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.12);
+
+        // Hacer que el caballo sea persistente
+        skeletonHorse.setRemoveWhenFarAway(false);
+        skeletonHorse.setPersistent(true);
+
+        // Agregar montura al caballo
+        skeletonHorse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+
+        // Dar resistencia al fuego permanente al caballo
+        skeletonHorse.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, true));
+
+        // Montar el Rey Esqueleto en el caballo
+        skeletonHorse.addPassenger(plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity());
+
+        world.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1.5f, 1.0f);
+
+        crearTaskHorseParticles(skeletonHorse);
     }
 
     public void recreateBossBar(Entity entity) {
@@ -246,18 +294,18 @@ import gersom.utils.General;
         }.runTaskTimer(plugin, 0L, 20L);
     }
 
-    private void createTaskPaticles() {
-        this.taskParticles = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
-                    cleanUp();
-                    return;
-                }
-                skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
-            }
-        }.runTaskTimer(plugin, 0L, 10L);
-    }
+    // private void createTaskPaticles() {
+    //     this.taskParticles = new BukkitRunnable() {
+    //         @Override
+    //         public void run() {
+    //             if (skeletonKing == null || !skeletonKing.isValid() || skeletonKing.isDead()) {
+    //                 cleanUp();
+    //                 return;
+    //             }
+    //             skeletonKing.getWorld().spawnParticle(Particle.DRAGON_BREATH, skeletonKing.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
+    //         }
+    //     }.runTaskTimer(plugin, 0L, 10L);
+    // }
 
     private void startUpdateTasks() {
         // Cancelar tareas existentes si las hay
@@ -269,13 +317,57 @@ import gersom.utils.General;
         }
 
         // Reiniciar las tareas
-        createTaskPaticles();
+        // createTaskPaticles();
 
         createTaskBossBar();
     }
 
+    private void crearTaskHorseParticles(SkeletonHorse skeletonHorse) {
+        // Agregar partículas de fuego azul alrededor del caballo
+        horseParticlesTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeletonHorse == null || !skeletonHorse.isValid() || skeletonHorse.isDead()) {
+                    this.cancel();
+                    return;
+                }
+                Location horseLoc = skeletonHorse.getLocation();
+                
+                // Fuego azul principal
+                skeletonHorse.getWorld().spawnParticle(
+                    Particle.SOUL_FIRE_FLAME,
+                    horseLoc.getX(),
+                    horseLoc.getY() + 0.5,
+                    horseLoc.getZ(),
+                    12, 0.2, 0.4, 0.2, 0.01
+                );
+                
+                // Efecto espiral ascendente
+                double angle = (System.currentTimeMillis() / 500.0) % (2 * Math.PI);
+                double radius = 1;
+                double x = horseLoc.getX() + radius * Math.cos(angle);
+                double z = horseLoc.getZ() + radius * Math.sin(angle);
+                
+                skeletonHorse.getWorld().spawnParticle(
+                    Particle.DRAGON_BREATH,
+                    x,
+                    horseLoc.getY() + 0.5,
+                    z,
+                    3, 0.05, 0.05, 0.05, 0
+                );
+            }
+        }.runTaskTimer(plugin, 0L, 10L); // Actualizamos más frecuentemente para un efecto más suave
+    }
+
     @Override
     public void cleanUp() {
+        if (skeletonKing != null && skeletonKing.getVehicle() != null) {
+            Entity horse = skeletonKing.getVehicle();
+            if (horse instanceof SkeletonHorse) {
+                horse.remove();
+            }
+        }
+
         if (taskBossBar != null) {
             taskBossBar.cancel();
             taskBossBar = null;
@@ -283,6 +375,10 @@ import gersom.utils.General;
         if (taskParticles != null) {
             taskParticles.cancel();
             taskParticles = null;
+        }
+        if (horseParticlesTask != null) {
+            horseParticlesTask.cancel();
+            horseParticlesTask = null;
         }
         if (bossBar != null) {
             bossBar.removeAll();

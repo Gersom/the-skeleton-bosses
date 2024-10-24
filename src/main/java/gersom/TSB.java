@@ -59,7 +59,7 @@ public class TSB extends JavaPlugin {
         // Agregar esto al final del método onEnable()
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             getMainMobs().checkAndRecoverBosses();
-        }, 20 * 60, 20 * 10); // Ejecutar cada 60 segundos (20 ticks * 60)
+        }, 20 * 60, 20 * 5); // Ejecutar cada 60 segundos (20 ticks * 60)
     }
 
     @Override

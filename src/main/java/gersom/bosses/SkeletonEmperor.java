@@ -112,7 +112,7 @@ public class SkeletonEmperor extends Boss {
         skeletonEmperor.setPersistent(true); // Asegura que no desaparezca
 
         // Add fire resistance effect
-        skeletonEmperor.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 0, false, true));
+        skeletonEmperor.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, true));
 
         // Crear y configurar la BossBar
         createBossBar();

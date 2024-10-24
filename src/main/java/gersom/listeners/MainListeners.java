@@ -122,6 +122,10 @@ public class MainListeners implements Listener {
                     event.setCancelled(true);  // Cancela el evento, evadiendo el daño
                 }
             }
+
+            if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity().getVehicle() == null) {
+                plugin.getMainMobs().getSkeletonKing().generateHorse();
+            }
         }
     }
 }
