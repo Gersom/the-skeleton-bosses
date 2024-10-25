@@ -48,6 +48,7 @@ public abstract class Boss {
         }
     }
     
+    @SuppressWarnings("")
     protected void executeNearbyPlayersCommands(Location location) {
         String command = getNearbyCommand();
         if (isNearbyCommandEnabled() && command != null && !command.trim().isEmpty()) {

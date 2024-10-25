@@ -29,11 +29,11 @@ bosses_names:
 # Messages of the bosses
 events:
   # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
-  spawn: "&a{prefix} {boss_color}&lThe {boss_name} &r&ahas spawned! &7coords: &e{coords}"
+  spawn: "&a{prefix}{boss_color}&lThe {boss_name} &r&ahas spawned! &7coords: &e{coords}"
   # Variables: {prefix}, {boss_color}, {boss_name}
-  death_without_killer: "&c{prefix} {boss_color}&lThe {boss_name} &r&chas died!"
+  death_without_killer: "&c{prefix}{boss_color}&lThe {boss_name} &r&chas died!"
   # Variables: {prefix}, {boss_color}, {boss_name}, {player_killer}
-  death_with_killer: "&c{prefix} {boss_color}&lThe {boss_name} &r&chas been killed by &l&n{player_killer}"
+  death_with_killer: "&c{prefix}{boss_color}&lThe {boss_name} &r&chas been killed by &l&n{player_killer}"
 
 # Name of the default items that drop when bosses are killed
 items_names:

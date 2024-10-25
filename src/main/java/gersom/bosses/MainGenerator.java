@@ -187,7 +187,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getSkeletonEmperorID(), location);
 
             onSuccessGenerated(
-                skeletonEmperor.getSkeletonEmperorEntity(),
+                skeletonEmperor.getEntity(),
                 "skeletonEmperor",
                 "both",
                 null
@@ -202,7 +202,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getSkeletonKingID(), location);
             
             onSuccessGenerated(
-                skeletonKing.getSkeletonKingEntity(),
+                skeletonKing.getEntity(),
                 "skeletonKing",
                 "both",
                 null

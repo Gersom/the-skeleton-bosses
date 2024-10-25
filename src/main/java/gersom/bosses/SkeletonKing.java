@@ -65,7 +65,7 @@ import gersom.utils.General;
 
         // Change scale Mob
         skeletonKing.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.25);
-        skeletonKing.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(40.0);
+        skeletonKing.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(20.0);
 
         // Set health to 20 hearts (40 health points)
         double health = plugin.getConfigs().getBossKingHealth();
@@ -119,7 +119,7 @@ import gersom.utils.General;
         skeletonKing.setPersistent(true); // Asegura que no desaparezca
 
         // Add fire resistance effect
-        skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, true));
+        skeletonKing.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 
         // Crear y configurar la BossBar
         createBossBar();
@@ -197,7 +197,7 @@ import gersom.utils.General;
         skeletonHorse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
 
         // Dar resistencia al fuego permanente al caballo
-        skeletonHorse.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, true));
+        skeletonHorse.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 
         // Montar el Rey Esqueleto en el caballo
         skeletonHorse.addPassenger(plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity());
@@ -335,11 +335,11 @@ import gersom.utils.General;
                 
                 // Fuego azul principal
                 skeletonHorse.getWorld().spawnParticle(
-                    Particle.SOUL_FIRE_FLAME,
+                    Particle.DRAGON_BREATH,
                     horseLoc.getX(),
                     horseLoc.getY() + 0.5,
                     horseLoc.getZ(),
-                    12, 0.2, 0.4, 0.2, 0.01
+                    5, 0.2, 0.4, 0.2, 0.01
                 );
                 
                 // Efecto espiral ascendente
@@ -349,11 +349,11 @@ import gersom.utils.General;
                 double z = horseLoc.getZ() + radius * Math.sin(angle);
                 
                 skeletonHorse.getWorld().spawnParticle(
-                    Particle.DRAGON_BREATH,
+                    Particle.SOUL,
                     x,
                     horseLoc.getY() + 0.5,
                     z,
-                    3, 0.05, 0.05, 0.05, 0
+                    5, 0.05, 0.03, 0.05, 0
                 );
             }
         }.runTaskTimer(plugin, 0L, 10L); // Actualizamos más frecuentemente para un efecto más suave

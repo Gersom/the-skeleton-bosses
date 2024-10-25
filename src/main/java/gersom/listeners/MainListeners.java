@@ -56,7 +56,7 @@ public class MainListeners implements Listener {
         if (bossType.equals("skeletonEmperor")) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null && 
                 plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorEntity();
+                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntity();
             }
         } else if (bossType.equals("skeletonKing")) {
             if (plugin.getMainMobs().getSkeletonKing() != null && 
@@ -109,6 +109,10 @@ public class MainListeners implements Listener {
                     event.setCancelled(true);  // Cancela el evento, evadiendo el daño
                 }
             }
+
+            if (plugin.getMainMobs().getSkeletonEmperor().getEntity().getVehicle() == null) {
+                plugin.getMainMobs().getSkeletonEmperor().generateHorse();
+            }
         }
         
         // Haz lo mismo para el Skeleton King
@@ -123,7 +127,7 @@ public class MainListeners implements Listener {
                 }
             }
 
-            if (plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity().getVehicle() == null) {
+            if (plugin.getMainMobs().getSkeletonKing().getEntity().getVehicle() == null) {
                 plugin.getMainMobs().getSkeletonKing().generateHorse();
             }
         }

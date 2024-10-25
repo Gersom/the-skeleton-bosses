@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -23,6 +24,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,6 +41,7 @@ import gersom.utils.General;
  * @author Gersom
  */
 public class SkeletonEmperor extends Boss {
+    private BukkitTask horseParticlesTask;
     private UUID skeletonEmperorID = null;
     private final Random random = new Random();
     private BossBar bossBar;
@@ -85,11 +88,9 @@ public class SkeletonEmperor extends Boss {
         // Create and enchant bow
         ItemStack bowCustom = new ItemStack(Material.BOW);
         ItemMeta bowCustomMeta = Objects.requireNonNull(bowCustom.getItemMeta());
+        bowCustomMeta.addEnchant(Enchantment.POWER, 35, true); // Power V
         bowCustomMeta.addEnchant(Enchantment.MULTISHOT, 1, true); // Multishot
         bowCustomMeta.addEnchant(Enchantment.FLAME, 1, true); // Flame
-        bowCustomMeta.addEnchant(Enchantment.POWER, 30, true); // Power V
-        bowCustomMeta.addEnchant(Enchantment.UNBREAKING, 3, true); // Unbreaking III
-        bowCustomMeta.addEnchant(Enchantment.INFINITY, 1, true); // Infinity
         bowCustomMeta.addEnchant(Enchantment.PUNCH, 2, true); // Punch I
         bowCustom.setItemMeta(bowCustomMeta);
 
@@ -118,7 +119,7 @@ public class SkeletonEmperor extends Boss {
         createBossBar();
 
         // Add dragon breath particles
-        createTaskPaticles();
+        // createTaskPaticles();
         
         // Iniciar tarea para actualizar la barra de vida y los jugadores
         createTaskBossBar();
@@ -164,6 +165,43 @@ public class SkeletonEmperor extends Boss {
         }
     }
 
+    @SuppressWarnings("")
+    public void generateHorse() {
+        World world = skeletonEmperor.getWorld();
+        Location location = skeletonEmperor.getLocation();
+        
+        // Generar el caballo esqueleto
+        SkeletonHorse skeletonHorse = (SkeletonHorse) world.spawnEntity(location, EntityType.SKELETON_HORSE);
+        skeletonHorse.setCustomName("Skeleton Emperor Horse");
+
+        // Configurar atributos del caballo
+        skeletonHorse.setAdult();
+        skeletonHorse.setTamed(true);
+        skeletonHorse.setDomestication(1);
+        skeletonHorse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(900.0);
+        skeletonHorse.setHealth(900.0);
+        skeletonHorse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
+        skeletonHorse.setJumpStrength(1.0);
+        skeletonHorse.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.12);
+
+        // Hacer que el caballo sea persistente
+        skeletonHorse.setRemoveWhenFarAway(false);
+        skeletonHorse.setPersistent(true);
+
+        // Agregar montura al caballo
+        skeletonHorse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
+
+        // Dar resistencia al fuego permanente al caballo
+        skeletonHorse.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
+
+        // Montar el Rey Esqueleto en el caballo
+        skeletonHorse.addPassenger(skeletonEmperor);
+
+        world.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1.5f, 1.0f);
+
+        crearTaskHorseParticles(skeletonHorse);
+    }
+
     public void recreateBossBar(Entity entity) {
         if (entity instanceof Skeleton skeleton1) {
             this.skeletonEmperor = skeleton1;
@@ -180,7 +218,8 @@ public class SkeletonEmperor extends Boss {
         return skeletonEmperor != null ? skeletonEmperor.getLocation() : null;
     }
 
-    public Skeleton getSkeletonEmperorEntity() {
+    @Override
+    public Skeleton getEntity() {
         return this.skeletonEmperor;
     }
 
@@ -250,18 +289,18 @@ public class SkeletonEmperor extends Boss {
         }.runTaskTimer(plugin, 0L, 20L);
     }
 
-    private void createTaskPaticles() {
-        this.taskParticles = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (skeletonEmperor == null || !skeletonEmperor.isValid() || skeletonEmperor.isDead()) {
-                    cleanUp();
-                    return;
-                }
-                skeletonEmperor.getWorld().spawnParticle(Particle.FLAME, skeletonEmperor.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
-            }
-        }.runTaskTimer(plugin, 0L, 10L);
-    }
+    // private void createTaskPaticles() {
+    //     this.taskParticles = new BukkitRunnable() {
+    //         @Override
+    //         public void run() {
+    //             if (skeletonEmperor == null || !skeletonEmperor.isValid() || skeletonEmperor.isDead()) {
+    //                 cleanUp();
+    //                 return;
+    //             }
+    //             skeletonEmperor.getWorld().spawnParticle(Particle.FLAME, skeletonEmperor.getLocation().add(0, 0, 0), 10, 0.3, 0.3, 0.3, 0.01);
+    //         }
+    //     }.runTaskTimer(plugin, 0L, 10L);
+    // }
 
     private void startUpdateTasks() {
         // Cancelar tareas existentes si las hay
@@ -273,13 +312,57 @@ public class SkeletonEmperor extends Boss {
         }
 
         // Reiniciar las tareas
-        createTaskPaticles();
+        // createTaskPaticles();
         createTaskBossBar();
         
     }
 
+    private void crearTaskHorseParticles(SkeletonHorse skeletonHorse) {
+        // Agregar partículas de fuego azul alrededor del caballo
+        horseParticlesTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (skeletonHorse == null || !skeletonHorse.isValid() || skeletonHorse.isDead()) {
+                    this.cancel();
+                    return;
+                }
+                Location horseLoc = skeletonHorse.getLocation();
+                
+                // Fuego azul principal
+                skeletonHorse.getWorld().spawnParticle(
+                    Particle.FLAME,
+                    horseLoc.getX(),
+                    horseLoc.getY() + 0.3,
+                    horseLoc.getZ(),
+                    2, 0.2, 0.4, 0.2, 0.01
+                );
+                
+                // Efecto espiral ascendente
+                double angle = (System.currentTimeMillis() / 500.0) % (2 * Math.PI);
+                double radius = 1;
+                double x = horseLoc.getX() + radius * Math.cos(angle);
+                double z = horseLoc.getZ() + radius * Math.sin(angle);
+                
+                skeletonHorse.getWorld().spawnParticle(
+                    Particle.LARGE_SMOKE,
+                    x,
+                    horseLoc.getY() + 0.3,
+                    z,
+                    5, 0.05, 0.03, 0.05, 0.01
+                );
+            }
+        }.runTaskTimer(plugin, 0L, 10L); // Actualizamos más frecuentemente para un efecto más suave
+    }
+
     @Override
     public void cleanUp() {
+        if (skeletonEmperor != null && skeletonEmperor.getVehicle() != null) {
+            Entity horse = skeletonEmperor.getVehicle();
+            if (horse instanceof SkeletonHorse) {
+                horse.remove();
+            }
+        }
+
         if (taskBossBar != null) {
             taskBossBar.cancel();
             taskBossBar = null;
@@ -288,6 +371,10 @@ public class SkeletonEmperor extends Boss {
             taskParticles.cancel();
             taskParticles = null;
         }
+        if (horseParticlesTask != null) {
+            horseParticlesTask.cancel();
+            horseParticlesTask = null;
+        }
         if (bossBar != null) {
             bossBar.removeAll();
             bossBar = null;
@@ -295,11 +382,6 @@ public class SkeletonEmperor extends Boss {
         skeletonEmperor = null;
         // Remove the skeleton's UUID from our set
         skeletonEmperorID = null;
-    }
-
-    @Override
-    public Entity getEntity() {
-        return skeletonEmperor;
     }
 
     @Override

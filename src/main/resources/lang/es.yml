@@ -28,11 +28,11 @@ bosses_names:
 
 events:
   # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
-  spawn: "&a{prefix} {boss_color}&lEl {boss_name} &r&a¡ha aparecido! &7coords: &e{coords}"
+  spawn: "&a{prefix}{boss_color}&lEl {boss_name} &r&a¡ha aparecido! &7coords: &e{coords}"
   # Variables: {prefix}, {boss_color}, {boss_name}
-  death_without_killer: "&c{prefix} {boss_color}&lEl {boss_name} &r&c¡ha muerto!"
+  death_without_killer: "&c{prefix}{boss_color}&lEl {boss_name} &r&c¡ha muerto!"
   # Variables: {prefix}, {boss_color}, {boss_name}, {player_killer}
-  death_with_killer: "&c{prefix} {boss_color}&lEl {boss_name} &r&cha sido asesinado por &l&n{player_killer}"
+  death_with_killer: "&c{prefix}{boss_color}&lEl {boss_name} &r&cha sido asesinado por &l&n{player_killer}"
 
 # Nombre de los objetos por defecto que dejan caer cuando mueren los jefes
 items_names:
