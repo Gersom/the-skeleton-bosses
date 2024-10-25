@@ -13,7 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -165,43 +164,6 @@ public class SkeletonEmperor extends Boss {
         }
     }
 
-    @SuppressWarnings("")
-    public void generateHorse() {
-        World world = skeletonEmperor.getWorld();
-        Location location = skeletonEmperor.getLocation();
-        
-        // Generar el caballo esqueleto
-        SkeletonHorse skeletonHorse = (SkeletonHorse) world.spawnEntity(location, EntityType.SKELETON_HORSE);
-        skeletonHorse.setCustomName("Skeleton Emperor Horse");
-
-        // Configurar atributos del caballo
-        skeletonHorse.setAdult();
-        skeletonHorse.setTamed(true);
-        skeletonHorse.setDomestication(1);
-        skeletonHorse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(900.0);
-        skeletonHorse.setHealth(900.0);
-        skeletonHorse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
-        skeletonHorse.setJumpStrength(1.0);
-        skeletonHorse.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.12);
-
-        // Hacer que el caballo sea persistente
-        skeletonHorse.setRemoveWhenFarAway(false);
-        skeletonHorse.setPersistent(true);
-
-        // Agregar montura al caballo
-        skeletonHorse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
-
-        // Dar resistencia al fuego permanente al caballo
-        skeletonHorse.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
-
-        // Montar el Rey Esqueleto en el caballo
-        skeletonHorse.addPassenger(skeletonEmperor);
-
-        world.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1.5f, 1.0f);
-
-        crearTaskHorseParticles(skeletonHorse);
-    }
-
     public void recreateBossBar(Entity entity) {
         if (entity instanceof Skeleton skeleton1) {
             this.skeletonEmperor = skeleton1;
@@ -317,9 +279,13 @@ public class SkeletonEmperor extends Boss {
         
     }
 
-    private void crearTaskHorseParticles(SkeletonHorse skeletonHorse) {
-        // Agregar partículas de fuego azul alrededor del caballo
-        horseParticlesTask = new BukkitRunnable() {
+    public void generateHorse() {
+        generateHorse("Skeleton Emperor Horse", skeletonEmperor);
+    }
+
+    @Override
+    protected void createHorseParticles(SkeletonHorse skeletonHorse) {
+        this.horseParticlesTask = new BukkitRunnable() {
             @Override
             public void run() {
                 if (skeletonHorse == null || !skeletonHorse.isValid() || skeletonHorse.isDead()) {
@@ -351,7 +317,7 @@ public class SkeletonEmperor extends Boss {
                     5, 0.05, 0.03, 0.05, 0.01
                 );
             }
-        }.runTaskTimer(plugin, 0L, 10L); // Actualizamos más frecuentemente para un efecto más suave
+        }.runTaskTimer(plugin, 0L, 10L);
     }
 
     @Override
