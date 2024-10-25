@@ -55,13 +55,13 @@ public class MainListeners implements Listener {
         
         if (bossType.equals("skeletonEmperor")) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null && 
-                plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null) {
+                plugin.getMainMobs().getSkeletonEmperor().getBossId() != null) {
                 bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntity();
             }
         } else if (bossType.equals("skeletonKing")) {
             if (plugin.getMainMobs().getSkeletonKing() != null && 
-                plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonKing().getSkeletonKingEntity();
+                plugin.getMainMobs().getSkeletonKing().getBossId() != null) {
+                bossEntity = plugin.getMainMobs().getSkeletonKing().getEntity();
             }
         }
 
@@ -99,8 +99,8 @@ public class MainListeners implements Listener {
         
         // Verifica si la entidad dañada es uno de nuestros jefes
         if (plugin.getMainMobs().getSkeletonEmperor() != null &&
-            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID() != null &&
-            plugin.getMainMobs().getSkeletonEmperor().getSkeletonEmperorID().equals(damagedEntity.getUniqueId())) {
+            plugin.getMainMobs().getSkeletonEmperor().getBossId() != null &&
+            plugin.getMainMobs().getSkeletonEmperor().getBossId().equals(damagedEntity.getUniqueId())) {
             
             // Verifica si el daño proviene de un proyectil
             if (event.getDamager() instanceof Projectile) {
@@ -117,8 +117,8 @@ public class MainListeners implements Listener {
         
         // Haz lo mismo para el Skeleton King
         if (plugin.getMainMobs().getSkeletonKing() != null &&
-            plugin.getMainMobs().getSkeletonKing().getSkeletonKingID() != null &&
-            plugin.getMainMobs().getSkeletonKing().getSkeletonKingID().equals(damagedEntity.getUniqueId())) {
+            plugin.getMainMobs().getSkeletonKing().getBossId() != null &&
+            plugin.getMainMobs().getSkeletonKing().getBossId().equals(damagedEntity.getUniqueId())) {
             
             if (event.getDamager() instanceof Projectile) {
                 int evasionChance = plugin.getConfigs().getBossKingProjectileEvasion();

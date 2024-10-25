@@ -48,7 +48,7 @@ public class MainGenerator {
             Entity entity = findEntityByUUID(emperorUUID);
             if (entity != null) {
                 skeletonEmperor = new SkeletonEmperor(plugin);
-                skeletonEmperor.setSkeletonEmperorID(emperorUUID);
+                skeletonEmperor.setBossId(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
             }
         }
@@ -57,7 +57,7 @@ public class MainGenerator {
             Entity entity = findEntityByUUID(kingUUID);
             if (entity != null) {
                 skeletonKing = new SkeletonKing(plugin);
-                skeletonKing.setSkeletonKingID(kingUUID);
+                skeletonKing.setBossId(kingUUID);
                 skeletonKing.recreateBossBar(entity);
             }
         }
@@ -181,10 +181,10 @@ public class MainGenerator {
     }
     
     public void generateEmperor(World world, Location location) {
-        if (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null) {
+        if (skeletonEmperor == null || skeletonEmperor.getBossId() == null) {
             skeletonEmperor = new SkeletonEmperor(plugin);
-            skeletonEmperor.generateSkeletonEmperor(world, location);
-            plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getSkeletonEmperorID(), location);
+            skeletonEmperor.generateBoss(world, location);
+            plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getBossId(), location);
 
             onSuccessGenerated(
                 skeletonEmperor.getEntity(),
@@ -196,10 +196,10 @@ public class MainGenerator {
     }
 
     public void generateKing(World world, Location location) {
-        if (skeletonKing == null || skeletonKing.getSkeletonKingID() == null) {
+        if (skeletonKing == null || skeletonKing.getBossId() == null) {
             skeletonKing = new SkeletonKing(plugin);
-            skeletonKing.generateSkeletonKing(world, location);
-            plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getSkeletonKingID(), location);
+            skeletonKing.generateBoss(world, location);
+            plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getBossId(), location);
             
             onSuccessGenerated(
                 skeletonKing.getEntity(),
@@ -219,8 +219,8 @@ public class MainGenerator {
                 UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
 
                 if (emperorUUID == null && kingUUID == null) {
-                    if ((skeletonKing == null || skeletonKing.getSkeletonKingID() == null) &&
-                        (skeletonEmperor == null || skeletonEmperor.getSkeletonEmperorID() == null)) {
+                    if ((skeletonKing == null || skeletonKing.getBossId() == null) &&
+                        (skeletonEmperor == null || skeletonEmperor.getBossId() == null)) {
                         Location spawnLocation = getRandomLocation(world, center, minRadius, maxRadius);
 
                         Double chance = random.nextDouble();
@@ -272,14 +272,14 @@ public class MainGenerator {
         for (Entity entity : world.getEntities()) {
             if (needToCheckEmperor && entity instanceof Skeleton && emperorUUID != null && entity.getUniqueId().equals(emperorUUID)) {
                 skeletonEmperor = new SkeletonEmperor(plugin);
-                skeletonEmperor.setSkeletonEmperorID(emperorUUID);
+                skeletonEmperor.setBossId(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
                 plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", emperorUUID, entity.getLocation());
                 Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton Emperor was found again.");
                 needToCheckEmperor = false;
             } else if (needToCheckKing && entity instanceof WitherSkeleton && kingUUID != null && entity.getUniqueId().equals(kingUUID)) {
                 skeletonKing = new SkeletonKing(plugin);
-                skeletonKing.setSkeletonKingID(kingUUID);
+                skeletonKing.setBossId(kingUUID);
                 skeletonKing.recreateBossBar(entity);
                 plugin.getBossPersistenceManager().saveBossData("skeletonKing", kingUUID, entity.getLocation());
                 Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton King was found again.");

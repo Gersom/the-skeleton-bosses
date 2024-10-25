@@ -40,7 +40,7 @@ bosses:
     color: "&d"
 
     # Health of the Skeleton King
-    health: 200
+    health: 350
 
     # 20 is approximately 10 hearts
     damage: 20
@@ -76,7 +76,7 @@ bosses:
     color: "&6"
 
     # Health of the Skeleton Emperor
-    health: 140
+    health: 250
 
     # power of the skeleton emperor's bow
     power: 35
