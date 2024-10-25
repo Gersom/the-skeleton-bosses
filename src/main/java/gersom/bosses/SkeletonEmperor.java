@@ -88,10 +88,10 @@ public class SkeletonEmperor extends Boss {
         // Create and enchant bow
         ItemStack bowCustom = new ItemStack(Material.BOW);
         ItemMeta bowCustomMeta = Objects.requireNonNull(bowCustom.getItemMeta());
-        bowCustomMeta.addEnchant(Enchantment.POWER, 35, true); // Power V
-        bowCustomMeta.addEnchant(Enchantment.MULTISHOT, 1, true); // Multishot
-        bowCustomMeta.addEnchant(Enchantment.FLAME, 1, true); // Flame
-        bowCustomMeta.addEnchant(Enchantment.PUNCH, 2, true); // Punch I
+        bowCustomMeta.addEnchant(Enchantment.POWER, plugin.getConfigs().getBossEmperorPower(), true); // Power
+        bowCustomMeta.addEnchant(Enchantment.MULTISHOT, 1, false); // Multishot
+        bowCustomMeta.addEnchant(Enchantment.FLAME, 1, false); // Flame
+        bowCustomMeta.addEnchant(Enchantment.PUNCH, 2, false); // Punch I
         bowCustom.setItemMeta(bowCustomMeta);
 
         // Set the equipment on the skeleton

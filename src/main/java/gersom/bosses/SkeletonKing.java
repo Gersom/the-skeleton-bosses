@@ -65,7 +65,9 @@ import gersom.utils.General;
 
         // Change scale Mob
         skeletonKing.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(1.25);
-        skeletonKing.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(20.0);
+        skeletonKing.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
+            plugin.getConfigs().getBossKingDamage()
+        );
 
         // Set health to 20 hearts (40 health points)
         double health = plugin.getConfigs().getBossKingHealth();

@@ -94,12 +94,12 @@ public class MainConfigManager {
     public double getBossEmperorHealth() {
         return configFile.getDouble("bosses.skeleton_emperor.health", 140.0);
     }
-    // Experience of the bosses
-    public int getBossKingExp() {
-        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
+    // Damage of the bosses
+    public int getBossKingDamage() {
+        return (int) configFile.getDouble("bosses.skeleton_king.damage", 20);
     }
-    public int getBossEmperorExp() {
-        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
+    public int getBossEmperorPower() {
+        return (int) configFile.getDouble("bosses.skeleton_emperor.power", 35.88);
     }
     // Projectile evasion of the bosses
     public int getBossKingProjectileEvasion() {
@@ -107,6 +107,13 @@ public class MainConfigManager {
     }
     public int getBossEmperorProjectileEvasion() {
         return configFile.getInt("bosses.skeleton_emperor.projectile_evasion", 50);
+    }
+    // Experience of the bosses
+    public int getBossKingExp() {
+        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
+    }
+    public int getBossEmperorExp() {
+        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
     }
     // Bossbar messages
     public String getBossKingBossbarTitle() {

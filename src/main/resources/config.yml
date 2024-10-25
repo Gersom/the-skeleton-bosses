@@ -33,20 +33,23 @@ commands_after_death: false
 
 bosses:
   skeleton_king:
-    # boss_color 
+    # Appearance percentage relative to other bosses (0-100)
+    percentage: 50
+
+    # color for bossbar, messages and custom items
     color: "&d"
 
     # Health of the Skeleton King
     health: 200
 
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 350
+    # 20 is approximately 10 hearts
+    damage: 20
 
     # Projectile evasion chance (0-100)
     projectile_evasion: 75
 
-    # Appearance percentage relative to other bosses (0-100)
-    percentage: 50
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 350
 
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
@@ -66,19 +69,23 @@ bosses:
       command: "give {player} diamond 1"
 
   skeleton_emperor:
+    # Appearance percentage relative to other bosses (0-100)
+    # percentage = (100%) - (skeleton_king.percentage)
+
+    # color for bossbar, messages and custom items
     color: "&6"
 
     # Health of the Skeleton Emperor
     health: 140
 
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 300
+    # power of the skeleton emperor's bow
+    power: 35
 
     # Projectile evasion chance (0-100)
     projectile_evasion: 50
 
-    # Appearance percentage relative to other bosses (0-100)
-    # percentage = (100%) - (skeleton_king.percentage)
+    # The unit of measurement is the amount of experience, not the number of levels.
+    drop_experience: 300
 
     bossbar:
       title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
