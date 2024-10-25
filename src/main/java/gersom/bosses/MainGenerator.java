@@ -46,19 +46,24 @@ public class MainGenerator {
         
         if (emperorUUID != null) {
             Entity entity = findEntityByUUID(emperorUUID);
+            Console.sendMessage("emperorUUID: " + emperorUUID);
             if (entity != null) {
                 skeletonEmperor = new SkeletonEmperor(plugin);
                 skeletonEmperor.setBossId(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
+                plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getBossId(), entity.getLocation());
             }
         }
         
         if (kingUUID != null) {
             Entity entity = findEntityByUUID(kingUUID);
+            Console.sendMessage("kingUUID: " + kingUUID);
             if (entity != null) {
                 skeletonKing = new SkeletonKing(plugin);
+                Console.sendMessage("King found, el entity no es nulo");
                 skeletonKing.setBossId(kingUUID);
                 skeletonKing.recreateBossBar(entity);
+                plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getBossId(), entity.getLocation());
             }
         }
     }
@@ -187,7 +192,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", skeletonEmperor.getBossId(), location);
 
             onSuccessGenerated(
-                skeletonEmperor.getEntity(),
+                skeletonEmperor.getEntityBoss(),
                 "skeletonEmperor",
                 "both",
                 null
@@ -202,7 +207,7 @@ public class MainGenerator {
             plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getBossId(), location);
             
             onSuccessGenerated(
-                skeletonKing.getEntity(),
+                skeletonKing.getEntityBoss(),
                 "skeletonKing",
                 "both",
                 null
@@ -234,9 +239,12 @@ public class MainGenerator {
                             else if (chance < plugin.getConfigs().getBossEmperorPercentage()) {
                                 generateEmperor(world, spawnLocation);
                             }
-                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&achance:" + chance);
-                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&aBossKingPercentage:" + plugin.getConfigs().getBossKingPercentage());
-                            // Console.sendMessage(plugin.getConfigs().getPrefix() + "&aBossEmperorPercentage:" + plugin.getConfigs().getBossEmperorPercentage());
+
+                            if (plugin.getConfigs().getIsLogs()) {
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&achance:" + chance);
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossKingPercentage:" + plugin.getConfigs().getBossKingPercentage());
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossEmperorPercentage:" + plugin.getConfigs().getBossEmperorPercentage());
+                            }
                         }
                     }
                 }
@@ -245,49 +253,85 @@ public class MainGenerator {
     }
 
     public void checkAndRecoverBosses() {
-        boolean needToCheckEmperor = (skeletonEmperor == null || skeletonEmperor.getEntity() == null);
-        boolean needToCheckKing = (skeletonKing == null || skeletonKing.getEntity() == null);
-    
-        if (!needToCheckEmperor && !needToCheckKing) {
-            // Ambos jefes están en memoria y tienen entidades válidas, no es necesario hacer nada
-            return;
-        }
-    
-        UUID emperorUUID = needToCheckEmperor ? plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor") : null;
-        UUID kingUUID = needToCheckKing ? plugin.getBossPersistenceManager().getBossUUID("skeletonKing") : null;
-    
-        if (emperorUUID == null && kingUUID == null) {
-            // No hay jefes que necesiten ser recuperados
-            return;
-        }
-    
         String worldName = plugin.getConfigs().getSpawnWorld();
         World world = Bukkit.getWorld(worldName);
-    
+
         if (world == null) {
             Console.sendMessage("&cError: The world specified in the configuration does not exist.");
             return;
         }
-    
-        for (Entity entity : world.getEntities()) {
-            if (needToCheckEmperor && entity instanceof Skeleton && emperorUUID != null && entity.getUniqueId().equals(emperorUUID)) {
-                skeletonEmperor = new SkeletonEmperor(plugin);
-                skeletonEmperor.setBossId(emperorUUID);
-                skeletonEmperor.recreateBossBar(entity);
-                plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", emperorUUID, entity.getLocation());
-                Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton Emperor was found again.");
-                needToCheckEmperor = false;
-            } else if (needToCheckKing && entity instanceof WitherSkeleton && kingUUID != null && entity.getUniqueId().equals(kingUUID)) {
-                skeletonKing = new SkeletonKing(plugin);
-                skeletonKing.setBossId(kingUUID);
-                skeletonKing.recreateBossBar(entity);
-                plugin.getBossPersistenceManager().saveBossData("skeletonKing", kingUUID, entity.getLocation());
-                Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton King was found again.");
-                needToCheckKing = false;
+
+        boolean isLogs = plugin.getConfigs().getIsLogs();
+        UUID emperorLogUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
+        UUID kingLogUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
+
+        if (emperorLogUUID != null) {
+            if (isLogs) Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Emperor registrado en bosses_data.yml");
+        }
+        if (kingLogUUID != null) {
+            if (isLogs) Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton King registrado en bosses_data.yml");
+        }
+        if (emperorLogUUID == null && kingLogUUID == null) {
+            // No hay jefes que necesiten ser recuperados
+            if (isLogs) Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "No hay ningun Boss registrado en bosses_data.yml");
+            return;
+        }
+
+        if (isLogs && skeletonEmperor == null) {
+            Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton Emperor: Class is null");
+        } else if (isLogs && skeletonEmperor != null) {
+            Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Emperor: Class exists");
+
+            if (skeletonEmperor.getBossBar() == null) {
+                Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton Emperor: getBossBar is null");
+            } else if (skeletonEmperor.getBossBar() != null) {
+                Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Emperor: getBossBar exists");
             }
-    
-            if (!needToCheckEmperor && !needToCheckKing) {
-                // Si los 2 jefes han sido recuperados, podemos salir del bucle
+        }
+
+        if (isLogs && skeletonKing == null) {
+            Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton King: Class is null");
+        } else if (isLogs && skeletonKing != null) {
+            Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton King: Class exists");
+
+            if (skeletonKing.getBossBar() == null) {
+                Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton King: getBossBar is null");
+            } else if (skeletonKing.getBossBar() != null) {
+                Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton King: getBossBar exists");
+            }
+        }
+        
+        // Verificar si el chunk está cargado antes de buscar la entidad
+        for (Entity entity : world.getEntities()) {
+            if (emperorLogUUID != null && entity instanceof Skeleton && entity.getUniqueId().equals(emperorLogUUID)) {
+                if (skeletonEmperor == null) {
+                    skeletonEmperor = new SkeletonEmperor(plugin);
+                    skeletonEmperor.setEntityBoss((Skeleton) entity);
+                    skeletonEmperor.setBossId(emperorLogUUID);
+                    skeletonEmperor.recreateBossBar(entity);
+                } else {
+                    if (skeletonEmperor.getEntityBoss() == null) skeletonEmperor.setEntityBoss((Skeleton) entity);
+                    if (skeletonEmperor.getBossId() == null) skeletonEmperor.setBossId(emperorLogUUID);
+                    if (skeletonEmperor.getBossBar() == null) skeletonEmperor.recreateBossBar(entity);
+                }
+                plugin.getBossPersistenceManager().saveBossData("skeletonEmperor", emperorLogUUID, entity.getLocation());
+                if (isLogs) Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton Emperor was recovered successfully.");
+                break;
+            }
+
+            if (kingLogUUID != null && entity instanceof WitherSkeleton && entity.getUniqueId().equals(kingLogUUID)) {
+                if (skeletonKing == null) {
+                    skeletonKing = new SkeletonKing(plugin);
+                    skeletonKing.setEntityBoss((WitherSkeleton) entity);
+                    skeletonKing.setBossId(kingLogUUID);
+                    skeletonKing.recreateBossBar(entity);
+                } else {
+                    if (skeletonKing.getEntityBoss() == null) skeletonKing.setEntityBoss((WitherSkeleton) entity);
+                    if (skeletonKing.getBossId() == null) skeletonKing.setBossId(kingLogUUID);
+                    if (skeletonKing.getBossBar() == null) skeletonKing.recreateBossBar(entity);
+                }
+                plugin.getBossPersistenceManager().saveBossData("skeletonKing", kingLogUUID, entity.getLocation());
+                if (isLogs) Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton King was recovered successfully.");
                 break;
             }
         }

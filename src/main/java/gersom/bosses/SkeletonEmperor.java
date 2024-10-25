@@ -29,7 +29,7 @@ import gersom.TSB;
  * @author Gersom
  */
 public class SkeletonEmperor extends Boss {
-    private Skeleton skeletonEmperor;
+    private Skeleton skeletonEmperor = null;
 
     public SkeletonEmperor(TSB plugin) {
         super(plugin, "skeletonEmperor");
@@ -197,8 +197,12 @@ public class SkeletonEmperor extends Boss {
     }
 
     @Override
-    public Entity getEntity() {
+    public Skeleton getEntityBoss() {
         return skeletonEmperor;
+    }
+
+    public void setEntityBoss(Skeleton entity) {
+        skeletonEmperor = entity;
     }
 
     @Override

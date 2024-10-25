@@ -16,21 +16,27 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.entity.WitherSkeleton;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import gersom.TSB;
+import gersom.utils.General;
  
  /**
   *
   * @author Gersom
   */
   public class SkeletonKing extends Boss {
-    private WitherSkeleton skeletonKing;
+    private WitherSkeleton skeletonKing = null;
+    private boolean hasSpawnedMinions = false;
 
     public SkeletonKing(TSB plugin) {
         super(plugin, "skeletonKing");
@@ -214,9 +220,129 @@ import gersom.TSB;
         }.runTaskTimer(plugin, 0L, 10L);
     }
 
+    private ItemStack createIndestructibleHelmet() {
+        ItemStack helmet = new ItemStack(Material.NETHERITE_HELMET);
+        ItemMeta meta = helmet.getItemMeta();
+        if (meta != null) {
+            meta.setUnbreakable(true);
+            meta.addEnchant(Enchantment.PROJECTILE_PROTECTION, 10, true);
+            meta.setDisplayName(General.setColor(getBossColor() + "Minion's Helmet"));
+            helmet.setItemMeta(meta);
+        }
+        return helmet;
+    }
+
+    @SuppressWarnings("")
+    private void equipMinion(Skeleton minion) {
+        // Create and configure the armor items
+        ItemStack helmet = createIndestructibleHelmet();
+        ItemStack chestplate = new ItemStack(Material.NETHERITE_CHESTPLATE);
+        ItemStack leggings = new ItemStack(Material.NETHERITE_LEGGINGS);
+        ItemStack boots = new ItemStack(Material.NETHERITE_BOOTS);
+        ItemStack bow = new ItemStack(Material.BOW);
+
+        // Add enchantments to the bow
+        ItemMeta bowMeta = bow.getItemMeta();
+        if (bowMeta != null) {
+            bowMeta.addEnchant(Enchantment.POWER, 5, true);
+            bowMeta.setDisplayName(General.setColor(getBossColor() + "Minion's Bow"));
+            bow.setItemMeta(bowMeta);
+        }
+
+        // Equip the minion
+        minion.getEquipment().setHelmet(helmet);
+        minion.getEquipment().setChestplate(chestplate);
+        minion.getEquipment().setLeggings(leggings);
+        minion.getEquipment().setBoots(boots);
+        minion.getEquipment().setItemInMainHand(bow);
+
+        // Set all drop chances to 0
+        minion.getEquipment().setHelmetDropChance(0.0f);
+        minion.getEquipment().setChestplateDropChance(0.0f);
+        minion.getEquipment().setLeggingsDropChance(0.0f);
+        minion.getEquipment().setBootsDropChance(0.0f);
+        minion.getEquipment().setItemInMainHandDropChance(0.0f);
+    }
+
+    // Add this new method to spawn minions
+    @SuppressWarnings("")
+    public void spawnMinions(Player player) {
+        if (hasSpawnedMinions) return;
+        
+        World world = skeletonKing.getWorld();
+        Location playerLoc = player.getLocation();
+        Vector direction = playerLoc.getDirection();
+        
+        // Calculate spawn position behind the player
+        double distance = 7.0; // Distance behind player
+        double spawnX = playerLoc.getX() - direction.getX() * distance;
+        double spawnZ = playerLoc.getZ() - direction.getZ() * distance;
+        double spawnY = world.getHighestBlockYAt((int)spawnX, (int)spawnZ) + 1;
+        
+        Location spawnLoc = new Location(world, spawnX, spawnY, spawnZ);
+        
+        // Spawn 3 minions
+        for (int i = 0; i < 3; i++) {
+            Skeleton minion = (Skeleton) world.spawnEntity(spawnLoc, EntityType.SKELETON);
+            
+            // Configure minion getBossName()
+            minion.setCustomName(General.setColor(getBossColor() + "Arquero Real "));
+            minion.setCustomNameVisible(true);
+            // minion.setRemoveWhenFarAway(false);
+            // minion.setPersistent(true);
+
+            // Set minion attributes
+            if (minion.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+                minion.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40.0); // 20 hearts
+            }
+            if (minion.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                minion.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3); // Slightly faster than normal
+            }
+            minion.setHealth(40.0);
+            
+            // Equip the minion with armor and weapons
+            equipMinion(minion);
+            
+            // Adjust spawn location for next minion
+            spawnLoc.add(random.nextDouble() - 0.5, 0, random.nextDouble() - 0.5);
+        }
+        
+        // Play effects
+        world.spawnParticle(Particle.SOUL_FIRE_FLAME, spawnLoc, 50, 1, 1, 1, 0.1);
+        world.playSound(spawnLoc, org.bukkit.Sound.ENTITY_WITHER_SPAWN, 1.0f, 1.0f);
+        
+        hasSpawnedMinions = true;
+    }
+
+    // Add this method to handle damage events
+    @SuppressWarnings("")
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player player)) return;
+        
+        double currentHealth = skeletonKing.getHealth();
+        double maxHealth = skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double healthPercentage = (currentHealth / maxHealth) * 100;
+        
+        if (healthPercentage <= 75 && !hasSpawnedMinions) {
+            spawnMinions(player);
+        }
+    }
+
+    // Reset minion spawn state when the boss is generated
     @Override
-    public Entity getEntity() {
+    public void generateBoss(World world, Location location) {
+        super.generateBoss(world, location);
+        hasSpawnedMinions = false;
+    }
+
+    
+    @Override
+    public WitherSkeleton getEntityBoss() {
         return skeletonKing;
+    }
+
+    public void setEntityBoss(WitherSkeleton entity) {
+        skeletonKing = entity;
     }
 
     @Override

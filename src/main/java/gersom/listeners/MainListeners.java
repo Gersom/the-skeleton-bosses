@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import gersom.TSB;
 import gersom.bosses.Boss;
+import gersom.utils.Console;
 
 /**
  *
@@ -56,12 +57,12 @@ public class MainListeners implements Listener {
         if (bossType.equals("skeletonEmperor")) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null && 
                 plugin.getMainMobs().getSkeletonEmperor().getBossId() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntity();
+                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntityBoss();
             }
         } else if (bossType.equals("skeletonKing")) {
             if (plugin.getMainMobs().getSkeletonKing() != null && 
                 plugin.getMainMobs().getSkeletonKing().getBossId() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonKing().getEntity();
+                bossEntity = plugin.getMainMobs().getSkeletonKing().getEntityBoss();
             }
         }
 
@@ -75,14 +76,14 @@ public class MainListeners implements Listener {
 
         if (event.getEntityType() == EntityType.SKELETON) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null &&
-                plugin.getMainMobs().getSkeletonEmperor().getEntity() != null &&
-                plugin.getMainMobs().getSkeletonEmperor().getEntity().getUniqueId().equals(event.getEntity().getUniqueId())) {
+                plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() != null &&
+                plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
                 boss = plugin.getMainMobs().getSkeletonEmperor();
             }
         } else if (event.getEntityType() == EntityType.WITHER_SKELETON) {
             if (plugin.getMainMobs().getSkeletonKing() != null &&
-                plugin.getMainMobs().getSkeletonKing().getEntity() != null &&
-                plugin.getMainMobs().getSkeletonKing().getEntity().getUniqueId().equals(event.getEntity().getUniqueId())) {
+                plugin.getMainMobs().getSkeletonKing().getEntityBoss() != null &&
+                plugin.getMainMobs().getSkeletonKing().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
                 boss = plugin.getMainMobs().getSkeletonKing();
             }
         }
@@ -94,7 +95,7 @@ public class MainListeners implements Listener {
 
     // Event listener for when a mob takes damage
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
         Entity damagedEntity = event.getEntity();
         
         // Verifica si la entidad dañada es uno de nuestros jefes
@@ -110,9 +111,17 @@ public class MainListeners implements Listener {
                 }
             }
 
-            if (plugin.getMainMobs().getSkeletonEmperor().getEntity().getVehicle() == null) {
-                plugin.getMainMobs().getSkeletonEmperor().generateHorse();
+            if (plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() == null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonEmperor().getEntityBoss() is null");  
+                }
+            } else {
+                // Handle horse respawn
+                if (plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getVehicle() == null) {
+                    plugin.getMainMobs().getSkeletonEmperor().generateHorse();
+                }
             }
+
         }
         
         // Haz lo mismo para el Skeleton King
@@ -127,9 +136,20 @@ public class MainListeners implements Listener {
                 }
             }
 
-            if (plugin.getMainMobs().getSkeletonKing().getEntity().getVehicle() == null) {
-                plugin.getMainMobs().getSkeletonKing().generateHorse();
+            if (plugin.getMainMobs().getSkeletonKing().getEntityBoss() == null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonKing().getEntityBoss() is null");  
+                }
+            } else {
+                // Handle minion spawning
+                plugin.getMainMobs().getSkeletonKing().onDamage(event);
+                
+                // Handle horse respawn
+                if (plugin.getMainMobs().getSkeletonKing().getEntityBoss().getVehicle() == null) {
+                    plugin.getMainMobs().getSkeletonKing().generateHorse();
+                }
             }
+
         }
     }
 }

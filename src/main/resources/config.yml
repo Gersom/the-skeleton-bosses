@@ -1,5 +1,6 @@
 # Prefix of the plugin
 prefix: "&l[TSB] &r"
+logs: true
 
 # check in the /lang folder
 # Plugin language [en, es, other]

@@ -200,12 +200,12 @@ public class SubCommands {
         String bossName = "";
         
         if (locationEmperor != null) {
-            if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getEntity() != null) {
+            if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() != null) {
                 bossCoords = String.format(
                     "(%.0f, %.0f, %.0f)",
-                    plugin.getMainMobs().getSkeletonEmperor().getEntity().getLocation().getX(),
-                    plugin.getMainMobs().getSkeletonEmperor().getEntity().getLocation().getY(),
-                    plugin.getMainMobs().getSkeletonEmperor().getEntity().getLocation().getZ()
+                    plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getLocation().getX(),
+                    plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getLocation().getY(),
+                    plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getLocation().getZ()
                 );
             } else {
                 bossCoords = String.format("(%.0f, %.0f, %.0f)", locationEmperor.getX(), locationEmperor.getY(), locationEmperor.getZ());
@@ -215,12 +215,12 @@ public class SubCommands {
         }
         
         else if (locationKing != null) {
-            if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getEntity() != null) {
+            if (plugin.getMainMobs().getSkeletonKing() != null && plugin.getMainMobs().getSkeletonKing().getEntityBoss() != null) {
                 bossCoords = String.format(
                     "(%.0f, %.0f, %.0f)",
-                    plugin.getMainMobs().getSkeletonKing().getEntity().getLocation().getX(),
-                    plugin.getMainMobs().getSkeletonKing().getEntity().getLocation().getY(),
-                    plugin.getMainMobs().getSkeletonKing().getEntity().getLocation().getZ()
+                    plugin.getMainMobs().getSkeletonKing().getEntityBoss().getLocation().getX(),
+                    plugin.getMainMobs().getSkeletonKing().getEntityBoss().getLocation().getY(),
+                    plugin.getMainMobs().getSkeletonKing().getEntityBoss().getLocation().getZ()
                 );
             } else {
                 bossCoords = String.format("(%.0f, %.0f, %.0f)", locationKing.getX(), locationKing.getY(), locationKing.getZ());

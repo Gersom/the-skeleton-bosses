@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import gersom.TSB;
+import gersom.utils.Console;
 import gersom.utils.General;
 
 public abstract class Boss {
@@ -54,7 +55,7 @@ public abstract class Boss {
     protected abstract void equipBoss();
     protected abstract Entity spawnBossEntity(World world, Location location);
     // Declarar getEntity como método abstracto
-    public abstract Entity getEntity();
+    public abstract Entity getEntityBoss();
     // Métodos abstractos adicionales necesarios
     protected abstract int getExperience();
     protected abstract String getKillerCommand();
@@ -122,10 +123,15 @@ public abstract class Boss {
     // Método común para crear la barra de boss
     protected void createBossBar() {
         String title = getBossBarTitle()
-            .replace("{boss_name}", getBossName())
-            .replace("{health}", "")
-            .replace("{max_health}", "")
-            .replace("{boss_color}", getBossColor());
+        .replace("{boss_name}", getBossName())
+        .replace("{health}", "")
+        .replace("{max_health}", "")
+        .replace("{boss_color}", getBossColor());
+        
+        if (plugin.getConfigs().getIsLogs()) {
+            Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "createBossBar");
+            Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "BossBar title: " + title);
+        }
 
         bossBar = Bukkit.createBossBar(
             General.setColor(title),
@@ -139,7 +145,7 @@ public abstract class Boss {
 
     // Método común para actualizar la barra de boss
     protected void updateBossBar() {
-        Entity entity = getEntity();
+        Entity entity = getEntityBoss();
         if (entity == null || bossBar == null || !(entity instanceof LivingEntity livingEntity)) return;
 
         double health = livingEntity.getHealth();
@@ -175,6 +181,11 @@ public abstract class Boss {
 
     // Método común para crear la tarea de actualización de la barra de boss
     protected void createTaskBossBar() {
+        if (plugin.getConfigs().getIsLogs()) {
+            Console.sendMessage("createTaskBossBar");
+            if (getEntityBoss() == null) Console.sendMessage("entity es nulo");
+            if (bossBar == null) Console.sendMessage("bossBar es nulo");
+        }
         this.taskBossBar = new BukkitRunnable() {
             @Override
             public void run() {
@@ -189,13 +200,13 @@ public abstract class Boss {
 
     // Método común para verificar si la entidad es válida
     protected boolean isEntityValid() {
-        Entity entity = getEntity();
+        Entity entity = getEntityBoss();
         return entity != null && entity.isValid() && !entity.isDead();
     }
 
     // Método común para limpiar recursos
     public void cleanUp() {
-        Entity entity = getEntity();
+        Entity entity = getEntityBoss();
         if (entity != null && entity.getVehicle() instanceof SkeletonHorse horse) {
             horse.remove();
         }
@@ -222,20 +233,29 @@ public abstract class Boss {
 
     // Método común para recrear la barra de boss
     public void recreateBossBar(Entity entity) {
+        if (this.bossBar != null) {
+            if (plugin.getConfigs().getIsLogs()) {
+                Console.sendMessage(plugin.getConfigs().getPrefix() + "Existe una bossBar asi que eliminamos todo");
+            }
+            this.bossBar.removeAll();
+            this.bossBar = null;
+        }
+        
         createBossBar();
-        startUpdateTasks();
+        // startUpdateTasks();
+        createTaskBossBar();
     }
 
     // Método común para iniciar las tareas de actualización
-    protected void startUpdateTasks() {
-        if (taskBossBar != null) {
-            taskBossBar.cancel();
-        }
-        if (taskParticles != null) {
-            taskParticles.cancel();
-        }
-        createTaskBossBar();
-    }
+    // protected void startUpdateTasks() {
+    //     if (taskBossBar != null) {
+    //         taskBossBar.cancel();
+    //     }
+    //     if (taskParticles != null) {
+    //         taskParticles.cancel();
+    //     }
+    //     createTaskBossBar();
+    // }
 
     // Métodos de utilidad
     public UUID getBossId() {
@@ -244,6 +264,10 @@ public abstract class Boss {
 
     public void setBossId(UUID uuid) {
         this.bossId = uuid;
+    }
+
+    public BossBar getBossBar() {
+        return this.bossBar;
     }
 
     // Método común para crear equipo encantado
@@ -312,7 +336,7 @@ public abstract class Boss {
     }
 
     public void generateHorse() {
-        Entity entity = getEntity();
+        Entity entity = getEntityBoss();
         if (entity != null) {
             generateHorse(getBossName() + " Horse", entity);
         }

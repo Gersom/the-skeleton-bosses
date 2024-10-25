@@ -38,6 +38,10 @@ public class MainConfigManager {
         return configFile.getString("prefix", "[TSB] ");
     }
 
+    public Boolean getIsLogs() {
+        return configFile.getBoolean("logs",  false);
+    }
+
     // Spawn data
     public Boolean getSpawnEnabled() {
         return configFile.getBoolean("spawn.enabled", false);
