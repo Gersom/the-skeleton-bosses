@@ -213,6 +213,14 @@ public class MainConfigManager {
     public String getLangBossKingName() {
         return languageManager.getLangBossKingName();
     }
+
+    // Name of the Henchmens
+    public String getLangBossKingSentinel() {
+        return languageManager.getLangBossKingSentinel();
+    }
+    public String getLangBossEmperorGuard() {
+        return languageManager.getLangBossEmperorGuard();
+    }
     
     // Messages of the bosses
     public String getLangBossesMsgSpawn() {

@@ -24,7 +24,10 @@ plugin:
 # Here are the values of the variable {boss_name}
 bosses_names:
   skeleton_king: ""
+  skeleton_king_sentinel: ""
+
   skeleton_emperor: ""
+  skeleton_emperor_guard: ""
 
 # Messages of the bosses
 events:

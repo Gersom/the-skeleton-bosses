@@ -105,6 +105,14 @@ public class LanguageManager {
         return getMessage("bosses_names.skeleton_king", "Skeleton King");
     }
 
+    // Name of the Henchmens
+    public String getLangBossKingSentinel() {
+        return getMessage("bosses_names.skeleton_king_sentinel", "Sentinel");
+    }
+    public String getLangBossEmperorGuard() {
+        return getMessage("bosses_names.skeleton_emperor_guard", "Imperial Guard");
+    }
+
     // Messages of the bosses
     public String getLangBossesMsgSpawn() {
         return getMessage("events.spawn", "&a{prefix} ¡{boss_color}The {boss_name} &r&ahas spawned! &7coords: &e{coords}");

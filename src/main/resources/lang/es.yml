@@ -24,7 +24,10 @@ plugin:
 # Aquí estan los valores de la variable {boss_name}
 bosses_names:
   skeleton_king: "Rey Esqueleto"
+  skeleton_king_sentinel: "Centinela"
+
   skeleton_emperor: "Esqueleto Emperador"
+  skeleton_emperor_guard: "Guardia Imperial"
 
 events:
   # Variables: {prefix}, {boss_color}, {boss_name}, {coords}

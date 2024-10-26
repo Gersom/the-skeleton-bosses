@@ -116,6 +116,9 @@ public class MainListeners implements Listener {
                     Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonEmperor().getEntityBoss() is null");  
                 }
             } else {
+                // Handle Sentinels spawning
+                plugin.getMainMobs().getSkeletonEmperor().generateGuards(event);
+
                 // Handle horse respawn
                 if (plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getVehicle() == null) {
                     plugin.getMainMobs().getSkeletonEmperor().generateHorse();
@@ -141,8 +144,8 @@ public class MainListeners implements Listener {
                     Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonKing().getEntityBoss() is null");  
                 }
             } else {
-                // Handle minion spawning
-                plugin.getMainMobs().getSkeletonKing().onDamage(event);
+                // Handle Sentinels spawning
+                plugin.getMainMobs().getSkeletonKing().generateSentinels(event);
                 
                 // Handle horse respawn
                 if (plugin.getMainMobs().getSkeletonKing().getEntityBoss().getVehicle() == null) {

@@ -24,6 +24,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -36,7 +39,7 @@ import gersom.utils.General;
   */
   public class SkeletonKing extends Boss {
     private WitherSkeleton skeletonKing = null;
-    private boolean hasSpawnedMinions = false;
+    private int hasSentinels = 0;
 
     public SkeletonKing(TSB plugin) {
         super(plugin, "skeletonKing");
@@ -226,49 +229,55 @@ import gersom.utils.General;
         if (meta != null) {
             meta.setUnbreakable(true);
             meta.addEnchant(Enchantment.PROJECTILE_PROTECTION, 10, true);
-            meta.setDisplayName(General.setColor(getBossColor() + "Minion's Helmet"));
+            meta.setDisplayName(General.setColor(getBossColor() + "Sentinel's Helmet"));
             helmet.setItemMeta(meta);
         }
         return helmet;
     }
 
     @SuppressWarnings("")
-    private void equipMinion(Skeleton minion) {
+    private void equipSentinel(Skeleton sentinel, int levelSentinel) {
         // Create and configure the armor items
         ItemStack helmet = createIndestructibleHelmet();
         ItemStack chestplate = new ItemStack(Material.NETHERITE_CHESTPLATE);
         ItemStack leggings = new ItemStack(Material.NETHERITE_LEGGINGS);
         ItemStack boots = new ItemStack(Material.NETHERITE_BOOTS);
         ItemStack bow = new ItemStack(Material.BOW);
+        ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 3);
+
+        PotionMeta metaArrow = (PotionMeta) arrow.getItemMeta();
+        PotionEffect strongSlownes = new PotionEffect(PotionEffectType.SLOWNESS, 200, levelSentinel, true, true, true);
+        metaArrow.addCustomEffect(strongSlownes, true);
+        arrow.setItemMeta(metaArrow);
 
         // Add enchantments to the bow
         ItemMeta bowMeta = bow.getItemMeta();
         if (bowMeta != null) {
-            bowMeta.addEnchant(Enchantment.POWER, 5, true);
-            bowMeta.setDisplayName(General.setColor(getBossColor() + "Minion's Bow"));
+            bowMeta.addEnchant(Enchantment.POWER, 1 + levelSentinel, true);
+            bowMeta.addEnchant(Enchantment.INFINITY, 1, false);
+            bowMeta.setDisplayName(General.setColor(getBossColor() + "Sentinel's Bow"));
             bow.setItemMeta(bowMeta);
         }
 
-        // Equip the minion
-        minion.getEquipment().setHelmet(helmet);
-        minion.getEquipment().setChestplate(chestplate);
-        minion.getEquipment().setLeggings(leggings);
-        minion.getEquipment().setBoots(boots);
-        minion.getEquipment().setItemInMainHand(bow);
+        // Equip the sentinel
+        sentinel.getEquipment().setHelmet(helmet);
+        sentinel.getEquipment().setChestplate(chestplate);
+        sentinel.getEquipment().setLeggings(leggings);
+        sentinel.getEquipment().setBoots(boots);
+        sentinel.getEquipment().setItemInMainHand(bow);
+        sentinel.getEquipment().setItemInOffHand(arrow);
 
         // Set all drop chances to 0
-        minion.getEquipment().setHelmetDropChance(0.0f);
-        minion.getEquipment().setChestplateDropChance(0.0f);
-        minion.getEquipment().setLeggingsDropChance(0.0f);
-        minion.getEquipment().setBootsDropChance(0.0f);
-        minion.getEquipment().setItemInMainHandDropChance(0.0f);
+        sentinel.getEquipment().setHelmetDropChance(0.0f);
+        sentinel.getEquipment().setChestplateDropChance(0.0f);
+        sentinel.getEquipment().setLeggingsDropChance(0.0f);
+        sentinel.getEquipment().setBootsDropChance(0.0f);
+        sentinel.getEquipment().setItemInMainHandDropChance(0.0f);
     }
 
-    // Add this new method to spawn minions
+    // Add this new method to spawn Sentinels
     @SuppressWarnings("")
-    public void spawnMinions(Player player) {
-        if (hasSpawnedMinions) return;
-        
+    public void spawnSentinels(Player player, int levelSentinel) {        
         World world = skeletonKing.getWorld();
         Location playerLoc = player.getLocation();
         Vector direction = playerLoc.getDirection();
@@ -281,58 +290,62 @@ import gersom.utils.General;
         
         Location spawnLoc = new Location(world, spawnX, spawnY, spawnZ);
         
-        // Spawn 3 minions
-        for (int i = 0; i < 3; i++) {
-            Skeleton minion = (Skeleton) world.spawnEntity(spawnLoc, EntityType.SKELETON);
+        // Spawn 3 Sentinels
+        for (int i = 0; i < levelSentinel; i++) {
+            Skeleton sentinel = (Skeleton) world.spawnEntity(spawnLoc, EntityType.SKELETON);
             
-            // Configure minion getBossName()
-            minion.setCustomName(General.setColor(getBossColor() + "Arquero Real "));
-            minion.setCustomNameVisible(true);
-            // minion.setRemoveWhenFarAway(false);
-            // minion.setPersistent(true);
+            // Configure sentinel getBossName()
+            sentinel.setCustomName(General.setColor(
+                getBossColor() + "&l" + plugin.getConfigs().getLangBossKingSentinel()
+            ));
+            sentinel.setCustomNameVisible(true);
 
-            // Set minion attributes
-            if (minion.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
-                minion.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40.0); // 20 hearts
+            // Set sentinel attributes
+            if (sentinel.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
+                sentinel.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue((int) ((levelSentinel * 2) - 1) + 10); // 15x hearts
             }
-            if (minion.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
-                minion.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3); // Slightly faster than normal
+            if (sentinel.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+                sentinel.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3); // Slightly faster than normal
             }
-            minion.setHealth(40.0);
+            sentinel.setHealth((int) ((levelSentinel * 2) - 1) + 10);
             
-            // Equip the minion with armor and weapons
-            equipMinion(minion);
+            // Equip the sentinel with armor and weapons
+            equipSentinel(sentinel, levelSentinel);
             
-            // Adjust spawn location for next minion
-            spawnLoc.add(random.nextDouble() - 0.5, 0, random.nextDouble() - 0.5);
+            // Adjust spawn location for next sentinel
+            spawnLoc.add(random.nextDouble() - 1, 0, random.nextDouble() - 1);
         }
         
         // Play effects
         world.spawnParticle(Particle.SOUL_FIRE_FLAME, spawnLoc, 50, 1, 1, 1, 0.1);
         world.playSound(spawnLoc, org.bukkit.Sound.ENTITY_WITHER_SPAWN, 1.0f, 1.0f);
         
-        hasSpawnedMinions = true;
+        hasSentinels = hasSentinels + 1;
     }
 
     // Add this method to handle damage events
     @SuppressWarnings("")
-    public void onDamage(EntityDamageByEntityEvent event) {
+    public void generateSentinels(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player)) return;
         
         double currentHealth = skeletonKing.getHealth();
         double maxHealth = skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         double healthPercentage = (currentHealth / maxHealth) * 100;
         
-        if (healthPercentage <= 75 && !hasSpawnedMinions) {
-            spawnMinions(player);
+        if (healthPercentage <= 25 && hasSentinels != 3) {
+            spawnSentinels(player, 3);
+        } else if (healthPercentage <= 50 && hasSentinels != 2) {
+            spawnSentinels(player, 2);
+        } else if (healthPercentage <= 75 && hasSentinels == 0) {
+            spawnSentinels(player, 1);
         }
     }
 
-    // Reset minion spawn state when the boss is generated
+    // Reset sentinel spawn state when the boss is generated
     @Override
     public void generateBoss(World world, Location location) {
         super.generateBoss(world, location);
-        hasSpawnedMinions = false;
+        hasSentinels = 0;
     }
 
     
