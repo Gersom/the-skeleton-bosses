@@ -128,40 +128,39 @@ public class SkeletonEmperor extends Boss {
     @Override
     public void generateDrops(EntityDeathEvent event) {
         double dropChance = random.nextDouble();
-        
-        if (dropChance < 0.33) {
-            // 33% chance to drop bow with MULTISHOT and FLAME
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.MULTISHOT, 1);
-            enchants.put(Enchantment.FLAME, 1);
-            ItemStack drop = createEnchantedItem(
+
+        Map<Enchantment, Integer> enchantsHelmet = new HashMap<>();
+        enchantsHelmet.put(Enchantment.UNBREAKING, 3);
+        enchantsHelmet.put(Enchantment.FIRE_PROTECTION, 3);
+        ItemStack dropHelmet = createEnchantedItem(
+            Material.GOLDEN_HELMET,
+            plugin.getConfigs().getLangBossesItemHelmet(),
+            enchantsHelmet
+        );
+        event.getDrops().add(dropHelmet);
+
+        if (dropChance < 0.5) {
+            // 50% chance to drop bow with INFINITY and UNBREAKING
+            Map<Enchantment, Integer> enchantsBow = new HashMap<>();
+            enchantsBow.put(Enchantment.INFINITY, 1);
+            enchantsBow.put(Enchantment.UNBREAKING, 3);
+            ItemStack dropBow = createEnchantedItem(
                 Material.BOW,
                 plugin.getConfigs().getLangBossesItemBow(),
-                enchants
+                enchantsBow
             );
-            event.getDrops().add(drop);
-        } else if (dropChance < 0.66) {
-            // 33% chance to drop bow with INFINITY and UNBREAKING
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.INFINITY, 1);
-            enchants.put(Enchantment.UNBREAKING, 3);
-            ItemStack drop = createEnchantedItem(
+            event.getDrops().add(dropBow);
+        } else if (dropChance < 1) {
+            // 50% chance to drop bow with MULTISHOT and FLAME
+            Map<Enchantment, Integer> enchantsBow = new HashMap<>();
+            enchantsBow.put(Enchantment.MULTISHOT, 1);
+            enchantsBow.put(Enchantment.FLAME, 1);
+            ItemStack dropBow = createEnchantedItem(
                 Material.BOW,
                 plugin.getConfigs().getLangBossesItemBow(),
-                enchants
+                enchantsBow
             );
-            event.getDrops().add(drop);
-        } else {
-            // 33% chance to drop golden helmet
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.UNBREAKING, 3);
-            enchants.put(Enchantment.FIRE_PROTECTION, 3);
-            ItemStack drop = createEnchantedItem(
-                Material.GOLDEN_HELMET,
-                plugin.getConfigs().getLangBossesItemHelmet(),
-                enchants
-            );
-            event.getDrops().add(drop);
+            event.getDrops().add(dropBow);
         }
     }
 
@@ -307,9 +306,9 @@ public class SkeletonEmperor extends Boss {
         double maxHealth = skeletonEmperor.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         double healthPercentage = (currentHealth / maxHealth) * 100;
         
-        if (healthPercentage <= 25 && hasGuard != 3) {
+        if (healthPercentage <= 25 && hasGuard < 3) {
             spawnGuards(player, 3);
-        } else if (healthPercentage <= 50 && hasGuard != 2) {
+        } else if (healthPercentage <= 50 && hasGuard < 2) {
             spawnGuards(player, 2);
         } else if (healthPercentage <= 75 && hasGuard == 0) {
             spawnGuards(player, 1);

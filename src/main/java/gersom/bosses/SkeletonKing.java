@@ -151,38 +151,35 @@ import gersom.utils.General;
     public void generateDrops(EntityDeathEvent event) {
         double dropChance = random.nextDouble();
 
-        if (dropChance < 0.33) {
-            // 33% chance to drop NETHERITE_SWORD with SHARPNESS
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.SHARPNESS, 5);
-            ItemStack drop = createEnchantedItem(
-                Material.NETHERITE_SWORD,
-                plugin.getConfigs().getLangBossesItemSword(),
-                enchants
-            );
-            event.getDrops().add(drop);
-        } else if (dropChance < 0.66) {
+        Map<Enchantment, Integer> enchants = new HashMap<>();
+        enchants.put(Enchantment.UNBREAKING, 3);
+        enchants.put(Enchantment.BLAST_PROTECTION, 3);
+        ItemStack drop = createEnchantedItem(
+            Material.GOLDEN_HELMET,
+            plugin.getConfigs().getLangBossesItemHelmet(),
+            enchants
+        );
+        event.getDrops().add(drop);
+  
+        if (dropChance < 0.5) {
             // 33% chance to drop NETHERITE_SWORD with SWEEPING_EDGE
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.SWEEPING_EDGE, 3);
-            ItemStack drop = createEnchantedItem(
+            Map<Enchantment, Integer> enchantsSword = new HashMap<>();
+            enchantsSword.put(Enchantment.SWEEPING_EDGE, 3);
+            ItemStack dropSword = createEnchantedItem(
                 Material.NETHERITE_SWORD,
                 plugin.getConfigs().getLangBossesItemSword(),
-                enchants
+                enchantsSword
             );
-            event.getDrops().add(drop);
-        } else {
-            // 33% chance to drop golden helmet
-            Map<Enchantment, Integer> enchants = new HashMap<>();
-            enchants.put(Enchantment.UNBREAKING, 3);
-            enchants.put(Enchantment.FIRE_PROTECTION, 3);
-            enchants.put(Enchantment.PROTECTION, 4);
-            ItemStack drop = createEnchantedItem(
-                Material.GOLDEN_HELMET,
-                plugin.getConfigs().getLangBossesItemHelmet(),
-                enchants
+            event.getDrops().add(dropSword);
+        } else if (dropChance < 1) {
+            Map<Enchantment, Integer> enchantsSword = new HashMap<>();
+            enchantsSword.put(Enchantment.SHARPNESS, 5);
+            ItemStack dropSword = createEnchantedItem(
+                Material.NETHERITE_SWORD,
+                plugin.getConfigs().getLangBossesItemSword(),
+                enchantsSword
             );
-            event.getDrops().add(drop);
+            event.getDrops().add(dropSword);
         }
     }
 
@@ -332,9 +329,9 @@ import gersom.utils.General;
         double maxHealth = skeletonKing.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         double healthPercentage = (currentHealth / maxHealth) * 100;
         
-        if (healthPercentage <= 25 && hasSentinels != 3) {
+        if (healthPercentage <= 25 && hasSentinels < 3) {
             spawnSentinels(player, 3);
-        } else if (healthPercentage <= 50 && hasSentinels != 2) {
+        } else if (healthPercentage <= 50 && hasSentinels < 2) {
             spawnSentinels(player, 2);
         } else if (healthPercentage <= 75 && hasSentinels == 0) {
             spawnSentinels(player, 1);
