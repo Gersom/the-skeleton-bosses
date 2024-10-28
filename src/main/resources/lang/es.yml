@@ -29,6 +29,9 @@ bosses_names:
   skeleton_emperor: "Esqueleto Emperador"
   skeleton_emperor_guard: "Guardia Imperial"
 
+  skeleton_winter_lord: "Señor Esqueleto del Invierno"
+  skeleton_winter_lord_minion: "Esbirro"
+
 events:
   # Variables: {prefix}, {boss_color}, {boss_name}, {coords}
   spawn: "&a{prefix}{boss_color}&lEl {boss_name} &r&a¡ha aparecido! &7coords: &e{coords}"

@@ -1,6 +1,5 @@
 # Prefix of the plugin
 prefix: "&l[TSB] &r"
-logs: true
 
 # check in the /lang folder
 # Plugin language [en, es, other]
@@ -32,75 +31,131 @@ spawn:
 # In both cases it will drop the experience.
 commands_after_death: false
 
-bosses:
-  skeleton_king:
-    # Appearance percentage relative to other bosses (0-100)
-    percentage: 50
 
-    # color for bossbar, messages and custom items
-    color: "&d"
 
-    # Health of the Skeleton King
-    health: 350
+###########################
 
-    # 20 is approximately 10 hearts
-    damage: 20
+# Skeleton King
 
-    # Projectile evasion chance (0-100)
-    projectile_evasion: 75
+###########################
+skeleton_king:
+  # Appearance percentage relative to other bosses (0-100)
+  percentage: 33.33
 
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 350
+  # color for bossbar, messages and custom items
+  color: "&d"
 
-    bossbar:
-      title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
-      # The allowed colors are:
-      # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
-      color: "PURPLE"
+  # Health of the Skeleton King
+  health: 350
 
-    # you can add {player_killer} to the command
-    # to refer to the player who killed the boss
-    command: "give {player_killer} diamont 1"
+  # 20 is approximately 10 hearts
+  damage: 20
 
-    # This option will only be executed if “commands_after_death” is set to true.
-    command_for_nearby_players:
-      enabled: false
-      radius: 50  # Radius in blocks
-      # uses {player} representing each nearby player
-      command: "give {player} diamond 1"
+  # Projectile evasion chance (0-100)
+  projectile_evasion: 75
 
-  skeleton_emperor:
-    # Appearance percentage relative to other bosses (0-100)
-    # percentage = (100%) - (skeleton_king.percentage)
+  # The unit of measurement is the amount of experience, not the number of levels.
+  drop_experience: 350
 
-    # color for bossbar, messages and custom items
-    color: "&6"
+  bossbar:
+    title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
+    # The allowed colors are:
+    # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
+    color: "PURPLE"
 
-    # Health of the Skeleton Emperor
-    health: 250
+  # you can add {player_killer} to the command
+  # to refer to the player who killed the boss
+  command: "give {player_killer} diamont 1"
 
-    # power of the skeleton emperor's bow
-    power: 35
+  # This option will only be executed if “commands_after_death” is set to true.
+  command_for_nearby_players:
+    enabled: false
+    radius: 40  # Radius in blocks
+    # uses {player} representing each nearby player
+    command: "give {player} diamond 1"
 
-    # Projectile evasion chance (0-100)
-    projectile_evasion: 50
 
-    # The unit of measurement is the amount of experience, not the number of levels.
-    drop_experience: 300
 
-    bossbar:
-      title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
-      # The allowed colors are:
-      # BLUE, GREEN, PINK, PURPLE, RED, WHITE YELLOW
-      color: "YELLOW"
+###########################
 
-    # you can add {player_killer} to the command
-    # to refer to the player who killed the boss
-    command: "give {player_killer} diamont 1"
+# Skeleton Emperor
 
-    # This option will only be executed if “commands_after_death” is set to true.
-    command_for_nearby_players:
-      enabled: false
-      radius: 50  # Radius in blocks
-      # uses {player} representing each nearby player
-      command: "give {player} diamond 1"
+###########################
+skeleton_emperor:
+  # Appearance percentage relative to other bosses (0-100)
+  percentage: 33.33
+
+  # color for bossbar, messages and custom items
+  color: "&6"
+
+  # Health of the Skeleton Emperor
+  health: 250
+
+  # power of the skeleton emperor's bow
+  power: 35
+
+  # Projectile evasion chance (0-100)
+  projectile_evasion: 50
+
+  # The unit of measurement is the amount of experience, not the number of levels.
+  drop_experience: 300
+
+  bossbar:
+    title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
+    # The allowed colors are:
+    # BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+    color: "YELLOW"
+
+  # you can add {player_killer} to the command
+  # to refer to the player who killed the boss
+  command: "give {player_killer} diamont 1"
+
+  # This option will only be executed if “commands_after_death” is set to true.
+  command_for_nearby_players:
+    enabled: false
+    radius: 40  # Radius in blocks
+    # uses {player} representing each nearby player
+    command: "give {player} diamond 1"
+
+
+
+###########################
+
+# Skeleton Winter Lord
+
+###########################
+skeleton_winter_lord:
+  # Appearance percentage relative to other bosses (0-100)
+  percentage: 33.33
+
+  # color for bossbar, messages and custom items
+  color: "&b"
+
+  # Health of the Skeleton Winter Lord
+  health: 300
+
+  # power of the skeleton winter lord's bow
+  power: 35
+
+  # Projectile evasion chance (0-100)
+  projectile_evasion: 75
+
+  # The unit of measurement is the amount of experience, not the number of levels.
+  drop_experience: 300
+
+  bossbar:
+    title: "{boss_color}&l{boss_name} &c({health}/{max_health})❤"
+    # The allowed colors are:
+    # BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+    color: "BLUE"
+
+  # you can add {player_killer} to the command
+  # to refer to the player who killed the boss
+  command: "give {player_killer} diamont 1"
+
+  # This option will only be executed if “commands_after_death” is set to true.
+  command_for_nearby_players:
+    enabled: false
+    radius: 40  # Radius in blocks
+    # uses {player} representing each nearby player
+    command: "give {player} diamond 1"

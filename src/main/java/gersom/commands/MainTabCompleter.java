@@ -34,6 +34,7 @@ public class MainTabCompleter implements TabCompleter {
             if (args[0].equalsIgnoreCase("spawn") && sender.hasPermission("the-skeleton-bosses.admin")) {
                 completions.add("SkeletonKing");
                 completions.add("SkeletonEmperor");
+                completions.add("SkeletonWinterLord");
             }
         }
             

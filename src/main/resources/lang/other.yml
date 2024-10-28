@@ -29,6 +29,9 @@ bosses_names:
   skeleton_emperor: ""
   skeleton_emperor_guard: ""
 
+  skeleton_winter_lord: "Skeleton Winter Lord"
+  skeleton_winter_lord_minion: "Minion"
+
 # Messages of the bosses
 events:
   # Variables: {prefix}, {boss_color}, {boss_name}, {coords}

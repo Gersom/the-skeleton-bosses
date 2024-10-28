@@ -78,88 +78,126 @@ public class MainConfigManager {
     // BOSSES
     // Percentage of all bosses that will spawn
     public double  getBossKingPercentage() {
-        double kpercentage = configFile.getInt("bosses.skeleton_king.percentage", 50);
-        return kpercentage / 100;
+        double percentageBoss = configFile.getDouble("skeleton_king.percentage", 33.33);
+        return percentageBoss / 100;
     }
     public double  getBossEmperorPercentage() {
-        return getBossKingPercentage() + (1 - getBossKingPercentage());
+        double percentageBoss = configFile.getDouble("skeleton_emperor.percentage", 33.33);
+        return percentageBoss / 100;
+    }
+    public double  getBossWinterLordPercentage() {
+        double percentageBoss = configFile.getDouble("skeleton_winter_lord.percentage", 33.33);
+        return percentageBoss / 100;
     }
     // Color Boss
     public String getBossKingColor() {
-        return configFile.getString("bosses.skeleton_king.color", "&d");
+        return configFile.getString("skeleton_king.color", "&d");
     }
     public String getBossEmperorColor() {
-        return configFile.getString("bosses.skeleton_emperor.color", "&6");
+        return configFile.getString("skeleton_emperor.color", "&6");
+    }
+    public String getBossWinterLordColor() {
+        return configFile.getString("skeleton_winter_lord.color", "&b");
     }
     // Health of the bosses
     public double getBossKingHealth() {
-        return configFile.getDouble("bosses.skeleton_king.health", 200.0);
+        return configFile.getDouble("skeleton_king.health", 350.0);
     }
     public double getBossEmperorHealth() {
-        return configFile.getDouble("bosses.skeleton_emperor.health", 140.0);
+        return configFile.getDouble("skeleton_emperor.health", 250.0);
+    }
+    public double getBossWinterLordHealth() {
+        return configFile.getDouble("skeleton_winter_lord.health", 300.0);
     }
     // Damage of the bosses
     public int getBossKingDamage() {
-        return (int) configFile.getDouble("bosses.skeleton_king.damage", 20);
+        return configFile.getInt("skeleton_king.damage", 20);
     }
     public int getBossEmperorPower() {
-        return (int) configFile.getDouble("bosses.skeleton_emperor.power", 35.88);
+        return configFile.getInt("skeleton_emperor.power", 35);
+    }
+    public int getBossWinterLordPower() {
+        return configFile.getInt("skeleton_winter_lord.power", 35);
     }
     // Projectile evasion of the bosses
     public int getBossKingProjectileEvasion() {
-        return configFile.getInt("bosses.skeleton_king.projectile_evasion", 75);
+        return configFile.getInt("skeleton_king.projectile_evasion", 75);
     }
     public int getBossEmperorProjectileEvasion() {
-        return configFile.getInt("bosses.skeleton_emperor.projectile_evasion", 50);
+        return configFile.getInt("skeleton_emperor.projectile_evasion", 50);
+    }
+    public int getBossWinterLordProjectileEvasion() {
+        return configFile.getInt("skeleton_winter_lord.projectile_evasion", 75);
     }
     // Experience of the bosses
     public int getBossKingExp() {
-        return configFile.getInt("bosses.skeleton_king.drop_experience", 350);
+        return configFile.getInt("skeleton_king.drop_experience", 350);
     }
     public int getBossEmperorExp() {
-        return configFile.getInt("bosses.skeleton_emperor.drop_experience", 250);
+        return configFile.getInt("skeleton_emperor.drop_experience", 250);
+    }
+    public int getBossWinterLordExp() {
+        return configFile.getInt("skeleton_winter_lord.drop_experience", 300);
     }
     // Bossbar messages
     public String getBossKingBossbarTitle() {
-        return configFile.getString("bosses.skeleton_king.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
+        return configFile.getString("skeleton_king.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
     }
     public String getBossKingBossbarColor() {
-        return configFile.getString("bosses.skeleton_king.bossbar.color", "PURPLE");
+        return configFile.getString("skeleton_king.bossbar.color", "PURPLE");
     }
     public String getBossEmperorBossbarTitle() {
-        return configFile.getString("bosses.skeleton_emperor.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
+        return configFile.getString("skeleton_emperor.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
     }
     public String getBossEmperorBossbarColor() {
-        return configFile.getString("bosses.skeleton_emperor.bossbar.color", "YELLOW");
+        return configFile.getString("skeleton_emperor.bossbar.color", "YELLOW");
+    }
+    public String getBossWinterLordBossbarTitle() {
+        return configFile.getString("skeleton_winter_lord.bossbar.title", "{boss_color} &l{boss_name} ({health}/{max_health})❤");
+    }
+    public String getBossWinterLordBossbarColor() {
+        return configFile.getString("skeleton_winter_lord.bossbar.color", "BLUE");
     }
     // Command for player killed the boss
     public Boolean getBossesCommandEnabled() {
         return configFile.getBoolean("commands_after_death", false);
     }
     public String getBossKingCommand() {
-        return configFile.getString("bosses.skeleton_king.command", "");
+        return configFile.getString("skeleton_king.command", "me without command");
     }
     public String getBossEmperorCommand() {
-        return configFile.getString("bosses.skeleton_emperor.command", "");
+        return configFile.getString("skeleton_emperor.command", "me without command");
+    }
+    public String getBossWinterLordCommand() {
+        return configFile.getString("skeleton_winter_lord.command", "me without command");
     }
     // Command for nearby players
     public boolean getBossKingNearbyCommandEnabled() {
-        return configFile.getBoolean("bosses.skeleton_king.command_for_nearby_players.enabled", false);
+        return configFile.getBoolean("skeleton_king.command_for_nearby_players.enabled", false);
     }
     public int getBossKingNearbyCommandRadius() {
-        return configFile.getInt("bosses.skeleton_king.command_for_nearby_players.radius", 50);
+        return configFile.getInt("skeleton_king.command_for_nearby_players.radius", 40);
     }
     public String getBossKingNearbyCommand() {
-        return configFile.getString("bosses.skeleton_king.command_for_nearby_players.command", "give {player} diamond 1");
+        return configFile.getString("skeleton_king.command_for_nearby_players.command", "me without command_for_nearby_players");
     }
     public boolean getBossEmperorNearbyCommandEnabled() {
-        return configFile.getBoolean("bosses.skeleton_emperor.command_for_nearby_players.enabled", false);
+        return configFile.getBoolean("skeleton_emperor.command_for_nearby_players.enabled", false);
     }
     public int getBossEmperorNearbyCommandRadius() {
-        return configFile.getInt("bosses.skeleton_emperor.command_for_nearby_players.radius", 40);
+        return configFile.getInt("skeleton_emperor.command_for_nearby_players.radius", 40);
     }
     public String getBossEmperorNearbyCommand() {
-        return configFile.getString("bosses.skeleton_emperor.command_for_nearby_players.command", "give {player} diamond 1");
+        return configFile.getString("skeleton_emperor.command_for_nearby_players.command", "me without command_for_nearby_players");
+    }
+    public boolean getBossWinterLordNearbyCommandEnabled() {
+        return configFile.getBoolean("skeleton_winter_lord.command_for_nearby_players.enabled", false);
+    }
+    public int getBossWinterLordNearbyCommandRadius() {
+        return configFile.getInt("skeleton_winter_lord.command_for_nearby_players.radius", 40);
+    }
+    public String getBossWinterLordNearbyCommand() {
+        return configFile.getString("skeleton_winter_lord.command_for_nearby_players.command", "me without command_for_nearby_players");
     }
 
     // Delegate message methods to LanguageManager
@@ -213,6 +251,9 @@ public class MainConfigManager {
     public String getLangBossKingName() {
         return languageManager.getLangBossKingName();
     }
+    public String getLangBossWinterLordName() {
+        return languageManager.getLangBossWinterLordName();
+    }
 
     // Name of the Henchmens
     public String getLangBossKingSentinel() {
@@ -220,6 +261,9 @@ public class MainConfigManager {
     }
     public String getLangBossEmperorGuard() {
         return languageManager.getLangBossEmperorGuard();
+    }
+    public String getLangBossWinterLordMinion() {
+        return languageManager.getLangBossWinterLordMinion();
     }
     
     // Messages of the bosses

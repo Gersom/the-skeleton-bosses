@@ -104,6 +104,9 @@ public class LanguageManager {
     public String getLangBossKingName() {
         return getMessage("bosses_names.skeleton_king", "Skeleton King");
     }
+    public String getLangBossWinterLordName() {
+        return getMessage("bosses_names.skeleton_winter_lord", "Skeleton Winter Lord");
+    }
 
     // Name of the Henchmens
     public String getLangBossKingSentinel() {
@@ -111,6 +114,9 @@ public class LanguageManager {
     }
     public String getLangBossEmperorGuard() {
         return getMessage("bosses_names.skeleton_emperor_guard", "Imperial Guard");
+    }
+    public String getLangBossWinterLordMinion() {
+        return getMessage("bosses_names.skeleton_winter_lord_minion", "Minion");
     }
 
     // Messages of the bosses

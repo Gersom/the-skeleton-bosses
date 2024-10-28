@@ -50,7 +50,7 @@ public class SubCommands {
         sender.sendMessage(General.generateTextFrame(Vars.name));
         sender.sendMessage("");
         sender.sendMessage(General.setColor("_ " + plugin.getConfigs().getLangCommandsList() + ":"));
-        sender.sendMessage(General.setColor("  &6/tsb spawn [emperor, king]"));
+        sender.sendMessage(General.setColor("  &6/tsb spawn [emperor, king, winterLord]"));
         sender.sendMessage(General.setColor("  &6/tsb location"));
         sender.sendMessage(General.setColor("  &6/tsb clear"));
         sender.sendMessage(General.setColor("  &6/tsb reload"));
@@ -120,6 +120,7 @@ public class SubCommands {
 
         Location locationKing = plugin.getBossPersistenceManager().getBossLocation("skeletonKing");
         Location locationEmperor = plugin.getBossPersistenceManager().getBossLocation("skeletonEmperor");
+        Location locationWinterLord = plugin.getBossPersistenceManager().getBossLocation("skeletonWinterLord");
 
         Player player = (Player) sender;
 
@@ -150,27 +151,44 @@ public class SubCommands {
                     locationKing.getZ()
                 )
             );
+            return;
+        }
+
+        if (locationWinterLord != null) {
+            sendMessageAlreadyExist(
+                player,
+                plugin.getConfigs().getLangBossWinterLordName(),
+                plugin.getConfigs().getBossWinterLordColor(),
+                String.format(
+                    "(%.0f, %.0f, %.0f)",
+                    locationWinterLord.getX(),
+                    locationWinterLord.getY(),
+                    locationWinterLord.getZ()
+                )
+            );
+            return;
         }
 
         if (arg.length > 1) {
             if (arg[1].equalsIgnoreCase("SkeletonEmperor")) {
                 plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
             }
-            else if (arg[1].equalsIgnoreCase("skeletonemperor")) {
-                plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
-            }
-            else if (arg[1].equalsIgnoreCase("skeleton-emperor")) {
+            else if (arg[1].equalsIgnoreCase("emperor")) {
                 plugin.getMainMobs().generateEmperor(player.getWorld(), player.getLocation());
             }
             
             else if (arg[1].equalsIgnoreCase("SkeletonKing")) {
                 plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
             }
-            else if (arg[1].equalsIgnoreCase("skeletonking")) {
+            else if (arg[1].equalsIgnoreCase("king")) {
                 plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
             }
-            else if (arg[1].equalsIgnoreCase("skeleton-king")) {
-                plugin.getMainMobs().generateKing(player.getWorld(), player.getLocation());
+
+            else if (arg[1].equalsIgnoreCase("SkeletonWinterLord")) {
+                plugin.getMainMobs().generateWinterLord(player.getWorld(), player.getLocation());
+            }
+            else if (arg[1].equalsIgnoreCase("winterlord")) {
+                plugin.getMainMobs().generateWinterLord(player.getWorld(), player.getLocation());
             }
 
             else {
@@ -186,6 +204,7 @@ public class SubCommands {
     public void clearRecords(CommandSender sender) {
         plugin.getBossPersistenceManager().removeBossData("skeletonEmperor");
         plugin.getBossPersistenceManager().removeBossData("skeletonKing");
+        plugin.getBossPersistenceManager().removeBossData("skeletonWinterLord");
 
         sender.sendMessage(General.setColor(
             "&a" + plugin.getConfigs().getPrefix() + plugin.getConfigs().getLangCommandClearRecords()
@@ -195,6 +214,7 @@ public class SubCommands {
     public void showLocationBoss(CommandSender sender) {
         Location locationKing = plugin.getBossPersistenceManager().getBossLocation("skeletonKing");
         Location locationEmperor = plugin.getBossPersistenceManager().getBossLocation("skeletonEmperor");
+        Location locationWinterLord = plugin.getBossPersistenceManager().getBossLocation("skeletonWinterLord");
         String bossCoords = "";
         String bossColor = "";
         String bossName = "";
@@ -227,6 +247,21 @@ public class SubCommands {
             }
             bossColor = plugin.getConfigs().getBossKingColor();
             bossName = plugin.getConfigs().getLangBossKingName();
+        }
+
+        else if (locationWinterLord != null) {
+            if (plugin.getMainMobs().getSkeletonWinterLord() != null && plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss() != null) {
+                bossCoords = String.format(
+                    "(%.0f, %.0f, %.0f)",
+                    plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getLocation().getX(),
+                    plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getLocation().getY(),
+                    plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getLocation().getZ()
+                );
+            } else {
+                bossCoords = String.format("(%.0f, %.0f, %.0f)", locationWinterLord.getX(), locationWinterLord.getY(), locationWinterLord.getZ());
+            }
+            bossColor = plugin.getConfigs().getBossWinterLordColor();
+            bossName = plugin.getConfigs().getLangBossWinterLordName();
         }
 
         sender.sendMessage("");

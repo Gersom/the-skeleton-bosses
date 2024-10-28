@@ -16,6 +16,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Stray;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -31,6 +32,7 @@ import gersom.utils.General;
 public class MainGenerator {
     private SkeletonEmperor skeletonEmperor;
     private SkeletonKing skeletonKing;
+    private SkeletonWinterLord skeletonWinterLord;
     private final TSB plugin;
     private final Random random = new Random();
     private BukkitTask taskAutoSpawn;
@@ -43,6 +45,7 @@ public class MainGenerator {
     private void loadExistingBosses() {
         UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
         UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
+        UUID winterLordUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonWinterLord");
         
         if (emperorUUID != null) {
             Entity entity = findEntityByUUID(emperorUUID);
@@ -64,6 +67,18 @@ public class MainGenerator {
                 skeletonKing.setBossId(kingUUID);
                 skeletonKing.recreateBossBar(entity);
                 plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getBossId(), entity.getLocation());
+            }
+        }
+
+        if (winterLordUUID != null) {
+            Entity entity = findEntityByUUID(winterLordUUID);
+            Console.sendMessage("winterLordUUID: " + winterLordUUID);
+            if (entity != null) {
+                skeletonWinterLord = new SkeletonWinterLord(plugin);
+                Console.sendMessage("Winter Lord found, el entity no es nulo");
+                skeletonWinterLord.setBossId(winterLordUUID);
+                skeletonWinterLord.recreateBossBar(entity);
+                plugin.getBossPersistenceManager().saveBossData("skeletonWinterLord", skeletonWinterLord.getBossId(), entity.getLocation());
             }
         }
     }
@@ -107,12 +122,22 @@ public class MainGenerator {
                                       spawnLocation.getZ());
 
         String title = plugin.getConfigs().getLangBossesMsgSpawn();
-        if (bossType.equals("skeletonEmperor")) {
-            bossName = plugin.getConfigs().getLangBossEmperorName();
-            bossColor = plugin.getConfigs().getBossEmperorColor();
-        } else if (bossType.equals("skeletonKing")) {
-            bossName = plugin.getConfigs().getLangBossKingName();
-            bossColor = plugin.getConfigs().getBossKingColor();
+
+        switch (bossType) {
+            case "skeletonEmperor" -> {
+                bossName = plugin.getConfigs().getLangBossEmperorName();
+                bossColor = plugin.getConfigs().getBossEmperorColor();
+            }
+            case "skeletonKing" -> {
+                bossName = plugin.getConfigs().getLangBossKingName();
+                bossColor = plugin.getConfigs().getBossKingColor();
+            }
+            case "skeletonWinterLord" -> {
+                bossName = plugin.getConfigs().getLangBossWinterLordName();
+                bossColor = plugin.getConfigs().getBossWinterLordColor();
+            }
+            default -> {
+            }
         }
 
         title = title.replace("{prefix}", plugin.getConfigs().getPrefix());
@@ -162,12 +187,21 @@ public class MainGenerator {
         String bossColor = "";
         String playerKiller = "";
 
-        if (bossType.equals("skeletonEmperor")) {
-            bossName = plugin.getConfigs().getLangBossEmperorName();
-            bossColor = plugin.getConfigs().getBossEmperorColor();
-        } else if (bossType.equals("skeletonKing")) {
-            bossName = plugin.getConfigs().getLangBossKingName();
-            bossColor = plugin.getConfigs().getBossKingColor();
+        switch (bossType) {
+            case "skeletonEmperor" -> {
+                bossName = plugin.getConfigs().getLangBossEmperorName();
+                bossColor = plugin.getConfigs().getBossEmperorColor();
+            }
+            case "skeletonKing" -> {
+                bossName = plugin.getConfigs().getLangBossKingName();
+                bossColor = plugin.getConfigs().getBossKingColor();
+            }
+            case "skeletonWinterLord" -> {
+                bossName = plugin.getConfigs().getLangBossWinterLordName();
+                bossColor = plugin.getConfigs().getBossWinterLordColor();
+            }
+            default -> {
+            }
         }
 
         if (killer != null) {
@@ -215,6 +249,21 @@ public class MainGenerator {
         }
     }
 
+    public void generateWinterLord(World world, Location location) {
+        if (skeletonWinterLord == null || skeletonWinterLord.getBossId() == null) {
+            skeletonWinterLord = new SkeletonWinterLord(plugin);
+            skeletonWinterLord.generateBoss(world, location);
+            plugin.getBossPersistenceManager().saveBossData("skeletonWinterLord", skeletonWinterLord.getBossId(), location);
+            
+            onSuccessGenerated(
+                skeletonWinterLord.getEntityBoss(),
+                "skeletonWinterLord",
+                "both",
+                null
+            );
+        }
+    }
+
     public void startAutoSpawnBoss(World world, Location center, int minRadius, int maxRadius, long interval) {
         this.taskAutoSpawn = new BukkitRunnable() {
             @Override
@@ -240,10 +289,16 @@ public class MainGenerator {
                                 generateEmperor(world, spawnLocation);
                             }
 
+                            // chance for Winter Lord
+                            else if (chance < plugin.getConfigs().getBossWinterLordPercentage()) {
+                                generateWinterLord(world, spawnLocation);
+                            }
+
                             if (plugin.getConfigs().getIsLogs()) {
                                 Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&achance:" + chance);
                                 Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossKingPercentage:" + plugin.getConfigs().getBossKingPercentage());
                                 Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossEmperorPercentage:" + plugin.getConfigs().getBossEmperorPercentage());
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossWinterLordPercentage:" + plugin.getConfigs().getBossWinterLordPercentage());
                             }
                         }
                     }
@@ -264,6 +319,7 @@ public class MainGenerator {
         boolean isLogs = plugin.getConfigs().getIsLogs();
         UUID emperorLogUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
         UUID kingLogUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
+        UUID winterLordLogUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonWinterLord");
 
         if (emperorLogUUID != null) {
             if (isLogs) Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Emperor registrado en bosses_data.yml");
@@ -271,7 +327,10 @@ public class MainGenerator {
         if (kingLogUUID != null) {
             if (isLogs) Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton King registrado en bosses_data.yml");
         }
-        if (emperorLogUUID == null && kingLogUUID == null) {
+        if (winterLordLogUUID != null) {
+            if (isLogs) Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Winter Lord registrado en bosses_data.yml");
+        }
+        if (emperorLogUUID == null && kingLogUUID == null && winterLordLogUUID == null) {
             // No hay jefes que necesiten ser recuperados
             if (isLogs) Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "No hay ningun Boss registrado en bosses_data.yml");
             return;
@@ -298,6 +357,18 @@ public class MainGenerator {
                 Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton King: getBossBar is null");
             } else if (skeletonKing.getBossBar() != null) {
                 Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton King: getBossBar exists");
+            }
+        }
+
+        if (isLogs && skeletonWinterLord == null) {
+            Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton Winter Lord: Class is null");
+        } else if (isLogs && skeletonWinterLord != null) {
+            Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Winter Lord: Class exists");
+
+            if (skeletonWinterLord.getBossBar() == null) {
+                Console.sendMessage("&6" + plugin.getConfigs().getPrefix() + "&6" + "Skeleton Winter Lord: getBossBar is null");
+            } else if (skeletonWinterLord.getBossBar() != null) {
+                Console.sendMessage("&a" + plugin.getConfigs().getPrefix() + "&a" + "Skeleton Winter Lord: getBossBar exists");
             }
         }
         
@@ -334,6 +405,22 @@ public class MainGenerator {
                 if (isLogs) Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton King was recovered successfully.");
                 break;
             }
+
+            if (winterLordLogUUID != null && entity instanceof Stray && entity.getUniqueId().equals(winterLordLogUUID)) {
+                if (skeletonWinterLord == null) {
+                    skeletonWinterLord = new SkeletonWinterLord(plugin);
+                    skeletonWinterLord.setEntityBoss((Stray) entity);
+                    skeletonWinterLord.setBossId(winterLordLogUUID);
+                    skeletonWinterLord.recreateBossBar(entity);
+                } else {
+                    if (skeletonWinterLord.getEntityBoss() == null) skeletonWinterLord.setEntityBoss((Stray) entity);
+                    if (skeletonWinterLord.getBossId() == null) skeletonWinterLord.setBossId(winterLordLogUUID);
+                    if (skeletonWinterLord.getBossBar() == null) skeletonWinterLord.recreateBossBar(entity);
+                }
+                plugin.getBossPersistenceManager().saveBossData("skeletonWinterLord", winterLordLogUUID, entity.getLocation());
+                if (isLogs) Console.sendMessage(plugin.getConfigs().getPrefix() + "&aSkeleton Winter Lord was recovered successfully.");
+                break;
+            }
         }
     }
 
@@ -352,6 +439,10 @@ public class MainGenerator {
 
     public SkeletonKing getSkeletonKing() {
         return skeletonKing;
+    }
+
+    public SkeletonWinterLord getSkeletonWinterLord() {
+        return skeletonWinterLord;
     }
 
     public BukkitTask getTaskAutoSpawn() {

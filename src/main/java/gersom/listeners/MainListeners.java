@@ -8,7 +8,6 @@ package gersom.listeners;
 import java.util.Random;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -43,27 +42,29 @@ public class MainListeners implements Listener {
             public void run() {
                 Player player = event.getPlayer();
                 if (player.isOnline()) {
-                    checkAndNotifyBoss("skeletonEmperor", player);
-                    checkAndNotifyBoss("skeletonKing", player);
+                    checkAndNotifyBoss(player);
                 }
             }
         // (20L = 20 ticks = 1 seg)
         }.runTaskLater(plugin, 60L);
     }
 
-    private void checkAndNotifyBoss(String bossType, Player player) {
+    private void checkAndNotifyBoss(Player player) {
         Entity bossEntity = null;
+        String bossType = null;
         
-        if (bossType.equals("skeletonEmperor")) {
-            if (plugin.getMainMobs().getSkeletonEmperor() != null && 
-                plugin.getMainMobs().getSkeletonEmperor().getBossId() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntityBoss();
-            }
-        } else if (bossType.equals("skeletonKing")) {
-            if (plugin.getMainMobs().getSkeletonKing() != null && 
-                plugin.getMainMobs().getSkeletonKing().getBossId() != null) {
-                bossEntity = plugin.getMainMobs().getSkeletonKing().getEntityBoss();
-            }
+        if (plugin.getMainMobs().getSkeletonEmperor() != null && 
+            plugin.getMainMobs().getSkeletonEmperor().getBossId() != null) {
+            bossEntity = plugin.getMainMobs().getSkeletonEmperor().getEntityBoss();
+            bossType = "skeletonEmperor";
+        } else if (plugin.getMainMobs().getSkeletonKing() != null && 
+            plugin.getMainMobs().getSkeletonKing().getBossId() != null) {
+            bossEntity = plugin.getMainMobs().getSkeletonKing().getEntityBoss();
+            bossType = "skeletonKing";
+        } else if (plugin.getMainMobs().getSkeletonWinterLord() != null && 
+            plugin.getMainMobs().getSkeletonWinterLord().getBossId() != null) {
+            bossEntity = plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss();
+            bossType = "skeletonWinterLord";
         }
 
         plugin.getMainMobs().onSuccessGenerated(bossEntity, bossType, "player", player);
@@ -74,17 +75,29 @@ public class MainListeners implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         Boss boss = null;
 
-        if (event.getEntityType() == EntityType.SKELETON) {
-            if (plugin.getMainMobs().getSkeletonEmperor() != null &&
-                plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() != null &&
-                plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
-                boss = plugin.getMainMobs().getSkeletonEmperor();
+        switch (event.getEntityType()) {
+            case SKELETON -> {
+                if (plugin.getMainMobs().getSkeletonEmperor() != null &&
+                        plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() != null &&
+                        plugin.getMainMobs().getSkeletonEmperor().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
+                    boss = plugin.getMainMobs().getSkeletonEmperor();
+                }
             }
-        } else if (event.getEntityType() == EntityType.WITHER_SKELETON) {
-            if (plugin.getMainMobs().getSkeletonKing() != null &&
-                plugin.getMainMobs().getSkeletonKing().getEntityBoss() != null &&
-                plugin.getMainMobs().getSkeletonKing().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
-                boss = plugin.getMainMobs().getSkeletonKing();
+            case WITHER_SKELETON -> {
+                if (plugin.getMainMobs().getSkeletonKing() != null &&
+                        plugin.getMainMobs().getSkeletonKing().getEntityBoss() != null &&
+                        plugin.getMainMobs().getSkeletonKing().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
+                    boss = plugin.getMainMobs().getSkeletonKing();
+                }
+            }
+            case STRAY -> {
+                if (plugin.getMainMobs().getSkeletonWinterLord() != null &&
+                        plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss() != null &&
+                        plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getUniqueId().equals(event.getEntity().getUniqueId())) {
+                    boss = plugin.getMainMobs().getSkeletonWinterLord();
+                }
+            }
+            default -> {
             }
         }
 
@@ -98,7 +111,7 @@ public class MainListeners implements Listener {
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         Entity damagedEntity = event.getEntity();
         
-        // Verifica si la entidad dañada es uno de nuestros jefes
+        // Skeleton Emperor ha sido dañado
         if (plugin.getMainMobs().getSkeletonEmperor() != null &&
             plugin.getMainMobs().getSkeletonEmperor().getBossId() != null &&
             plugin.getMainMobs().getSkeletonEmperor().getBossId().equals(damagedEntity.getUniqueId())) {
@@ -127,7 +140,7 @@ public class MainListeners implements Listener {
 
         }
         
-        // Haz lo mismo para el Skeleton King
+        // Skeleton King ha sido dañado
         if (plugin.getMainMobs().getSkeletonKing() != null &&
             plugin.getMainMobs().getSkeletonKing().getBossId() != null &&
             plugin.getMainMobs().getSkeletonKing().getBossId().equals(damagedEntity.getUniqueId())) {
@@ -151,6 +164,33 @@ public class MainListeners implements Listener {
                 if (plugin.getMainMobs().getSkeletonKing().getEntityBoss().getVehicle() == null) {
                     plugin.getMainMobs().getSkeletonKing().generateHorse();
                 }
+            }
+
+        }
+
+        // Skeleton Winter Lord ha sido dañado
+        if (plugin.getMainMobs().getSkeletonWinterLord() != null &&
+            plugin.getMainMobs().getSkeletonWinterLord().getBossId() != null &&
+            plugin.getMainMobs().getSkeletonWinterLord().getBossId().equals(damagedEntity.getUniqueId())) {
+            
+            if (event.getDamager() instanceof Projectile) {
+                int evasionChance = plugin.getConfigs().getBossWinterLordProjectileEvasion();
+                if (random.nextInt(100) < evasionChance) {
+                    event.setCancelled(true);  // Cancela el evento, evadiendo el daño
+                }
+            }
+
+            plugin.getMainMobs().getSkeletonWinterLord().generateMinions(event);
+
+            if (plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss() == null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonWinterLord().getEntityBoss() is null");  
+                }
+            } else {
+                // Handle Horse respawn
+                // if (plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getVehicle() == null) {
+                //     plugin.getMainMobs().getSkeletonWinterLord().generateHorse();
+                // }
             }
 
         }
