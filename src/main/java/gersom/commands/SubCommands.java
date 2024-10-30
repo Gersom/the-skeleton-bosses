@@ -264,6 +264,22 @@ public class SubCommands {
             bossName = plugin.getConfigs().getLangBossWinterLordName();
         }
 
+        else {
+            String message;
+            if (plugin.getConfigs().getLanguage().equalsIgnoreCase("es")) {
+                message = "No hay ningún boss registrado";
+            } else {
+                message = "There is no registered boss";
+            }
+
+            sender.sendMessage("");
+            sender.sendMessage(General.setColor(
+                "&c" + plugin.getConfigs().getPrefix() + "&c" + message
+            ));
+            sender.sendMessage("");
+            return;
+        }
+
         sender.sendMessage("");
         sender.sendMessage(General.setColor(
             "&e" + plugin.getConfigs().getPrefix() + bossColor + "&l" + bossName
