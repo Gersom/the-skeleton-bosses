@@ -78,16 +78,13 @@ public class MainConfigManager {
     // BOSSES
     // Percentage of all bosses that will spawn
     public double  getBossKingPercentage() {
-        double percentageBoss = configFile.getDouble("skeleton_king.percentage", 33.33);
-        return percentageBoss / 100;
+        return configFile.getDouble("skeleton_king.percentage", 33.33);
     }
     public double  getBossEmperorPercentage() {
-        double percentageBoss = configFile.getDouble("skeleton_emperor.percentage", 33.33);
-        return percentageBoss / 100;
+        return configFile.getDouble("skeleton_emperor.percentage", 33.33);
     }
     public double  getBossWinterLordPercentage() {
-        double percentageBoss = configFile.getDouble("skeleton_winter_lord.percentage", 33.33);
-        return percentageBoss / 100;
+        return configFile.getDouble("skeleton_winter_lord.percentage", 33.34);
     }
     // Color Boss
     public String getBossKingColor() {
@@ -287,5 +284,7 @@ public class MainConfigManager {
     public String getLangBossesItemHelmet() {
         return languageManager.getLangBossesItemHelmet();
     }
-    
+    public String getLangBossesItemBoots() {
+        return languageManager.getLangBossesItemBoots();
+    }
 }

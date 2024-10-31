@@ -215,9 +215,9 @@ public class SubCommands {
         Location locationKing = plugin.getBossPersistenceManager().getBossLocation("skeletonKing");
         Location locationEmperor = plugin.getBossPersistenceManager().getBossLocation("skeletonEmperor");
         Location locationWinterLord = plugin.getBossPersistenceManager().getBossLocation("skeletonWinterLord");
-        String bossCoords = "";
-        String bossColor = "";
-        String bossName = "";
+        String bossCoords;
+        String bossColor;
+        String bossName;
         
         if (locationEmperor != null) {
             if (plugin.getMainMobs().getSkeletonEmperor() != null && plugin.getMainMobs().getSkeletonEmperor().getEntityBoss() != null) {

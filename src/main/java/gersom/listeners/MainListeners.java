@@ -168,31 +168,59 @@ public class MainListeners implements Listener {
 
         }
 
-        // Skeleton Winter Lord ha sido dañado
         if (plugin.getMainMobs().getSkeletonWinterLord() != null &&
-            plugin.getMainMobs().getSkeletonWinterLord().getBossId() != null &&
-            plugin.getMainMobs().getSkeletonWinterLord().getBossId().equals(damagedEntity.getUniqueId())) {
+            plugin.getMainMobs().getSkeletonWinterLord().getBossId() != null) {
             
-            if (event.getDamager() instanceof Projectile) {
-                int evasionChance = plugin.getConfigs().getBossWinterLordProjectileEvasion();
-                if (random.nextInt(100) < evasionChance) {
-                    event.setCancelled(true);  // Cancela el evento, evadiendo el daño
+            Entity damager = event.getDamager();
+
+            // Verificar si el daño proviene de una flecha
+            if (damager instanceof Projectile projectile && damagedEntity instanceof Player player) {
+                Entity shooter = (Entity) projectile.getShooter();
+                
+                // Verificar si la flecha fue disparada por el SkeletonWinterLord
+                if (shooter != null && plugin.getMainMobs().getSkeletonWinterLord().getBossId().equals(shooter.getUniqueId())) {
+                    // Establecer el nivel de congelamiento del jugador (Minecraft 1.17+)
+                    player.setFreezeTicks(200); // Aproximadamente 7 segundos de congelamiento
+                    
+                    // Programar la actualización del efecto de congelamiento
+                    new BukkitRunnable() {
+                        int duration = 7; // duración en segundos
+                        
+                        @Override
+                        public void run() {
+                            if (duration <= 0 || !player.isOnline()) {
+                                player.setFreezeTicks(0);
+                                this.cancel();
+                                return;
+                            }
+                            
+                            // Mantener el efecto de congelamiento
+                            player.setFreezeTicks(200);
+                            duration--;
+                        }
+                    }.runTaskTimer(plugin, 0L, 20L); // Ejecutar cada segundo (20 ticks)
                 }
             }
+        
 
-            plugin.getMainMobs().getSkeletonWinterLord().generateMinions(event);
-
-            if (plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss() == null) {
-                if (plugin.getConfigs().getIsLogs()) {
-                    Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonWinterLord().getEntityBoss() is null");  
+            // Skeleton Winter Lord ha sido dañado
+            if (plugin.getMainMobs().getSkeletonWinterLord().getBossId().equals(damagedEntity.getUniqueId())) {
+            
+                if (event.getDamager() instanceof Projectile) {
+                    int evasionChance = plugin.getConfigs().getBossWinterLordProjectileEvasion();
+                    if (random.nextInt(100) < evasionChance) {
+                        event.setCancelled(true);  // Cancela el evento, evadiendo el daño
+                    }
                 }
-            } else {
-                // Handle Horse respawn
-                // if (plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss().getVehicle() == null) {
-                //     plugin.getMainMobs().getSkeletonWinterLord().generateHorse();
-                // }
-            }
 
+                plugin.getMainMobs().getSkeletonWinterLord().generateMinions(event);
+
+                if (plugin.getMainMobs().getSkeletonWinterLord().getEntityBoss() == null) {
+                    if (plugin.getConfigs().getIsLogs()) {
+                        Console.sendMessage("&c" + plugin.getConfigs().getPrefix() + "&c" + "onEntityDamage => .getSkeletonWinterLord().getEntityBoss() is null");  
+                    }
+                }
+            }
         }
     }
 }

@@ -18,7 +18,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import gersom.TSB;
@@ -87,7 +89,7 @@ public class SkeletonWinterLord extends Boss {
         // bootsEnchants.put(Enchantment.PROTECTION, 4);
         ItemStack boots = createEnchantedItem(
             Material.LEATHER_BOOTS,
-            plugin.getConfigs().getLangBossesItemHelmet(),
+            plugin.getConfigs().getLangBossesItemBoots(),
             bootsEnchants
         );
         ItemMeta bootsMeta = boots.getItemMeta();
@@ -131,77 +133,35 @@ public class SkeletonWinterLord extends Boss {
     }
 
     @Override
+    @SuppressWarnings("")
     public void generateDrops(EntityDeathEvent event) {
-        double dropChance = random.nextDouble();
-
         Map<Enchantment, Integer> enchantsHelmet = new HashMap<>();
         enchantsHelmet.put(Enchantment.UNBREAKING, 3);
+        enchantsHelmet.put(Enchantment.FROST_WALKER, 2);
         ItemStack dropHelmet = createEnchantedItem(
             Material.LEATHER_BOOTS,
-            plugin.getConfigs().getLangBossesItemHelmet(),
+            plugin.getConfigs().getLangBossesItemBoots(),
             enchantsHelmet
         );
+        
+        ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 64);
+        PotionMeta metaArrow = (PotionMeta) arrow.getItemMeta();
+        PotionEffect strongSlownes = new PotionEffect(PotionEffectType.SLOWNESS, 500, 3, true, true, true);
+        metaArrow.addCustomEffect(strongSlownes, true);
+        arrow.setItemMeta(metaArrow);
+        
+        Map<Enchantment, Integer> enchantsBow = new HashMap<>();
+        enchantsBow.put(Enchantment.INFINITY, 1);
+        enchantsBow.put(Enchantment.UNBREAKING, 3);
+        ItemStack dropBow = createEnchantedItem(
+            Material.BOW,
+            plugin.getConfigs().getLangBossesItemBow(),
+            enchantsBow
+        );
+
+        event.getDrops().add(arrow);
         event.getDrops().add(dropHelmet);
-
-        if (dropChance < 0.5) {
-            // 50% chance to drop bow with INFINITY and UNBREAKING
-            Map<Enchantment, Integer> enchantsBow = new HashMap<>();
-            enchantsBow.put(Enchantment.INFINITY, 1);
-            enchantsBow.put(Enchantment.UNBREAKING, 3);
-            ItemStack dropBow = createEnchantedItem(
-                Material.BOW,
-                plugin.getConfigs().getLangBossesItemBow(),
-                enchantsBow
-            );
-            event.getDrops().add(dropBow);
-        } else if (dropChance < 1) {
-            // 50% chance to drop bow with MULTISHOT and FLAME
-            Map<Enchantment, Integer> enchantsBow = new HashMap<>();
-            // enchantsBow.put(Enchantment.FLAME, 1);
-            ItemStack dropBow = createEnchantedItem(
-                Material.BOW,
-                plugin.getConfigs().getLangBossesItemBow(),
-                enchantsBow
-            );
-            event.getDrops().add(dropBow);
-        }
-    }
-
-    @Override
-    protected void createHorseParticles(SkeletonHorse horse) {
-        this.horseParticlesTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (horse == null || !horse.isValid() || horse.isDead()) {
-                    this.cancel();
-                    return;
-                }
-                Location horseLoc = horse.getLocation();
-                
-                // Partículas principales
-                horse.getWorld().spawnParticle(
-                    Particle.FLAME,
-                    horseLoc.getX(),
-                    horseLoc.getY() + 0.3,
-                    horseLoc.getZ(),
-                    5, 0.2, 0.4, 0.2, 0.01
-                );
-
-                // Efecto espiral
-                double angle = (System.currentTimeMillis() / 500.0) % (2 * Math.PI);
-                double radius = 1;
-                double x = horseLoc.getX() + radius * Math.cos(angle);
-                double z = horseLoc.getZ() + radius * Math.sin(angle);
-                
-                horse.getWorld().spawnParticle(
-                    Particle.LARGE_SMOKE,
-                    x,
-                    horseLoc.getY() + 0.3,
-                    z,
-                    7, 0.05, 0.03, 0.05, 0.01
-                );
-            }
-        }.runTaskTimer(plugin, 0L, 10L);
+        event.getDrops().add(dropBow);
     }
 
     private ItemMeta createIndestructibleEquip(ItemStack item, String itemName) {
@@ -351,5 +311,10 @@ public class SkeletonWinterLord extends Boss {
     @Override
     protected String getNearbyCommand() {
         return plugin.getConfigs().getBossWinterLordNearbyCommand();
+    }
+
+    @Override
+    protected void createHorseParticles(SkeletonHorse horse) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

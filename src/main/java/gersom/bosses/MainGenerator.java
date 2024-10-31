@@ -271,34 +271,57 @@ public class MainGenerator {
                 // Verificar si ya existe un jefe en bosses_data.yml
                 UUID emperorUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonEmperor");
                 UUID kingUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonKing");
-
-                if (emperorUUID == null && kingUUID == null) {
+                UUID winterLordUUID = plugin.getBossPersistenceManager().getBossUUID("skeletonWinterLord");
+    
+                if (emperorUUID == null && kingUUID == null && winterLordUUID == null) {
                     if ((skeletonKing == null || skeletonKing.getBossId() == null) &&
-                        (skeletonEmperor == null || skeletonEmperor.getBossId() == null)) {
+                        (skeletonEmperor == null || skeletonEmperor.getBossId() == null) &&
+                        (skeletonWinterLord == null || skeletonWinterLord.getBossId() == null)) {
+                        
                         Location spawnLocation = getRandomLocation(world, center, minRadius, maxRadius);
-
                         Double chance = random.nextDouble();
+    
                         if (chance < plugin.getConfigs().getSpawnChance()) {
-                            // chance for King
-                            if (chance < plugin.getConfigs().getBossKingPercentage()) {
-                                generateKing(world, spawnLocation);
-                            } 
-                            
-                            // chance for Emperor
-                            else if (chance < plugin.getConfigs().getBossEmperorPercentage()) {
-                                generateEmperor(world, spawnLocation);
+                            // Obtener los porcentajes de configuración
+                            double kingPercentage = plugin.getConfigs().getBossKingPercentage();
+                            double emperorPercentage = plugin.getConfigs().getBossEmperorPercentage();
+                            double winterLordPercentage = plugin.getConfigs().getBossWinterLordPercentage();
+    
+                            // Calcular la suma total de porcentajes
+                            double totalPercentage = kingPercentage + emperorPercentage + winterLordPercentage;
+    
+                            // Si la suma total es 0, evitar división por cero
+                            if (totalPercentage == 0) {
+                                // Si todos son 0, dar igual probabilidad a cada uno
+                                kingPercentage = 33.33;
+                                emperorPercentage = 33.33;
+                                winterLordPercentage = 33.34;
+                                totalPercentage = 100;
                             }
-
-                            // chance for Winter Lord
-                            else if (chance < plugin.getConfigs().getBossWinterLordPercentage()) {
-                                generateWinterLord(world, spawnLocation);
-                            }
-
+    
+                            // Normalizar los porcentajes
+                            double normalizedKingPercentage = kingPercentage / totalPercentage;
+                            double normalizedEmperorPercentage = emperorPercentage / totalPercentage;
+                            double normalizedWinterLordPercentage = winterLordPercentage / totalPercentage;
+    
+                            // Generar un número aleatorio entre 0 y 1
+                            double randomValue = random.nextDouble();
+    
                             if (plugin.getConfigs().getIsLogs()) {
-                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&achance:" + chance);
-                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossKingPercentage:" + plugin.getConfigs().getBossKingPercentage());
-                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossEmperorPercentage:" + plugin.getConfigs().getBossEmperorPercentage());
-                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&e" + "&aBossWinterLordPercentage:" + plugin.getConfigs().getBossWinterLordPercentage());
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&eNormalized percentages:");
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&eKing: " + (normalizedKingPercentage * 100) + "%");
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&eEmperor: " + (normalizedEmperorPercentage * 100) + "%");
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&eWinter Lord: " + (normalizedWinterLordPercentage * 100) + "%");
+                                Console.sendMessage("&e" + plugin.getConfigs().getPrefix() + "&eRandom value: " + randomValue);
+                            }
+    
+                            // Determinar qué boss generar basado en los porcentajes normalizados
+                            if (randomValue < normalizedKingPercentage) {
+                                generateKing(world, spawnLocation);
+                            } else if (randomValue < normalizedKingPercentage + normalizedEmperorPercentage) {
+                                generateEmperor(world, spawnLocation);
+                            } else {
+                                generateWinterLord(world, spawnLocation);
                             }
                         }
                     }

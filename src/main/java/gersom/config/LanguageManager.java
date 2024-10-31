@@ -140,4 +140,7 @@ public class LanguageManager {
     public String getLangBossesItemHelmet() {
         return getMessage("items_names.helmet", "Helmet");
     }
+    public String getLangBossesItemBoots() {
+        return getMessage("items_names.boots", "Boots");
+    }
 }

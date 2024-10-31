@@ -92,7 +92,7 @@ skeleton_emperor:
   health: 250
 
   # power of the skeleton emperor's bow
-  power: 35
+  power: 30
 
   # Projectile evasion chance (0-100)
   projectile_evasion: 50
@@ -135,7 +135,7 @@ skeleton_winter_lord:
   health: 300
 
   # power of the skeleton winter lord's bow
-  power: 35
+  power: 25
 
   # Projectile evasion chance (0-100)
   projectile_evasion: 75

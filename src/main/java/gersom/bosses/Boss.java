@@ -246,17 +246,6 @@ public abstract class Boss {
         createTaskBossBar();
     }
 
-    // Método común para iniciar las tareas de actualización
-    // protected void startUpdateTasks() {
-    //     if (taskBossBar != null) {
-    //         taskBossBar.cancel();
-    //     }
-    //     if (taskParticles != null) {
-    //         taskParticles.cancel();
-    //     }
-    //     createTaskBossBar();
-    // }
-
     // Métodos de utilidad
     public UUID getBossId() {
         return bossId;
