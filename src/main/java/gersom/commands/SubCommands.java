@@ -25,7 +25,7 @@ public class SubCommands {
         } else if (args[0].equalsIgnoreCase("spawn")) {
             spawnBossCustom(sender, args);
         } else if (args[0].equalsIgnoreCase("location")) {
-            showLocationBoss(sender);
+            showLocationBoss(sender, args);
         } else if (args[0].equalsIgnoreCase("clear")) {
             clearRecords(sender);
         } else if (args[0].equalsIgnoreCase("reload")) {
@@ -211,7 +211,7 @@ public class SubCommands {
         ));
     }
 
-    public void showLocationBoss(CommandSender sender) {
+    public void showLocationBoss(CommandSender sender, String[] args) {
         Location locationKing = plugin.getBossPersistenceManager().getBossLocation("skeletonKing");
         Location locationEmperor = plugin.getBossPersistenceManager().getBossLocation("skeletonEmperor");
         Location locationWinterLord = plugin.getBossPersistenceManager().getBossLocation("skeletonWinterLord");
@@ -265,6 +265,10 @@ public class SubCommands {
         }
 
         else {
+            if (args[1].equalsIgnoreCase("if-any")) {
+                return;
+            }
+
             String message;
             if (plugin.getConfigs().getLanguage().equalsIgnoreCase("es")) {
                 message = "No hay ningún boss registrado";

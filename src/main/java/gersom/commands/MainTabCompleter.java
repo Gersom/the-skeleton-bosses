@@ -30,6 +30,11 @@ public class MainTabCompleter implements TabCompleter {
                 completions.add("help");
             }
         } else if (args.length == 2) {
+            // Subcomandos de Locacion si no existe boss no enviar mensaje (solo para administradores)
+            if (args[0].equalsIgnoreCase("location") && sender.hasPermission("the-skeleton-bosses.admin")) {
+                completions.add("if-any");
+            }
+
             // Subcomandos de spawn (solo para administradores)
             if (args[0].equalsIgnoreCase("spawn") && sender.hasPermission("the-skeleton-bosses.admin")) {
                 completions.add("SkeletonKing");
