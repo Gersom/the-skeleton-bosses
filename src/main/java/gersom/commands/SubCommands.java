@@ -1,6 +1,9 @@
 package gersom.commands;
 
+import java.util.Objects;
+
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -211,6 +214,7 @@ public class SubCommands {
         ));
     }
 
+    @SuppressWarnings({"", "CallToPrintStackTrace"})
     public void showLocationBoss(CommandSender sender, String[] args) {
         Location locationKing = plugin.getBossPersistenceManager().getBossLocation("skeletonKing");
         Location locationEmperor = plugin.getBossPersistenceManager().getBossLocation("skeletonEmperor");
@@ -282,6 +286,17 @@ public class SubCommands {
             ));
             sender.sendMessage("");
             return;
+        }
+
+        if (args[1].equalsIgnoreCase("if-any")) {
+            if (sender instanceof Player player)  {
+                player.playSound(
+                    Objects.requireNonNull(player.getLocation()), 
+                    Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
+                    1, 
+                    1
+                );
+            }
         }
 
         sender.sendMessage("");
