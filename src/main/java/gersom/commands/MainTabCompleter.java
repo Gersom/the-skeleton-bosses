@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -32,7 +33,7 @@ public class MainTabCompleter implements TabCompleter {
         } else if (args.length == 2) {
             // Subcomandos de Locacion si no existe boss no enviar mensaje (solo para administradores)
             if (args[0].equalsIgnoreCase("location") && sender.hasPermission("the-skeleton-bosses.admin")) {
-                completions.add("if-any");
+                Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             }
 
             // Subcomandos de spawn (solo para administradores)

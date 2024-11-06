@@ -1,7 +1,6 @@
 package gersom.commands;
 
-import java.util.Objects;
-
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -269,17 +268,12 @@ public class SubCommands {
         }
 
         else {
-            if (args[1].equalsIgnoreCase("if-any")) {
-                return;
-            }
-
             String message;
-            if (plugin.getConfigs().getLanguage().equalsIgnoreCase("es")) {
+            if ("es".equals(plugin.getConfigs().getLanguage())) {
                 message = "No hay ningún boss registrado";
             } else {
                 message = "There is no registered boss";
             }
-
             sender.sendMessage("");
             sender.sendMessage(General.setColor(
                 "&c" + plugin.getConfigs().getPrefix() + "&c" + message
@@ -288,25 +282,64 @@ public class SubCommands {
             return;
         }
 
-        if (args[1].equalsIgnoreCase("if-any")) {
-            if (sender instanceof Player player)  {
-                player.playSound(
-                    Objects.requireNonNull(player.getLocation()), 
-                    Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY, 
-                    1, 
-                    1
-                );
+        Player targetPlayer = null;
+
+        // Get target player if specified
+        if (args.length > 1 && args[1] != null) {
+            String targetName = args[1];
+            targetPlayer = Bukkit.getPlayer(targetName);
+            
+            // Check if target player exists
+            if (targetPlayer == null) {
+                sender.sendMessage(General.setColor(
+                    "&c" + plugin.getConfigs().getPrefix() + "&c player not found"
+                ));
+                return;
             }
         }
 
-        sender.sendMessage("");
-        sender.sendMessage(General.setColor(
+        // If sender is player, check permissions
+        if (sender instanceof Player player) {
+            if (args.length > 1 && !player.hasPermission("the-skeleton-bosses.admin")) {
+                targetPlayer = player; // Override target to self if no permission
+            }
+        }
+
+        if (sender instanceof Player && args.length == 1) {
+            sendMessageLocation(sender, bossColor, bossName, bossCoords);
+            return;
+        }
+
+        // Send notification
+        CommandSender recipientPlayer = targetPlayer != null ? targetPlayer : sender;
+        sendBossNotification(recipientPlayer, bossColor, bossName, bossCoords);     
+    }
+
+    // Helper method to send the notification
+    @SuppressWarnings({"", "CallToPrintStackTrace"})
+    private void sendBossNotification(CommandSender recipient, String bossColor, String bossName, String bossCoords) {
+        // Play sound if recipient is a player
+        if (recipient instanceof Player player) {
+            player.playSound(
+                player.getLocation(),
+                Sound.ENTITY_SKELETON_CONVERTED_TO_STRAY,
+                1,
+                1
+            );
+        }
+        sendMessageLocation(recipient, bossColor, bossName, bossCoords);
+    }
+
+    private void sendMessageLocation (CommandSender recipient, String bossColor, String bossName, String bossCoords) {
+        // Send messages
+        recipient.sendMessage("");
+        recipient.sendMessage(General.setColor(
             "&e" + plugin.getConfigs().getPrefix() + bossColor + "&l" + bossName
         ));
-        sender.sendMessage(General.setColor(
+        recipient.sendMessage(General.setColor(
             "&e" + plugin.getConfigs().getPrefix() + "&7coords: &e" + bossCoords
         ));
-        sender.sendMessage("");
+        recipient.sendMessage("");
     }
 
     public void sendMessageAlreadyExist (CommandSender sender, String bossName, String bossColor, String bossCoords) {
