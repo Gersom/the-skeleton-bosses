@@ -37,16 +37,18 @@ public class MainListeners implements Listener {
     // Event listener for when a player joins the server
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Player player = event.getPlayer();
-                if (player.isOnline()) {
-                    checkAndNotifyBoss(player);
+        if (plugin.getConfigs().getMessageJoinServer()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Player player = event.getPlayer();
+                    if (player.isOnline()) {
+                        checkAndNotifyBoss(player);
+                    }
                 }
-            }
-        // (20L = 20 ticks = 1 seg)
-        }.runTaskLater(plugin, 60L);
+            // (20L = 20 ticks = 1 seg)
+            }.runTaskLater(plugin, plugin.getConfigs().getMessageJoinServerDelay());
+        }
     }
 
     private void checkAndNotifyBoss(Player player) {

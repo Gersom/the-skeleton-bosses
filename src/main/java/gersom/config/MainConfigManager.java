@@ -74,6 +74,12 @@ public class MainConfigManager {
     public int getSpawnLocationZ() {
         return configFile.getInt("spawn.location.z", 0);
     }
+    public boolean getMessageJoinServer() {
+        return configFile.getBoolean("message_join_server.enabled", true);
+    }
+    public int getMessageJoinServerDelay() {
+        return configFile.getInt("message_join_server.delay", 60);
+    }
 
     // BOSSES
     // Percentage of all bosses that will spawn

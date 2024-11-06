@@ -27,6 +27,11 @@ spawn:
     x: -74
     z: 296
 
+# If activated, a message will be sent to the player who has just joined the server with the coordinates of the Boss, if any.
+message_join_server:
+  enabled: true
+  delay: 60 # 20 = 1 second
+
 # If commands_after_death is enabled, the default custom items will not drop, instead the command will be executed.
 # In both cases it will drop the experience.
 commands_after_death: false
