@@ -161,46 +161,46 @@ public class MainConfigManager {
     public String getBossWinterLordBossbarColor() {
         return configFile.getString("skeleton_winter_lord.bossbar.color", "BLUE");
     }
-    // Command for player killed the boss
-    public Boolean getBossesCommandEnabled() {
+    // Commands for player killed the boss
+    public Boolean getBossesCommandsEnabled() {
         return configFile.getBoolean("commands_after_death", false);
     }
-    public String getBossKingCommand() {
-        return configFile.getString("skeleton_king.command", "me without command");
+    public List<String> getBossKingCommands() {
+        return configFile.getStringList("skeleton_king.commands");
     }
-    public String getBossEmperorCommand() {
-        return configFile.getString("skeleton_emperor.command", "me without command");
+    public List<String> getBossEmperorCommands() {
+        return configFile.getStringList("skeleton_emperor.commands");
     }
-    public String getBossWinterLordCommand() {
-        return configFile.getString("skeleton_winter_lord.command", "me without command");
+    public List<String> getBossWinterLordCommands() {
+        return configFile.getStringList("skeleton_winter_lord.commands");
     }
-    // Command for nearby players
-    public boolean getBossKingNearbyCommandEnabled() {
-        return configFile.getBoolean("skeleton_king.command_for_nearby_players.enabled", false);
+    // Commands for nearby players
+    public boolean getBossKingNearbyCommandsEnabled() {
+        return configFile.getBoolean("skeleton_king.commands_for_nearby_players.enabled", false);
     }
-    public int getBossKingNearbyCommandRadius() {
-        return configFile.getInt("skeleton_king.command_for_nearby_players.radius", 40);
+    public int getBossKingNearbyCommandsRadius() {
+        return configFile.getInt("skeleton_king.commands_for_nearby_players.radius", 40);
     }
-    public String getBossKingNearbyCommand() {
-        return configFile.getString("skeleton_king.command_for_nearby_players.command", "me without command_for_nearby_players");
+    public List<String> getBossKingNearbyCommands() {
+        return configFile.getStringList("skeleton_king.commands_for_nearby_players.commands");
     }
-    public boolean getBossEmperorNearbyCommandEnabled() {
-        return configFile.getBoolean("skeleton_emperor.command_for_nearby_players.enabled", false);
+    public boolean getBossEmperorNearbyCommandsEnabled() {
+        return configFile.getBoolean("skeleton_emperor.commands_for_nearby_players.enabled", false);
     }
-    public int getBossEmperorNearbyCommandRadius() {
-        return configFile.getInt("skeleton_emperor.command_for_nearby_players.radius", 40);
+    public int getBossEmperorNearbyCommandsRadius() {
+        return configFile.getInt("skeleton_emperor.commands_for_nearby_players.radius", 40);
     }
-    public String getBossEmperorNearbyCommand() {
-        return configFile.getString("skeleton_emperor.command_for_nearby_players.command", "me without command_for_nearby_players");
+    public List<String> getBossEmperorNearbyCommands() {
+        return configFile.getStringList("skeleton_emperor.commands_for_nearby_players.commands");
     }
-    public boolean getBossWinterLordNearbyCommandEnabled() {
-        return configFile.getBoolean("skeleton_winter_lord.command_for_nearby_players.enabled", false);
+    public boolean getBossWinterLordNearbyCommandsEnabled() {
+        return configFile.getBoolean("skeleton_winter_lord.commands_for_nearby_players.enabled", false);
     }
-    public int getBossWinterLordNearbyCommandRadius() {
-        return configFile.getInt("skeleton_winter_lord.command_for_nearby_players.radius", 40);
+    public int getBossWinterLordNearbyCommandsRadius() {
+        return configFile.getInt("skeleton_winter_lord.commands_for_nearby_players.radius", 40);
     }
-    public String getBossWinterLordNearbyCommand() {
-        return configFile.getString("skeleton_winter_lord.command_for_nearby_players.command", "me without command_for_nearby_players");
+    public List<String> getBossWinterLordNearbyCommands() {
+        return configFile.getStringList("skeleton_winter_lord.commands_for_nearby_players.commands");
     }
 
     // Delegate message methods to LanguageManager

@@ -6,6 +6,7 @@
 package gersom.bosses;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -330,22 +331,22 @@ public class SkeletonEmperor extends Boss {
     }
 
     @Override
-    protected String getKillerCommand() {
-        return plugin.getConfigs().getBossEmperorCommand();
+    protected List<String> getKillerCommands() {
+        return plugin.getConfigs().getBossEmperorCommands();
     }
 
     @Override
-    protected boolean isNearbyCommandEnabled() {
-        return plugin.getConfigs().getBossEmperorNearbyCommandEnabled();
+    protected boolean isNearbyCommandsEnabled() {
+        return plugin.getConfigs().getBossEmperorNearbyCommandsEnabled();
     }
 
     @Override
-    protected int getNearbyCommandRadius() {
-        return plugin.getConfigs().getBossEmperorNearbyCommandRadius();
+    protected int getNearbyCommandsRadius() {
+        return plugin.getConfigs().getBossEmperorNearbyCommandsRadius();
     }
 
     @Override
-    protected String getNearbyCommand() {
-        return plugin.getConfigs().getBossEmperorNearbyCommand();
+    protected List<String> getNearbyCommands() {
+        return plugin.getConfigs().getBossEmperorNearbyCommands();
     }
 }

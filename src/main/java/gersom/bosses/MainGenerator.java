@@ -49,8 +49,13 @@ public class MainGenerator {
         
         if (emperorUUID != null) {
             Entity entity = findEntityByUUID(emperorUUID);
-            Console.sendMessage("emperorUUID: " + emperorUUID);
+            if (plugin.getConfigs().getIsLogs()) {
+                Console.sendMessage("emperorUUID: " + emperorUUID);
+            }
             if (entity != null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("Emperor found, entity is not null");
+                }
                 skeletonEmperor = new SkeletonEmperor(plugin);
                 skeletonEmperor.setBossId(emperorUUID);
                 skeletonEmperor.recreateBossBar(entity);
@@ -60,10 +65,14 @@ public class MainGenerator {
         
         if (kingUUID != null) {
             Entity entity = findEntityByUUID(kingUUID);
-            Console.sendMessage("kingUUID: " + kingUUID);
+            if (plugin.getConfigs().getIsLogs()) {
+                Console.sendMessage("kingUUID: " + kingUUID);
+            }
             if (entity != null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("King found, entity is not null");
+                }
                 skeletonKing = new SkeletonKing(plugin);
-                Console.sendMessage("King found, el entity no es nulo");
                 skeletonKing.setBossId(kingUUID);
                 skeletonKing.recreateBossBar(entity);
                 plugin.getBossPersistenceManager().saveBossData("skeletonKing", skeletonKing.getBossId(), entity.getLocation());
@@ -72,10 +81,14 @@ public class MainGenerator {
 
         if (winterLordUUID != null) {
             Entity entity = findEntityByUUID(winterLordUUID);
-            Console.sendMessage("winterLordUUID: " + winterLordUUID);
+            if (plugin.getConfigs().getIsLogs()) {
+                Console.sendMessage("winterLordUUID: " + winterLordUUID);
+            }
             if (entity != null) {
+                if (plugin.getConfigs().getIsLogs()) {
+                    Console.sendMessage("Winter Lord found, entity is not null");
+                }
                 skeletonWinterLord = new SkeletonWinterLord(plugin);
-                Console.sendMessage("Winter Lord found, el entity no es nulo");
                 skeletonWinterLord.setBossId(winterLordUUID);
                 skeletonWinterLord.recreateBossBar(entity);
                 plugin.getBossPersistenceManager().saveBossData("skeletonWinterLord", skeletonWinterLord.getBossId(), entity.getLocation());

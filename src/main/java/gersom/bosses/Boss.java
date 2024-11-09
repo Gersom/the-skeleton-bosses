@@ -1,5 +1,6 @@
 package gersom.bosses;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -58,10 +59,10 @@ public abstract class Boss {
     public abstract Entity getEntityBoss();
     // Métodos abstractos adicionales necesarios
     protected abstract int getExperience();
-    protected abstract String getKillerCommand();
-    protected abstract boolean isNearbyCommandEnabled();
-    protected abstract int getNearbyCommandRadius();
-    protected abstract String getNearbyCommand();
+    protected abstract List<String> getKillerCommands();
+    protected abstract boolean isNearbyCommandsEnabled();
+    protected abstract int getNearbyCommandsRadius();
+    protected abstract List<String> getNearbyCommands();
     // Método abstracto para que cada boss implemente sus propias partículas
     protected abstract void createHorseParticles(SkeletonHorse horse);
 
@@ -285,9 +286,9 @@ public abstract class Boss {
         event.getDrops().clear();
         event.setDroppedExp(getExperience());
 
-        if (plugin.getConfigs().getBossesCommandEnabled()) {
+        if (plugin.getConfigs().getBossesCommandsEnabled()) {
             if (killer != null) {
-                executeKillerCommand(killer);
+                executeKillerCommands(killer);
             }
             executeNearbyPlayersCommands(event.getEntity().getLocation());
         } else {
@@ -301,24 +302,38 @@ public abstract class Boss {
     // Método abstracto que deben implementar las clases hijas
     public abstract void generateDrops(EntityDeathEvent event);
 
-    protected void executeKillerCommand(Player killer) {
-        String command = getKillerCommand();
-        if (command != null && !command.trim().isEmpty()) {
-            command = command.replace("{player_killer}", killer.getName());
-            plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+    protected void executeKillerCommands(Player killer) {
+        List<String> commands = getKillerCommands();
+        if (commands != null && !commands.isEmpty()) {
+            for (String command : commands) {
+                if (command != null && !command.trim().isEmpty()) {
+                    String processedCommand = command.replace("{player_killer}", killer.getName());
+                    plugin.getServer().dispatchCommand(
+                        plugin.getServer().getConsoleSender(), 
+                        processedCommand
+                    );
+                }
+            }
         }
     }
     
     @SuppressWarnings("")
     protected void executeNearbyPlayersCommands(Location location) {
-        String command = getNearbyCommand();
-        if (isNearbyCommandEnabled() && command != null && !command.trim().isEmpty()) {
-            int radius = getNearbyCommandRadius();
+        List<String> commands = getNearbyCommands();
+        if (isNearbyCommandsEnabled() && commands != null && !commands.isEmpty()) {
+            int radius = getNearbyCommandsRadius();
     
             for (Entity entity : location.getWorld().getNearbyEntities(location, radius, radius, radius)) {
                 if (entity instanceof Player nearbyPlayer) {
-                    String playerCommand = command.replace("{player}", nearbyPlayer.getName());
-                    plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), playerCommand);
+                    for (String command : commands) {
+                        if (command != null && !command.trim().isEmpty()) {
+                            String processedCommand = command.replace("{player}", nearbyPlayer.getName());
+                            plugin.getServer().dispatchCommand(
+                                plugin.getServer().getConsoleSender(), 
+                                processedCommand
+                            );
+                        }
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@
 package gersom.bosses;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -361,22 +362,22 @@ import gersom.utils.General;
     }
 
     @Override
-    protected String getKillerCommand() {
-        return plugin.getConfigs().getBossKingCommand();
+    protected List<String> getKillerCommands() {
+        return plugin.getConfigs().getBossKingCommands();
     }
 
     @Override
-    protected boolean isNearbyCommandEnabled() {
-        return plugin.getConfigs().getBossKingNearbyCommandEnabled();
+    protected boolean isNearbyCommandsEnabled() {
+        return plugin.getConfigs().getBossKingNearbyCommandsEnabled();
     }
 
     @Override
-    protected int getNearbyCommandRadius() {
-        return plugin.getConfigs().getBossKingNearbyCommandRadius();
+    protected int getNearbyCommandsRadius() {
+        return plugin.getConfigs().getBossKingNearbyCommandsRadius();
     }
 
     @Override
-    protected String getNearbyCommand() {
-        return plugin.getConfigs().getBossKingNearbyCommand();
+    protected List<String> getNearbyCommands() {
+        return plugin.getConfigs().getBossKingNearbyCommands();
     }
 }

@@ -1,6 +1,7 @@
 package gersom.bosses;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -294,23 +295,23 @@ public class SkeletonWinterLord extends Boss {
     }
 
     @Override
-    protected String getKillerCommand() {
-        return plugin.getConfigs().getBossWinterLordCommand();
+    protected List<String> getKillerCommands() {
+        return plugin.getConfigs().getBossWinterLordCommands();
     }
 
     @Override
-    protected boolean isNearbyCommandEnabled() {
-        return plugin.getConfigs().getBossWinterLordNearbyCommandEnabled();
+    protected boolean isNearbyCommandsEnabled() {
+        return plugin.getConfigs().getBossWinterLordNearbyCommandsEnabled();
     }
 
     @Override
-    protected int getNearbyCommandRadius() {
-        return plugin.getConfigs().getBossWinterLordNearbyCommandRadius();
+    protected int getNearbyCommandsRadius() {
+        return plugin.getConfigs().getBossWinterLordNearbyCommandsRadius();
     }
 
     @Override
-    protected String getNearbyCommand() {
-        return plugin.getConfigs().getBossWinterLordNearbyCommand();
+    protected List<String> getNearbyCommands() {
+        return plugin.getConfigs().getBossWinterLordNearbyCommands();
     }
 
     @Override

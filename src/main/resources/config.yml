@@ -70,14 +70,16 @@ skeleton_king:
 
   # you can add {player_killer} to the command
   # to refer to the player who killed the boss
-  command: "give {player_killer} diamont 1"
+  commands:
+    - "give {player_killer} diamont 1"
 
   # This option will only be executed if “commands_after_death” is set to true.
-  command_for_nearby_players:
+  commands_for_nearby_players:
     enabled: false
-    radius: 40  # Radius in blocks
+    radius: 20  # Radius in blocks
     # uses {player} representing each nearby player
-    command: "give {player} diamond 1"
+    commands:
+      - "give {player} diamond 1"
 
 
 
@@ -113,14 +115,16 @@ skeleton_emperor:
 
   # you can add {player_killer} to the command
   # to refer to the player who killed the boss
-  command: "give {player_killer} diamont 1"
+  commands:
+    - "give {player_killer} diamont 1"
 
   # This option will only be executed if “commands_after_death” is set to true.
-  command_for_nearby_players:
+  commands_for_nearby_players:
     enabled: false
-    radius: 40  # Radius in blocks
+    radius: 20  # Radius in blocks
     # uses {player} representing each nearby player
-    command: "give {player} diamond 1"
+    commands:
+      - "give {player} diamond 1"
 
 
 
@@ -156,11 +160,13 @@ skeleton_winter_lord:
 
   # you can add {player_killer} to the command
   # to refer to the player who killed the boss
-  command: "give {player_killer} diamont 1"
+  commands:
+    - "give {player_killer} diamont 1"
 
   # This option will only be executed if “commands_after_death” is set to true.
-  command_for_nearby_players:
+  commands_for_nearby_players:
     enabled: false
-    radius: 40  # Radius in blocks
+    radius: 20  # Radius in blocks
     # uses {player} representing each nearby player
-    command: "give {player} diamond 1"
+    commands:
+      - "give {player} diamond 1"
